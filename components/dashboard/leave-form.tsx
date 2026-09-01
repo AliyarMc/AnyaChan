@@ -37,6 +37,12 @@ import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { LeaveConfig, DiscordChannel, LeaveEmbedData } from "@/types/api";
 import { DiscordMessagePreview } from "./discord-message-preview";
+import { cn } from "@/lib/utils";
+
+const DISCORD_COLOR_PRESETS = [
+  "#2ECC71", "#3498DB", "#9B59B6", "#E91E63", "#F1C40F",
+  "#E67E22", "#E74C3C", "#95A5A6", "#607D8B", "#FFFFFF"
+];
 
 interface LeaveFormProps {
   initialConfig: LeaveConfig;
@@ -210,6 +216,24 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Vada
                         className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 rounded-md border border-slate-800/80 shadow-md"
                         style={{ backgroundColor: getEmbedColor() }}
                       />
+                    </div>
+                    <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                      {DISCORD_COLOR_PRESETS.map((c) => (
+                        <button
+                          key={c}
+                          type="button"
+                          onClick={() => setConfig({ 
+                            ...config, 
+                            embed_data: { ...(config.embed_data || {}), color: c }
+                          })}
+                          style={{ backgroundColor: c }}
+                          className={cn(
+                            "w-5 h-5 rounded-full border border-white/20 transition-transform hover:scale-115",
+                            config.embed_data?.color?.toLowerCase() === c.toLowerCase() && "ring-2 ring-white scale-110"
+                          )}
+                          title={c}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>

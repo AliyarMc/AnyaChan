@@ -15,12 +15,13 @@
  */
 
 import React from "react";
-import { UserMinus } from "lucide-react";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import dynamic from "next/dynamic";
 import { api } from "@/lib/api";
 
 const LeaveForm = dynamic(() => import("@/components/dashboard/leave-form").then(mod => mod.LeaveForm), {
-  loading: () => <div className="h-96 w-full animate-pulse bg-slate-800/20 rounded-3xl" />
+  loading: () => <div className="h-96 w-full animate-pulse bg-white/[0.02] rounded-2xl border border-white/5" />
 });
 
 export default async function LeavePage({ params }: { params: { guildId: string } }) {
@@ -33,14 +34,18 @@ export default async function LeavePage({ params }: { params: { guildId: string 
   if (!leaveData) return null;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-            <UserMinus className="h-6 w-6 text-primary" />
-            Leave Log
-          </h2>
-          <p className="text-slate-400 mt-1">Log members leaving your server with gorgeous Discord embeds.</p>
+    <div className="w-full space-y-6 animate-in fade-in duration-300">
+      {/* Koya Style Breadcrumb Header */}
+      <div className="flex items-center justify-between gap-4 pb-2 border-b border-white/5">
+        <div className="flex items-center gap-2 text-2xl font-bold flex-wrap">
+          <Link 
+            href={`/dashboard/guild/${params.guildId}`}
+            className="text-white/40 hover:text-white/80 transition-colors"
+          >
+            Announcements
+          </Link>
+          <ChevronRight className="w-5 h-5 text-white/30" />
+          <span className="text-white">Leave Message</span>
         </div>
       </div>
 
@@ -48,7 +53,7 @@ export default async function LeavePage({ params }: { params: { guildId: string 
         initialConfig={leaveData} 
         channels={channelsData} 
         guildId={params.guildId} 
-        serverName={guildDetails?.name || "Vada SMP"} 
+        serverName={guildDetails?.name || "Discord Server"} 
       />
     </div>
   );

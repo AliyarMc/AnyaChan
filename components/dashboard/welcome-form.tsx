@@ -38,7 +38,13 @@ import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { WelcomePreviewCanvas } from "./welcome-preview-canvas";
 import { DiscordMessagePreview } from "./discord-message-preview";
+import { cn } from "@/lib/utils";
 import { WelcomeConfig, DiscordChannel, WelcomeImageConfig } from "@/types/api";
+
+const DISCORD_COLOR_PRESETS = [
+  "#2ECC71", "#3498DB", "#9B59B6", "#E91E63", "#F1C40F",
+  "#E67E22", "#E74C3C", "#95A5A6", "#607D8B", "#FFFFFF"
+];
 
 interface WelcomeFormProps {
   initialConfig: WelcomeConfig;
@@ -302,9 +308,24 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Va
                           type="text"
                           value={config.embed_data?.color || ""}
                           onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, color: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
+                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
                           placeholder="#3498db"
                         />
+                        <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                          {DISCORD_COLOR_PRESETS.map((c) => (
+                            <button
+                              key={c}
+                              type="button"
+                              onClick={() => setConfig({ ...config, embed_data: { ...config.embed_data, color: c } })}
+                              style={{ backgroundColor: c }}
+                              className={cn(
+                                "w-5 h-5 rounded-full border border-white/20 transition-transform hover:scale-115",
+                                config.embed_data?.color?.toLowerCase() === c.toLowerCase() && "ring-2 ring-white scale-110"
+                              )}
+                              title={c}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
                     
