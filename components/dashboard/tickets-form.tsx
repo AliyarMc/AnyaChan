@@ -438,7 +438,7 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
               }}
               buttons={config.categories.map(cat => ({
                 label: cat.name,
-                style: cat.button_style,
+                style: cat.button_style ?? 1,
                 emoji: cat.emoji || undefined
               }))}
             />

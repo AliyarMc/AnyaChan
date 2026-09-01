@@ -38,6 +38,7 @@ import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { WelcomePreviewCanvas } from "./welcome-preview-canvas";
 import { DiscordMessagePreview } from "./discord-message-preview";
+import { WelcomeConfig, DiscordChannel, WelcomeImageConfig } from "@/types/api";
 
 interface WelcomeFormProps {
   initialConfig: WelcomeConfig;

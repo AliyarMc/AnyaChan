@@ -10,17 +10,17 @@ interface DiscordMessagePreviewProps {
   welcomeType: "simple" | "embed";
   messageContent?: string;
   embedData?: {
-    title?: string;
-    description?: string;
-    color?: string;
-    thumbnail?: string;
-    image?: string;
-    author_name?: string;
-    author_icon?: string;
-    footer_text?: string;
-    footer_icon?: string;
+    title?: string | null;
+    description?: string | null;
+    color?: string | number | null;
+    thumbnail?: string | null;
+    image?: string | null;
+    author_name?: string | null;
+    author_icon?: string | null;
+    footer_text?: string | null;
+    footer_icon?: string | null;
     timestamp_enabled?: boolean;
-  };
+  } | null;
   cardEnabled?: boolean;
   imageConfig?: any;
   serverName?: string;
@@ -28,7 +28,7 @@ interface DiscordMessagePreviewProps {
   avatarUrl?: string;
   buttons?: {
     label: string;
-    style: number; // 1 = grey, 2 = blurple, 3 = green, 4 = red
+    style?: number; // 1 = grey, 2 = blurple, 3 = green, 4 = red
     emoji?: string;
   }[];
 }
@@ -44,6 +44,7 @@ export function DiscordMessagePreview({
   avatarUrl = "https://cdn.discordapp.com/embed/avatars/0.png",
   buttons = []
 }: DiscordMessagePreviewProps) {
+  const safeEmbedData = embedData || {};
   
   // Format variables in strings in real-time
   const formatText = (text: string) => {
@@ -58,9 +59,9 @@ export function DiscordMessagePreview({
   };
 
   // Convert embed hex color (can be e.g. "3498db" or "#3498db" or number) to css valid hex/rgb
-  const getEmbedColor = (hex: string = "") => {
-    if (!hex) return "#FC5824"; // default koya/primary orange
-    let color = hex.trim();
+  const getEmbedColor = (rawColor: string | number | null | undefined = "") => {
+    if (!rawColor) return "#FC5824"; // default koya/primary orange
+    let color = String(rawColor).trim();
     if (color.startsWith("#")) return color;
     if (/^[0-9A-F]{6}$/i.test(color)) return `#${color}`;
     // handle decimal color code if exists
@@ -72,12 +73,12 @@ export function DiscordMessagePreview({
   };
 
   const formattedContent = formatText(messageContent);
-  const formattedEmbedTitle = formatText(embedData.title || "");
-  const formattedEmbedDesc = formatText(embedData.description || "");
-  const formattedAuthorName = formatText(embedData.author_name || "");
-  const formattedFooterText = formatText(embedData.footer_text || "");
+  const formattedEmbedTitle = formatText(safeEmbedData.title || "");
+  const formattedEmbedDesc = formatText(safeEmbedData.description || "");
+  const formattedAuthorName = formatText(safeEmbedData.author_name || "");
+  const formattedFooterText = formatText(safeEmbedData.footer_text || "");
 
-  const embedColor = getEmbedColor(embedData.color);
+  const embedColor = getEmbedColor(safeEmbedData.color);
 
   return (
     <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
@@ -119,9 +120,9 @@ export function DiscordMessagePreview({
                 {/* Embed Author */}
                 {formattedAuthorName && (
                   <div className="flex items-center gap-2">
-                    {embedData.author_icon && (
+                    {safeEmbedData.author_icon && (
                       <img 
-                        src={embedData.author_icon.includes("{server_icon}") ? "/assets/brand-logo.png" : embedData.author_icon} 
+                        src={safeEmbedData.author_icon.includes("{server_icon}") ? "/assets/brand-logo.png" : safeEmbedData.author_icon} 
                         alt="Author Icon" 
                         className="h-5 w-5 rounded-full object-cover"
                         onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
@@ -142,9 +143,9 @@ export function DiscordMessagePreview({
                     )}
                   </div>
                   
-                  {embedData.thumbnail && (
+                  {safeEmbedData.thumbnail && (
                     <img 
-                      src={embedData.thumbnail.includes("{user_avatar}") ? avatarUrl : embedData.thumbnail} 
+                      src={safeEmbedData.thumbnail.includes("{user_avatar}") ? avatarUrl : safeEmbedData.thumbnail} 
                       alt="Thumbnail" 
                       className="h-14 w-14 rounded-lg object-cover shrink-0 ml-3"
                       onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
@@ -153,9 +154,9 @@ export function DiscordMessagePreview({
                 </div>
 
                 {/* Embed Main Image */}
-                {embedData.image && (
+                {safeEmbedData.image && (
                   <div className="rounded-lg overflow-hidden mt-2 max-w-[400px] border border-black/10">
-                    <img src={embedData.image} alt="Embed Image" className="w-full object-cover" />
+                    <img src={safeEmbedData.image} alt="Embed Image" className="w-full object-cover" />
                   </div>
                 )}
 
@@ -167,11 +168,11 @@ export function DiscordMessagePreview({
                 )}
 
                 {/* Embed Footer */}
-                {(formattedFooterText || embedData.timestamp_enabled) && (
+                {(formattedFooterText || safeEmbedData.timestamp_enabled) && (
                   <div className="flex items-center gap-2 text-[10px] text-[#949ba4] font-medium pt-1 border-t border-white/[0.03]">
-                    {embedData.footer_icon && (
+                    {safeEmbedData.footer_icon && (
                       <img 
-                        src={embedData.footer_icon} 
+                        src={safeEmbedData.footer_icon} 
                         alt="Footer Icon" 
                         className="h-4 w-4 rounded-full object-cover"
                         onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
@@ -179,7 +180,7 @@ export function DiscordMessagePreview({
                     )}
                     <span>
                       {formattedFooterText}
-                      {embedData.timestamp_enabled !== false && (
+                      {safeEmbedData.timestamp_enabled !== false && (
                         <>
                           {formattedFooterText ? " • " : ""}
                           Today at 9:45 PM

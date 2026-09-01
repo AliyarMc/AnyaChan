@@ -351,7 +351,6 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Vada
           cardEnabled={false}
           serverName={serverName}
         />
-      </div>
 
         {/* Variables List Card */}
         <div className="bg-[#141B2D]/80 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 shadow-2xl space-y-4">
