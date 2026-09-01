@@ -97,7 +97,7 @@ export function DiscordMessagePreview({
   const embedColor = getEmbedColor(safeEmbedData.color);
 
   return (
-    <div className="bg-white/[0.03] rounded-2xl p-5 shadow-xl space-y-3 font-sans">
+    <div className="bg-white/[0.03] rounded-2xl p-5 shadow-xl space-y-3 font-sans border border-white/10">
       <div className="flex items-center justify-between pb-2">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-white/40">Preview</span>
         <span className="text-[10px] bg-white/5 px-2.5 py-0.5 rounded-full text-white/50 font-mono">

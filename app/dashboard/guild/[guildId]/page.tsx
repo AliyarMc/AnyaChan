@@ -325,7 +325,7 @@ export default function GuildOverviewPage({ params }: { params: { guildId: strin
               <Link
                 key={item.title}
                 href={item.href}
-                className="group relative bg-[#24252a] hover:bg-[#2c2d33] rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-150 shadow-sm"
+                className="group relative bg-[#24252a] hover:bg-[#2c2d33] rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-150 shadow-sm border border-white/10 hover:border-white/20"
               >
                 {/* Badge if present */}
                 {item.badge && (

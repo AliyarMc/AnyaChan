@@ -113,7 +113,7 @@ export default function AutoReactPage({ params }: { params: { guildId: string } 
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-6">
+          <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl p-8 space-y-6 border border-white/10">
             
             {config.triggers.length === 0 ? (
               <div className="text-center p-12 bg-white/[0.03]/20 rounded-2xl border border-dashed border-slate-700">
@@ -127,7 +127,7 @@ export default function AutoReactPage({ params }: { params: { guildId: string } 
             ) : (
               <>
                 {config.triggers.map((item: any, index: number) => (
-                  <div key={index} className="p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 animate-in zoom-in-95 duration-200">
+                  <div key={index} className="p-6 bg-white/[0.03]/40 rounded-2xl space-y-4 animate-in zoom-in-95 duration-200 border border-white/10">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="p-2.5 rounded-xl bg-yellow-500/10 text-yellow-500">

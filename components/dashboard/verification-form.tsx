@@ -70,10 +70,10 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8 space-y-8">
+        <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
           
           {/* Main Toggle */}
-          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
+          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
             <div>
               <h3 className="text-lg font-black text-white">Verification System</h3>
               <p className="text-sm text-slate-400 mt-1">Enable or disable server verification.</p>

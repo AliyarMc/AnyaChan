@@ -89,9 +89,9 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8 space-y-8">
+        <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
           
-          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
+          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
             <div className="flex items-center gap-4">
               <div className={cn("p-3 rounded-xl transition-colors", isEnabled ? "bg-emerald-500/20 text-emerald-500" : "bg-red-500/20 text-red-500")}>
                 <Power className="w-5 h-5" />
@@ -117,7 +117,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className={cn("p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
+            <div className={cn("p-6 bg-white/[0.03]/40 rounded-2xl space-y-4 transition-all duration-300 border border-white/10", !isEnabled && "opacity-50 pointer-events-none")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-primary/20 text-primary rounded-xl">
                   <Mic className="w-5 h-5" />
@@ -146,7 +146,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
               </Select>
             </div>
 
-            <div className={cn("p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
+            <div className={cn("p-6 bg-white/[0.03]/40 rounded-2xl space-y-4 transition-all duration-300 border border-white/10", !isEnabled && "opacity-50 pointer-events-none")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-blue-500/20 text-blue-500 rounded-xl">
                   <Headset className="w-5 h-5" />
@@ -175,7 +175,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
               </Select>
             </div>
 
-            <div className={cn("p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
+            <div className={cn("p-6 bg-white/[0.03]/40 rounded-2xl space-y-4 transition-all duration-300 border border-white/10", !isEnabled && "opacity-50 pointer-events-none")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-purple-500/20 text-purple-500 rounded-xl">
                   <Settings2 className="w-5 h-5" />

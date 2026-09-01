@@ -564,10 +564,10 @@ export function KoyaSidebar({
         />
       )}
 
-      {/* Main Sidebar Container (Spacious ~320px, seamless borderless dark background) */}
+      {/* Main Sidebar Container (Spacious ~320px, subtle border-r between aside and header/body) */}
       <aside
         className={cn(
-          "bg-[#323339] fixed lg:static top-0 bottom-0 left-0 z-50 transition-all duration-200 ease-in-out flex flex-col shrink-0 select-none",
+          "bg-[#323339] fixed lg:static top-0 bottom-0 left-0 z-50 transition-all duration-200 ease-in-out flex flex-col shrink-0 select-none border-r border-white/10",
           isCollapsed ? "lg:w-20" : "w-full sm:w-[320px] lg:w-[320px] lg:min-w-[320px]",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
@@ -617,12 +617,12 @@ export function KoyaSidebar({
             </div>
           </div>
 
-          {/* Server Selector Combobox (Clean borderless surface) */}
+          {/* Server Selector Combobox */}
           {!isCollapsed && currentGuildId && (
             <div className="px-5 pt-4 pb-1 relative shrink-0" ref={serverDropdownRef}>
               <div
                 onClick={() => setIsServerDropdownOpen(!isServerDropdownOpen)}
-                className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-150"
+                className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-150 border border-white/10"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {currentGuild?.icon ? (
@@ -650,7 +650,7 @@ export function KoyaSidebar({
 
               {/* Server Dropdown Popover */}
               {isServerDropdownOpen && (
-                <div className="absolute left-5 right-5 top-[calc(100%+4px)] z-50 bg-[#2b2c32] rounded-xl shadow-2xl p-2.5 animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute left-5 right-5 top-[calc(100%+4px)] z-50 bg-[#2b2c32] rounded-xl shadow-2xl p-2.5 animate-in fade-in zoom-in-95 duration-150 border border-white/10">
                   <div className="relative mb-2">
                     <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
                     <input
@@ -724,7 +724,7 @@ export function KoyaSidebar({
               <button
                 type="button"
                 onClick={() => setIsSearchModalOpen(true)}
-                className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl bg-[#2b2c32] hover:bg-[#323339] text-white/50 hover:text-white transition-colors duration-150 cursor-pointer select-none"
+                className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl bg-[#2b2c32] hover:bg-[#323339] text-white/50 hover:text-white transition-colors duration-150 cursor-pointer select-none border border-white/10"
               >
                 <Search className="w-4 h-4 shrink-0 opacity-80" />
                 <span className="text-sm font-medium flex-1 text-left truncate text-white/40">

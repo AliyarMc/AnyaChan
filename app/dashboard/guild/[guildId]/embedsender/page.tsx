@@ -202,7 +202,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
         </p>
 
         <div className="w-full max-w-sm mt-1">
-          <div className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl flex items-center px-3.5 py-2.5 transition-colors">
+          <div className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl flex items-center px-3.5 py-2.5 transition-colors border border-white/10">
             <span className="text-white/40 mr-2 font-mono">#</span>
             <select
               value={form.channel_id || ""}
@@ -305,7 +305,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
 
         {/* Variables Reference Box */}
         {showVariables && (
-          <div className="bg-white/[0.04] rounded-2xl p-4 animate-in fade-in duration-150">
+          <div className="bg-white/[0.04] rounded-2xl p-4 animate-in fade-in duration-150 border border-white/10">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Available Variables</h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono text-white/70">
               <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">@everyone</span> — Ping Everyone</div>
@@ -323,7 +323,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
             {messageTab === "message" ? (
               <>
                 {/* Raw Message Card */}
-                <div className="bg-white/[0.03] rounded-2xl p-5 space-y-3">
+                <div className="bg-white/[0.03] rounded-2xl p-5 space-y-3 border border-white/10">
                   <div className="flex items-center gap-3">
                     <img
                       src="/utilities/avatar.png"
@@ -366,7 +366,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                 {/* Embed Configuration Card */}
                 {isEmbedEnabled && (
                   <div
-                    className="bg-white/[0.03] rounded-2xl p-5 space-y-4 relative"
+                    className="bg-white/[0.03] rounded-2xl p-5 space-y-4 relative border border-white/10"
                     style={{ borderLeft: `4px solid ${form.color || "#5865F2"}` }}
                   >
                     {/* Embed Color Swatches */}
@@ -510,7 +510,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
               </>
             ) : (
               /* Components: Link Buttons Configurator */
-              <div className="bg-white/[0.03] rounded-2xl p-5 space-y-4 animate-in fade-in duration-150">
+              <div className="bg-white/[0.03] rounded-2xl p-5 space-y-4 animate-in fade-in duration-150 border border-white/10">
                 <div className="flex items-center justify-between pb-1">
                   <div>
                     <h3 className="text-sm font-bold text-white">Action Row Link Buttons</h3>
@@ -578,7 +578,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
 
           {/* Right: Sticky Discord Live Preview */}
           <div className="xl:col-span-5 sticky top-4 space-y-4">
-            <div className="bg-white/[0.03] rounded-2xl p-5 shadow-xl space-y-3 font-sans">
+            <div className="bg-white/[0.03] rounded-2xl p-5 shadow-xl space-y-3 font-sans border border-white/10">
               <div className="flex items-center justify-between pb-2">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-white/40">Preview</span>
                 <span className="text-[10px] bg-white/5 px-2.5 py-0.5 rounded-full text-white/50 font-mono">

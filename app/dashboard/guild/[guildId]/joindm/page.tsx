@@ -171,7 +171,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
       </div>
 
       {/* ── STEP 1: MODULE STATUS ── */}
-      <div className="bg-[#24252a] rounded-2xl p-5 flex items-center justify-between shadow-sm">
+      <div className="bg-[#24252a] rounded-2xl p-5 flex items-center justify-between shadow-sm border border-white/10">
         <div className="flex items-center gap-3.5">
           <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/80">
             <Mail className="w-5 h-5" />
@@ -216,7 +216,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
 
         {/* Variables Drawer Popup */}
         {showVariables && (
-          <div className="bg-[#24252a] border border-white/5 rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-3 gap-2.5 animate-in fade-in duration-150">
+          <div className="bg-[#24252a] border border-white/10 rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-3 gap-2.5 animate-in fade-in duration-150">
             {VARIABLES.map((v) => (
               <button
                 key={v.tag}
@@ -245,7 +245,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
           {/* ── Left Column: Controls (col-span-6) ── */}
           <div className="xl:col-span-6 space-y-5">
             {/* Plain Text Content */}
-            <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm">
+            <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm border border-white/10">
               <label className="text-xs font-bold text-white/70 block uppercase tracking-wider">
                 Direct Message Text
               </label>
@@ -259,7 +259,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
             </div>
 
             {/* Direct Embed Message Toggle */}
-            <div className="bg-[#24252a] rounded-2xl p-5 flex items-center justify-between shadow-sm">
+            <div className="bg-[#24252a] rounded-2xl p-5 flex items-center justify-between shadow-sm border border-white/10">
               <div className="space-y-0.5">
                 <span className="text-sm font-bold text-white block">Direct Embed Message</span>
                 <p className="text-white/50 text-xs">
@@ -276,7 +276,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
             {config.embed_enabled && (
               <div className="space-y-4 animate-in fade-in duration-200">
                 {/* Author Card */}
-                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm">
+                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm border border-white/10">
                   <span className="text-xs font-bold text-white/70 uppercase tracking-wider block">Author</span>
                   <div className="space-y-2.5">
                     <div>
@@ -303,7 +303,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                 </div>
 
                 {/* Body Card */}
-                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm">
+                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm border border-white/10">
                   <span className="text-xs font-bold text-white/70 uppercase tracking-wider block">Body</span>
                   <div className="space-y-2.5">
                     <div>
@@ -349,7 +349,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                 </div>
 
                 {/* Images Card */}
-                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm">
+                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm border border-white/10">
                   <span className="text-xs font-bold text-white/70 uppercase tracking-wider block">Images</span>
                   <div className="space-y-2.5">
                     <div>
@@ -376,7 +376,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                 </div>
 
                 {/* Footer Card */}
-                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm">
+                <div className="bg-[#24252a] rounded-2xl p-5 space-y-3 shadow-sm border border-white/10">
                   <span className="text-xs font-bold text-white/70 uppercase tracking-wider block">Footer</span>
                   <div className="space-y-2.5">
                     <div>

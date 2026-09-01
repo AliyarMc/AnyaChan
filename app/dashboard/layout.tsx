@@ -114,8 +114,8 @@ export default function DashboardLayout({
 
       {/* Main Content Viewport: Unified seamless dark background */}
       <div className="overflow-hidden bg-[#323339] max-w-screen flex flex-col grow relative lg:max-w-[calc(100vw-320px)]">
-        {/* Top Navbar: borderless seamless blend */}
-        <nav className="bg-[#323339] z-20">
+        {/* Top Navbar: subtle 1px border between header and body */}
+        <nav className="bg-[#323339] z-20 border-b border-white/10">
           <div className="flex flex-wrap items-center justify-between lg:justify-start mx-auto gap-4 px-6 py-4">
             {/* Mobile Trigger */}
             <div className="flex items-center lg:hidden">
@@ -171,7 +171,7 @@ export default function DashboardLayout({
                 </button>
 
                 {isNotificationsOpen && (
-                  <div className="absolute right-0 mt-2 w-80 bg-[#2b2c32] rounded-xl shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute right-0 mt-2 w-80 bg-[#2b2c32] rounded-xl shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150 border border-white/10">
                     <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/5">
                       <span className="text-xs font-bold uppercase tracking-wider text-white/50">
                         Notifications
@@ -230,7 +230,7 @@ export default function DashboardLayout({
                 </button>
 
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-[#2b2c32] rounded-xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute right-0 mt-2 w-56 bg-[#2b2c32] rounded-xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 border border-white/10">
                     <div className="px-3 py-2 border-b border-white/5 mb-1">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-white/40">Signed in as</p>
                       <p className="text-xs font-semibold text-white truncate">{session?.user?.name || "User"}</p>

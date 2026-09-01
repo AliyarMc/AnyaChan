@@ -83,7 +83,7 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
   return (
     <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
       <div className="lg:col-span-2 space-y-6">
-        <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl shadow-black/20">
+        <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl shadow-black/20 border border-white/10">
           <div className="p-8 space-y-8">
             <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
                <span className="text-sm font-bold text-slate-300">Social Economy Status</span>
@@ -144,7 +144,7 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
           </div>
         </div>
 
-        <div className="bg-[#24252a]  rounded-3xl p-8 relative overflow-hidden group">
+        <div className="bg-[#24252a] rounded-3xl p-8 relative overflow-hidden group border border-white/10">
           <div className="absolute right-0 top-0 h-full w-1 bg-primary/20" />
            <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-6 flex items-center gap-2">
             <Palette className="h-4 w-4" />
@@ -163,7 +163,7 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
                   />
                 </div>
              </div>
-             <div className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-2xl ">
+             <div className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-2xl border border-white/10">
                 <div className="flex items-center gap-3">
                   <Layout className="h-4 w-4 text-slate-500" />
                   <span className="text-sm font-bold text-slate-300">Thumbnail</span>
@@ -179,7 +179,7 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
       </div>
 
       <div className="space-y-6">
-        <div className="bg-[#24252a]  rounded-3xl p-6 relative overflow-hidden group shadow-lg">
+        <div className="bg-[#24252a] rounded-3xl p-6 relative overflow-hidden group shadow-lg border border-white/10">
            <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:scale-110 transition-transform">
               <Info className="h-32 w-32 text-white" />
            </div>

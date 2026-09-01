@@ -105,9 +105,9 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8 space-y-8">
+        <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
           
-          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
+          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/20 text-primary rounded-xl">
                 <BellRing className="w-5 h-5" />

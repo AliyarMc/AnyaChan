@@ -170,7 +170,7 @@ export function SettingsForm({ initialPrefix = "^^", guildId }: SettingsFormProp
       </div>
 
       {/* ── CARD 1: PREFIX ── */}
-      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-3">
+      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-3 border border-white/10">
         <label className="text-xs font-bold uppercase tracking-wider text-white/60 block">
           PREFIX
         </label>
@@ -200,7 +200,7 @@ export function SettingsForm({ initialPrefix = "^^", guildId }: SettingsFormProp
       </div>
 
       {/* ── CARD 2: LANGUAGE ── */}
-      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-3">
+      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-3 border border-white/10">
         <label className="text-xs font-bold uppercase tracking-wider text-white/60 block">
           LANGUAGE
         </label>
@@ -234,7 +234,7 @@ export function SettingsForm({ initialPrefix = "^^", guildId }: SettingsFormProp
       </div>
 
       {/* ── CARD 3: TIMEZONE ── */}
-      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-2">
+      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-2 border border-white/10">
         <label className="text-xs font-bold uppercase tracking-wider text-white/60 block">
           TIMEZONE
         </label>
@@ -287,7 +287,7 @@ export function SettingsForm({ initialPrefix = "^^", guildId }: SettingsFormProp
       </div>
 
       {/* ── CARD 4: MANAGER ROLES ── */}
-      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-2">
+      <div className="bg-white/[0.03] rounded-2xl p-6 space-y-2 border border-white/10">
         <h3 className="text-base font-bold text-white">Manager Roles</h3>
         <p className="text-xs text-white/40">Configure roles that can access Anya&apos;s dashboard.</p>
 

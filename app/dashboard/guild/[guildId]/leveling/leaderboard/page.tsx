@@ -129,7 +129,7 @@ export default function LeaderboardPage({ params }: { params: { guildId: string 
       </div>
 
       {/* Main Leaderboard Table */}
-      <div className="bg-[#24252a]  rounded-[40px] overflow-hidden shadow-2xl">
+      <div className="bg-[#24252a] rounded-[40px] overflow-hidden shadow-2xl border border-white/10">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>

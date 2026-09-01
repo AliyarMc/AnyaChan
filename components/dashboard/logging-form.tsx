@@ -127,7 +127,7 @@ export function LoggingForm({ initialConfig, channels, guildId }: LoggingFormPro
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-4">
          {LOG_CATEGORIES.map((cat) => (
-            <div key={cat.id} className="bg-[#24252a]  p-8 rounded-[40px] shadow-xl hover:border-primary/20 transition-all group">
+            <div key={cat.id} className="bg-[#24252a] p-8 rounded-[40px] shadow-xl border border-white/10 hover:border-white/20 transition-all group">
                <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                   <div className="flex items-start gap-5">
                      <div className="h-14 w-14 rounded-2xl bg-slate-800/50 flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors border border-white/5 shrink-0">

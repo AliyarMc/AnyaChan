@@ -67,7 +67,7 @@ export default function InvitesPage({ params }: { params: { guildId: string } })
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
+          <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl p-8 space-y-8 border border-white/10">
             
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -102,7 +102,7 @@ export default function InvitesPage({ params }: { params: { guildId: string } })
                 </div>
               ) : (
                 data.map((row, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-xl  hover:bg-slate-800/50 transition-colors">
+                  <div key={index} className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-xl hover:bg-slate-800/50 transition-colors border border-white/10">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-sm font-black border border-slate-700">
                         {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : <span className="text-slate-500">#{index + 1}</span>}

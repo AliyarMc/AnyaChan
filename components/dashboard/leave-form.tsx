@@ -100,7 +100,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
         </p>
 
         <div className="w-full max-w-sm mt-1">
-          <div className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl flex items-center px-3.5 py-2.5 transition-colors">
+          <div className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl flex items-center px-3.5 py-2.5 transition-colors border border-white/10">
             <span className="text-white/40 mr-2 font-mono">#</span>
             <select
               value={config.channel_id || ""}
@@ -210,7 +210,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
 
         {/* Variables Reference Box */}
         {showVariables && (
-          <div className="bg-white/[0.04] rounded-2xl p-4 animate-in fade-in duration-150">
+          <div className="bg-white/[0.04] rounded-2xl p-4 animate-in fade-in duration-150 border border-white/10">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Available Variables</h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono text-white/70">
               <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">{'{user.name}'}</span> — Plain Username</div>
@@ -226,7 +226,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
           {/* Left: Editor Column */}
           <div className="xl:col-span-7 space-y-4">
             {/* Raw Message Card */}
-            <div className="bg-white/[0.03] rounded-2xl p-5 space-y-3">
+            <div className="bg-white/[0.03] rounded-2xl p-5 space-y-3 border border-white/10">
               <div className="flex items-center gap-3">
                 <img
                   src="/utilities/avatar.png"
@@ -271,7 +271,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
             {/* Embed Configuration Card */}
             {isEmbed && (
               <div
-                className="bg-white/[0.03] rounded-2xl p-5 space-y-4 relative"
+                className="bg-white/[0.03] rounded-2xl p-5 space-y-4 relative border border-white/10"
                 style={{ borderLeft: `4px solid ${config.embed_data?.color || "#E74C3C"}` }}
               >
                 {/* Color swatches */}
