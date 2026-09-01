@@ -75,7 +75,7 @@ export default async function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <div key={stat.name} className="group glass border-white/5 p-7 rounded-2xl relative overflow-hidden hover:border-red-500/30 transition-all duration-500 shadow-2xl">
+          <div key={stat.name} className="group glass border-white/5 p-7 rounded-[32px] relative overflow-hidden hover:border-red-500/30 transition-all duration-500 shadow-2xl">
               {/* Animated Glow Overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
@@ -96,7 +96,7 @@ export default async function DashboardPage() {
 
       {/* Featured Modules & Support */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 glass border-white/5 rounded-2xl p-10 relative group overflow-hidden shadow-2xl">
+        <div className="lg:col-span-2 glass border-white/5 rounded-[40px] p-10 relative group overflow-hidden shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-red-500/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           
           <div className="flex items-center justify-between mb-8 relative z-10">
@@ -127,7 +127,7 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        <div className="glass border-white/5 rounded-2xl p-10 flex flex-col justify-between relative group shadow-2xl overflow-hidden">
+        <div className="glass border-white/5 rounded-[40px] p-10 flex flex-col justify-between relative group shadow-2xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-bl from-red-500/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           
           <div className="relative z-10">

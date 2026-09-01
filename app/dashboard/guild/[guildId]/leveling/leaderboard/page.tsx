@@ -94,7 +94,7 @@ export default function LeaderboardPage({ params }: { params: { guildId: string 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
         {leaderboard.slice(0, 3).map((user, i) => (
           <div key={user.user_id} className={cn(
-            "relative p-8 rounded-2xl border flex flex-col items-center text-center overflow-hidden transition-all hover:scale-[1.02]",
+            "relative p-8 rounded-[40px] border flex flex-col items-center text-center overflow-hidden transition-all hover:scale-[1.02]",
             i === 0 ? "bg-gradient-to-b from-amber-500/20 to-transparent border-amber-500/30 md:-translate-y-4 order-1 md:order-2" :
               i === 1 ? "bg-gradient-to-b from-slate-300/10 to-transparent border-slate-500/20 order-2 md:order-1" :
                 "bg-gradient-to-b from-amber-800/20 to-transparent border-amber-900/20 order-3"
@@ -129,7 +129,7 @@ export default function LeaderboardPage({ params }: { params: { guildId: string 
       </div>
 
       {/* Main Leaderboard Table */}
-      <div className="bg-[#393a41] rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+      <div className="bg-[#393a41] rounded-[40px] overflow-hidden shadow-2xl border border-white/10">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>

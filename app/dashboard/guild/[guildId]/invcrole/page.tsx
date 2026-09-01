@@ -106,7 +106,7 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#393a41] rounded-2xl overflow-hidden shadow-xl p-8 space-y-8 border border-white/10">
+          <div className="bg-[#393a41] rounded-3xl overflow-hidden shadow-xl p-8 space-y-8 border border-white/10">
 
             {/* Status & Toggle */}
             <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
@@ -172,7 +172,7 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
 
         {/* Sidebar */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-2xl p-6 relative overflow-hidden group">
+          <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-3xl p-6 relative overflow-hidden group">
             <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:scale-110 transition-transform">
               <Volume2 className="h-32 w-32 text-primary" />
             </div>

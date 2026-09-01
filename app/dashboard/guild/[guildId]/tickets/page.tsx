@@ -21,7 +21,7 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 
 const TicketsForm = dynamic(() => import("@/components/dashboard/tickets-form").then(mod => mod.TicketsForm), {
-  loading: () => <div className="h-96 w-full animate-pulse bg-slate-800/20 rounded-2xl" />
+  loading: () => <div className="h-96 w-full animate-pulse bg-slate-800/20 rounded-3xl" />
 });
 
 export default async function TicketsPage({ params }: { params: { guildId: string } }) {

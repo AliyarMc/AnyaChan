@@ -126,8 +126,8 @@ export default function LandingPage() {
 
         {/* Cinematic Dashboard Mockup */}
         <div className="max-w-6xl mx-auto mt-40 relative group animate-in fade-in zoom-in-95 duration-1000 delay-500">
-           <div className="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-transparent rounded-2xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-           <div className="relative bg-[#0c0f16] border border-white/[0.05] rounded-2xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.8)]">
+           <div className="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-transparent rounded-[60px] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+           <div className="relative bg-[#0c0f16] border border-white/[0.05] rounded-[50px] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.8)]">
               {/* Fake Window Controls */}
               <div className="h-16 border-b border-white/[0.03] flex items-center justify-between px-10 bg-white/[0.01]">
                 <div className="flex items-center gap-3">
@@ -153,7 +153,7 @@ export default function LandingPage() {
                 </div>
                 <div className="grid grid-cols-3 gap-10 z-10">
                   {[1, 2, 3].map(i => (
-                    <div key={i} className="h-40 bg-white/[0.02] border border-white/[0.04] rounded-2xl p-8 space-y-6 hover:border-red-500/20 transition-colors">
+                    <div key={i} className="h-40 bg-white/[0.02] border border-white/[0.04] rounded-[40px] p-8 space-y-6 hover:border-red-500/20 transition-colors">
                       <div className="h-10 w-10 rounded-2xl bg-red-500/10 border border-red-500/20" />
                       <div className="h-4 w-2/3 bg-white/5 rounded-lg" />
                       <div className="h-3 w-1/2 bg-white/[0.02] rounded-lg" />
@@ -227,11 +227,11 @@ export default function LandingPage() {
                 color: "bg-white/10 border-white/20 text-white"
               }
             ].map((feature, i) => (
-              <div key={i} className="group glass border-white/5 p-12 rounded-2xl hover:border-red-500/30 transition-all duration-700 relative overflow-hidden">
+              <div key={i} className="group glass border-white/5 p-12 rounded-[50px] hover:border-red-500/30 transition-all duration-700 relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-12 opacity-0 group-hover:opacity-5 scale-50 group-hover:scale-110 transition-all duration-1000">
                   <feature.icon className="h-64 w-64 text-white" />
                 </div>
-                <div className={cn("h-20 w-20 rounded-2xl flex items-center justify-center mb-10 border transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-2xl shadow-black/40", feature.color)}>
+                <div className={cn("h-20 w-20 rounded-3xl flex items-center justify-center mb-10 border transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-2xl shadow-black/40", feature.color)}>
                   <feature.icon className="h-10 w-10 shadow-lg" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-6 tracking-tight font-outfit relative z-10">{feature.title}</h3>
@@ -261,7 +261,7 @@ export default function LandingPage() {
                    { icon: Lock, title: "Zero Trust", desc: "Every command execution is sandboxed and cryptographically verified." },
                    { icon: Radio, title: "Low Entropy", desc: "Optimized for minimal CPU jitter and maximum reliability." }
                  ].map((item, i) => (
-                   <div key={i} className="space-y-4 p-6 rounded-2xl border border-white/[0.03] hover:bg-white/[0.02] transition-colors">
+                   <div key={i} className="space-y-4 p-6 rounded-[30px] border border-white/[0.03] hover:bg-white/[0.02] transition-colors">
                       <item.icon className="h-6 w-6 text-red-500" />
                       <h4 className="text-lg font-bold text-white font-outfit uppercase tracking-tight">{item.title}</h4>
                       <p className="text-sm text-slate-600 font-bold leading-relaxed">{item.desc}</p>
@@ -307,7 +307,7 @@ export default function LandingPage() {
               { name: "Tickets", desc: "Support at lightspeed.", icon: MessageSquare },
               { name: "Join DM", desc: "Personalized welcomes.", icon: MessageSquare }
             ].map((mod, i) => (
-              <div key={i} className="group p-8 rounded-2xl bg-white/[0.01] border border-white/[0.03] hover:bg-red-500/[0.02] hover:border-red-500/20 transition-all duration-500">
+              <div key={i} className="group p-8 rounded-[40px] bg-white/[0.01] border border-white/[0.03] hover:bg-red-500/[0.02] hover:border-red-500/20 transition-all duration-500">
                  <div className="h-14 w-14 rounded-2xl bg-white/[0.03] flex items-center justify-center mb-6 group-hover:bg-red-500/10 transition-colors">
                     <mod.icon className="h-6 w-6 text-slate-600 group-hover:text-red-500 transition-colors" />
                  </div>
@@ -344,13 +344,13 @@ export default function LandingPage() {
               </div>
               <div className="flex-1 relative group">
                  <div className="absolute inset-0 bg-red-500/10 blur-[150px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-                 <div className="aspect-square bg-[#0c0f16] border border-white/[0.05] rounded-2xl p-12 relative overflow-hidden flex items-center justify-center">
+                 <div className="aspect-square bg-[#0c0f16] border border-white/[0.05] rounded-[60px] p-12 relative overflow-hidden flex items-center justify-center">
                     <Globe className="h-64 w-64 text-red-500/10 animate-pulse" />
                     <div className="absolute inset-0 flex items-center justify-center">
                        <div className="h-32 w-32 bg-red-500/20 blur-[60px] rounded-full" />
                     </div>
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 space-y-12">
-                       <Bot className="h-20 w-20 text-red-500 shadow-[0_0_50px_rgba(239,68,68,0.5)] bg-[#0c0f16] rounded-2xl p-4 border border-red-500/50" />
+                       <Bot className="h-20 w-20 text-red-500 shadow-[0_0_50px_rgba(239,68,68,0.5)] bg-[#0c0f16] rounded-3xl p-4 border border-red-500/50" />
                     </div>
                  </div>
               </div>
@@ -372,7 +372,7 @@ export default function LandingPage() {
               { q: "Can I migrate from other bots?", a: "Yes, our Migration Matrix tool allows you to import leveling and configuration data from most popular bots in minutes." },
               { q: "What is the 'Neural Core'?", a: "It's our advanced event-processing architecture that uses predictive analysis to moderate raids before they escalate." }
             ].map((item, i) => (
-              <div key={i} className="p-10 rounded-2xl border border-white/[0.03] hover:border-white/10 transition-all bg-white/[0.01] group">
+              <div key={i} className="p-10 rounded-[40px] border border-white/[0.03] hover:border-white/10 transition-all bg-white/[0.01] group">
                  <h4 className="text-xl font-bold text-white mb-6 font-outfit uppercase tracking-tight flex items-center gap-4">
                     <div className="h-2 w-2 rounded-full bg-red-500 opacity-20 group-hover:opacity-100 transition-all" />
                     {item.q}
@@ -386,7 +386,7 @@ export default function LandingPage() {
 
       {/* CTA Section */}
       <section className="py-48 px-6">
-        <div className="max-w-6xl mx-auto relative rounded-2xl p-24 md:p-32 overflow-hidden bg-gradient-to-br from-red-600 to-red-900 text-center shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
+        <div className="max-w-6xl mx-auto relative rounded-[80px] p-24 md:p-32 overflow-hidden bg-gradient-to-br from-red-600 to-red-900 text-center shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
            <div className="relative z-10">
               <h2 className="text-7xl md:text-[9rem] font-bold text-white tracking-tighter font-outfit mb-12 uppercase leading-[0.8] italic">Ready to <br />Evolve?</h2>
@@ -394,7 +394,7 @@ export default function LandingPage() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8 tracking-widest uppercase text-xs font-black">
                 <Button 
                   onClick={() => signIn('discord', { callbackUrl: '/dashboard' })}
-                  className="w-full sm:w-auto rounded-2xl px-16 py-10 bg-white text-black hover:bg-slate-100 border-none shadow-[0_20px_50px_rgba(0,0,0,0.4)] font-black text-lg transition-transform hover:scale-105 active:scale-95"
+                  className="w-full sm:w-auto rounded-3xl px-16 py-10 bg-white text-black hover:bg-slate-100 border-none shadow-[0_20px_50px_rgba(0,0,0,0.4)] font-black text-lg transition-transform hover:scale-105 active:scale-95"
                 >
                   Get Started Free
                 </Button>

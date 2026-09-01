@@ -94,7 +94,7 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
     <div className="space-y-8">
 
       {/* List Existing Ones */}
-      <div className="bg-[#393a41] rounded-2xl shadow-xl p-8 border border-white/10">
+      <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 border border-white/10">
         <h3 className="text-xl font-bold text-white mb-6">Active Vanity Roles</h3>
 
         {setups.length === 0 ? (
@@ -143,7 +143,7 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
       </div>
 
       {/* Add New Setup */}
-      <div className="bg-[#393a41] rounded-2xl shadow-xl p-8 border border-white/10">
+      <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 border border-white/10">
         <h3 className="text-xl font-bold text-white mb-6">Add New Vanity Role</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-3">
