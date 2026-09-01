@@ -40,6 +40,23 @@ const config: Config = {
           900: '#792512',
           950: '#410f06',
         },
+        kgray: {
+          50: '#525359',
+          100: '#4e4f55',
+          200: '#4a4b52',
+          300: '#46474e',
+          400: '#42434a',
+          500: '#3f4048',
+          600: '#3e3f45',
+          625: '#3a3b41',
+          650: '#393a41',
+          675: '#36373e',
+          680: '#323339',
+          700: '#2c2d32',
+          800: '#2b2c32',
+          850: '#242429',
+          900: '#202225',
+        },
         primary: {
           DEFAULT: "#ffffff",
           hover: "#e2e8f0",
@@ -53,6 +70,9 @@ const config: Config = {
           neutral: "rgba(255, 255, 255, 0.05)",
           glass: "rgba(255, 255, 255, 0.03)",
         }
+      },
+      spacing: {
+        '75': '300px',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
