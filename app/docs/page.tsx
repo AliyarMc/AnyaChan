@@ -160,19 +160,23 @@ export default function DocsPage() {
              </p>
 
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-8 rounded-[32px] glass border-white/5 space-y-4">
-                   <Zap className="h-6 w-6 text-red-500" />
-                   <h3 className="text-xl font-bold text-white font-outfit uppercase">Fast Dispatch</h3>
-                   <p className="text-sm text-slate-500 font-bold uppercase tracking-tight">Commands are dispatched via our global edge network in under 12ms.</p>
+                <div className="p-8 rounded-2xl glass border-white/5 space-y-4">
+                  <div className="h-10 w-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500">
+                    <Terminal className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Default Prefix</h3>
+                  <p className="text-slate-400 text-sm">
+                    The default prefix is <code className="text-red-500 bg-red-500/10 px-2 py-0.5 rounded">,</code> (comma). You can also mention the bot as a prefix.
+                  </p>
                 </div>
-                <div className="p-8 rounded-[32px] glass border-white/5 space-y-4">
+                <div className="p-8 rounded-2xl glass border-white/5 space-y-4">
                    <ShieldCheck className="h-6 w-6 text-emerald-500" />
                    <h3 className="text-xl font-bold text-white font-outfit uppercase">Secure Node</h3>
                    <p className="text-sm text-slate-500 font-bold uppercase tracking-tight">Every module runs in a dedicated neural sandbox with AES-256 encryption.</p>
                 </div>
              </div>
 
-             <div className="p-8 rounded-[40px] bg-red-500/[0.02] border border-red-500/10 relative overflow-hidden">
+             <div className="p-8 rounded-2xl bg-red-500/[0.02] border border-red-500/10 relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-8 opacity-10">
                    <Layers className="h-32 w-32 text-red-500" />
                 </div>

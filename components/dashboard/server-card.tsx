@@ -40,7 +40,7 @@ export const ServerCard = ({
 }: ServerCardProps) => {
   return (
     <div className={cn(
-      "bg-white/[0.03] hover:bg-white/[0.05] rounded-3xl group transition-all duration-300 overflow-hidden shadow-xl h-full flex flex-col border border-white/10 hover:border-white/20",
+      "bg-white/[0.03] hover:bg-white/[0.05] rounded-2xl group transition-all duration-300 overflow-hidden shadow-xl h-full flex flex-col border border-white/10 hover:border-white/20",
       className
     )}>
       <div className="p-8 flex-grow">

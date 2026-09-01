@@ -228,7 +228,7 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
   ]);
 
   return (
-    <div className="w-full relative rounded-3xl overflow-hidden  bg-slate-950/50 p-2 shadow-2xl">
+    <div className="w-full relative rounded-2xl overflow-hidden  bg-slate-950/50 p-2 shadow-2xl">
       <div className="absolute top-4 left-4 bg-white/[0.03]/80 backdrop-blur border border-white/10 rounded-full px-3 py-1 text-[10px] uppercase font-black text-slate-400 tracking-wider z-10">
         Live Canvas Preview
       </div>

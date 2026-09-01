@@ -127,7 +127,7 @@ export function SidebarNav({
   };
 
   return (
-    <div className="flex flex-col gap-6 bg-[#393a41]  rounded-3xl p-6 shadow-xl shadow-black/25">
+    <div className="flex flex-col gap-6 bg-[#393a41] rounded-2xl p-6 shadow-xl shadow-black/25">
       {/* Back button */}
       <Link href="/dashboard/guilds" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-black uppercase tracking-wider group">
         <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />

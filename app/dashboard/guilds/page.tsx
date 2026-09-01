@@ -110,7 +110,7 @@ export default async function GuildsPage() {
           <Button variant="outline" className="mt-6">Retry Connection</Button>
         </div>
       ) : guilds.length === 0 ? (
-        <div className="bg-slate-800/30  border-dashed p-16 rounded-3xl text-center">
+        <div className="bg-slate-800/30  border-dashed p-16 rounded-2xl text-center">
           <div className="h-16 w-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
             <Users className="h-8 w-8 text-slate-600" />
           </div>
@@ -141,7 +141,7 @@ export default async function GuildsPage() {
           {guilds.map((guild) => (
             <div
               key={guild.id}
-              className="bg-white/[0.03] rounded-3xl group hover:bg-white/[0.06] transition-all duration-300 overflow-hidden shadow-sm"
+              className="bg-white/[0.03] rounded-2xl group hover:bg-white/[0.06] transition-all duration-300 overflow-hidden shadow-sm border border-white/10"
             >
               <div className="p-6">
                 <div className="flex items-start justify-between mb-6">

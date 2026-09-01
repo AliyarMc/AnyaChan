@@ -34,7 +34,7 @@ export default function DashboardError({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center animate-in fade-in zoom-in-95 duration-500">
-      <div className="h-20 w-20 bg-red-500/10 rounded-3xl flex items-center justify-center mb-6">
+      <div className="h-20 w-20 bg-red-500/10 rounded-2xl flex items-center justify-center mb-6">
         <AlertTriangle className="h-10 w-10 text-red-500" />
       </div>
       
