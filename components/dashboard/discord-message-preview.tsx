@@ -1,9 +1,23 @@
+/**
+ * ╔══════════════════════════════════════════════════════════════════╗
+ * ║                                                                  ║
+ * ║   ░█▀▀░█▀█░█▀▄░█▀▀░█░█   ░█▀▄░█▀▀░█░█░█▀▀                     ║
+ * ║   ░█░░░█░█░█░█░█▀▀░▄▀▄   ░█░█░█▀▀░▀▄▀░▀▀█                     ║
+ * ║   ░▀▀▀░▀▀▀░▀▀░░▀▀▀░▀░▀   ░▀▀░░▀▀▀░░▀░░▀▀▀                     ║
+ * ║                                                                  ║
+ * ║           © 2026 ZAPTRO — All Rights Reserved               ║
+ * ║                                                                  ║
+ * ║   discord  ──  https://discord.gg/zaptro                      ║
+ * ║   youtube  ──  https://youtube.com/@ZAPTRO                   ║
+ * ║   github   ──  https://github.com/ZAPTRO                        ║
+ * ║                                                                  ║
+ * ╚══════════════════════════════════════════════════════════════════╝
+ */
+
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { MessageSquare, Calendar } from "lucide-react";
 import { WelcomePreviewCanvas } from "./welcome-preview-canvas";
 
 interface DiscordMessagePreviewProps {
@@ -28,7 +42,7 @@ interface DiscordMessagePreviewProps {
   avatarUrl?: string;
   buttons?: {
     label: string;
-    style?: number; // 1 = grey, 2 = blurple, 3 = green, 4 = red
+    style?: number;
     emoji?: string;
   }[];
 }
@@ -39,37 +53,39 @@ export function DiscordMessagePreview({
   embedData = {},
   cardEnabled = false,
   imageConfig = null,
-  serverName = "AliyarMC",
-  userName = "dinixooji.",
+  serverName = "Discord Server",
+  userName = "Member",
   avatarUrl = "https://cdn.discordapp.com/embed/avatars/0.png",
   buttons = []
 }: DiscordMessagePreviewProps) {
   const safeEmbedData = embedData || {};
-  
+
   // Format variables in strings in real-time
   const formatText = (text: string) => {
     if (!text) return "";
     return text
       .replace(/{user}/g, `@${userName}`)
+      .replace(/{user\.mention}/g, `@${userName}`)
       .replace(/{user_name}/g, userName)
+      .replace(/{user\.name}/g, userName)
       .replace(/{user_id}/g, "123456789012345678")
       .replace(/{server_name}/g, serverName)
+      .replace(/{server\.name}/g, serverName)
       .replace(/{server_membercount}/g, "364")
-      .replace(/{user_joindate}/g, "Tue, Aug 25, 2026");
+      .replace(/{user_joindate}/g, "Today");
   };
 
-  // Convert embed hex color (can be e.g. "3498db" or "#3498db" or number) to css valid hex/rgb
+  // Convert embed hex color to css valid hex/rgb
   const getEmbedColor = (rawColor: string | number | null | undefined = "") => {
-    if (!rawColor) return "#FC5824"; // default koya/primary orange
+    if (!rawColor) return "#5865F2";
     let color = String(rawColor).trim();
     if (color.startsWith("#")) return color;
     if (/^[0-9A-F]{6}$/i.test(color)) return `#${color}`;
-    // handle decimal color code if exists
     const num = parseInt(color, 10);
     if (!isNaN(num)) {
       return `#${num.toString(16).padStart(6, "0")}`;
     }
-    return "#FC5824";
+    return "#5865F2";
   };
 
   const formattedContent = formatText(messageContent);
@@ -81,150 +97,153 @@ export function DiscordMessagePreview({
   const embedColor = getEmbedColor(safeEmbedData.color);
 
   return (
-    <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-        <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest pl-1">Discord Preview</span>
-        <span className="text-[9px] bg-slate-800/80 px-2 py-0.5 rounded text-slate-400 font-bold uppercase">Mockup</span>
+    <div className="bg-[#2b2c32] border border-white/10 rounded-xl p-4 sm:p-5 shadow-lg space-y-3 font-sans">
+      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-white/40">Preview</span>
+        <span className="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-white/50 font-mono">
+          Discord Look
+        </span>
       </div>
 
-      {/* Discord Client Layout Frame */}
-      <div className="bg-[#313338] text-[#dbdee1] rounded-2xl p-4 shadow-inner border border-black/10 font-sans text-sm select-none">
-        <div className="flex gap-4 items-start">
-          {/* Avatar Icon */}
-          <div className="h-10 w-10 shrink-0 rounded-full bg-[#5865F2] flex items-center justify-center text-white overflow-hidden shadow">
-            <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+      {/* Discord Message Container matching Koya */}
+      <div className="pt-2">
+        <div className="relative pl-12 sm:pl-14 select-text">
+          {/* Bot Avatar */}
+          <div className="absolute left-0 top-0.5 w-10 h-10 rounded-full overflow-hidden select-none shrink-0 bg-[#5865F2] flex items-center justify-center text-white font-bold text-sm">
+            A
           </div>
 
-          {/* Message Content Area */}
-          <div className="flex-1 min-w-0 space-y-2">
-            {/* Header info */}
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-white hover:underline cursor-pointer">Anya</span>
-              <span className="bg-[#5865F2] text-[9px] font-black uppercase tracking-wider text-white px-1.5 py-0.5 rounded text-center leading-none">BOT</span>
-              <span className="text-xs text-[#949ba4]">Today at 9:45 PM</span>
+          {/* Bot Name & Header */}
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            <span className="font-semibold text-white text-sm hover:underline cursor-pointer">
+              Anya
+            </span>
+            <span className="inline-flex items-center bg-[#5865f2] rounded text-[10px] font-bold uppercase px-1 text-white leading-tight">
+              APP
+            </span>
+            <time className="text-white/40 cursor-default text-xs">
+              Today at 11:53 AM
+            </time>
+          </div>
+
+          {/* Formatted Message Content */}
+          {formattedContent && (
+            <div className="text-[#dcddde] text-sm leading-relaxed mt-1 break-words whitespace-pre-wrap">
+              {formattedContent.split(/(@\S+)/g).map((part, i) => {
+                if (part.startsWith("@")) {
+                  return (
+                    <span
+                      key={i}
+                      className="text-[#dee0fc] bg-[#5865f24d] hover:bg-[#5865f2] hover:text-white rounded px-1 py-0.5 font-medium transition-colors cursor-pointer"
+                    >
+                      {part}
+                    </span>
+                  );
+                }
+                return part;
+              })}
             </div>
+          )}
 
-            {/* Response contents */}
-            {welcomeType === "simple" ? (
-              formattedContent ? (
-                <p className="text-[#dbdee1] break-words whitespace-pre-wrap">{formattedContent}</p>
-              ) : (
-                <p className="text-[#949ba4] italic">Empty message content...</p>
-              )
-            ) : (
-              /* Rich Embed Layout */
-              <div 
-                className="bg-[#2b2d31] rounded-lg border-l-4 p-4 space-y-3 shadow-md max-w-[520px]"
-                style={{ borderLeftColor: embedColor }}
-              >
-                {/* Embed Author */}
-                {formattedAuthorName && (
-                  <div className="flex items-center gap-2">
-                    {safeEmbedData.author_icon && (
-                      <img 
-                        src={safeEmbedData.author_icon.includes("{server_icon}") ? "/assets/brand-logo.png" : safeEmbedData.author_icon} 
-                        alt="Author Icon" 
-                        className="h-5 w-5 rounded-full object-cover"
-                        onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
-                      />
-                    )}
-                    <span className="text-xs font-semibold text-white">{formattedAuthorName}</span>
-                  </div>
-                )}
-
-                {/* Embed Body with Thumbnail */}
-                <div className="flex gap-4 items-start justify-between">
-                  <div className="flex-1 min-w-0 space-y-1.5">
-                    {formattedEmbedTitle && (
-                      <h4 className="font-bold text-white hover:underline cursor-pointer text-[15px]">{formattedEmbedTitle}</h4>
-                    )}
-                    {formattedEmbedDesc && (
-                      <p className="text-[13px] text-[#dbdee1] break-words whitespace-pre-wrap">{formattedEmbedDesc}</p>
-                    )}
-                  </div>
-                  
-                  {safeEmbedData.thumbnail && (
-                    <img 
-                      src={safeEmbedData.thumbnail.includes("{user_avatar}") ? avatarUrl : safeEmbedData.thumbnail} 
-                      alt="Thumbnail" 
-                      className="h-14 w-14 rounded-lg object-cover shrink-0 ml-3"
+          {/* Discord Embed (if embed type) */}
+          {welcomeType === "embed" && (
+            <div
+              className="bg-[#2f3136] rounded border-l-4 p-3.5 mt-2 space-y-2.5 shadow-md max-w-[520px]"
+              style={{ borderLeftColor: embedColor }}
+            >
+              {/* Embed Author */}
+              {formattedAuthorName && (
+                <div className="flex items-center gap-2">
+                  {safeEmbedData.author_icon && (
+                    <img
+                      src={safeEmbedData.author_icon.includes("{server_icon}") ? avatarUrl : safeEmbedData.author_icon}
+                      alt=""
+                      className="w-5 h-5 rounded-full object-cover shrink-0"
                       onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
                     />
                   )}
+                  <span className="text-xs font-semibold text-white">{formattedAuthorName}</span>
+                </div>
+              )}
+
+              {/* Embed Body with Thumbnail */}
+              <div className="flex gap-4 items-start justify-between">
+                <div className="flex-1 min-w-0 space-y-1">
+                  {formattedEmbedTitle && (
+                    <h4 className="font-semibold text-white hover:underline cursor-pointer text-sm leading-snug">
+                      {formattedEmbedTitle}
+                    </h4>
+                  )}
+                  {formattedEmbedDesc && (
+                    <p className="text-xs text-[#dcddde] break-words whitespace-pre-wrap leading-relaxed">
+                      {formattedEmbedDesc}
+                    </p>
+                  )}
                 </div>
 
-                {/* Embed Main Image */}
-                {safeEmbedData.image && (
-                  <div className="rounded-lg overflow-hidden mt-2 max-w-[400px] border border-black/10">
-                    <img src={safeEmbedData.image} alt="Embed Image" className="w-full object-cover" />
-                  </div>
+                {safeEmbedData.thumbnail && (
+                  <img
+                    src={safeEmbedData.thumbnail.includes("{user_avatar}") ? avatarUrl : safeEmbedData.thumbnail}
+                    alt=""
+                    className="w-16 h-16 rounded-lg object-cover shrink-0 ml-3"
+                    onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                  />
                 )}
+              </div>
 
-                {/* Welcome Card Image inside Embed (if card enabled and embed type) */}
-                {cardEnabled && imageConfig && (
-                  <div className="rounded-xl overflow-hidden mt-3 border border-black/15 shadow max-w-[450px]">
-                    <WelcomePreviewCanvas imageConfig={imageConfig} serverName={serverName} />
-                  </div>
-                )}
+              {/* Embed Main Image */}
+              {safeEmbedData.image && (
+                <div className="rounded overflow-hidden mt-2 max-w-[400px]">
+                  <img src={safeEmbedData.image} alt="" className="w-full object-cover" />
+                </div>
+              )}
 
-                {/* Embed Footer */}
-                {(formattedFooterText || safeEmbedData.timestamp_enabled) && (
-                  <div className="flex items-center gap-2 text-[10px] text-[#949ba4] font-medium pt-1 border-t border-white/[0.03]">
-                    {safeEmbedData.footer_icon && (
-                      <img 
-                        src={safeEmbedData.footer_icon} 
-                        alt="Footer Icon" 
-                        className="h-4 w-4 rounded-full object-cover"
-                        onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
-                      />
+              {/* Embed Footer */}
+              {(formattedFooterText || safeEmbedData.timestamp_enabled !== false) && (
+                <div className="flex items-center gap-2 text-[11px] text-white/50 pt-1 border-t border-white/5">
+                  {safeEmbedData.footer_icon && (
+                    <img
+                      src={safeEmbedData.footer_icon}
+                      alt=""
+                      className="w-4 h-4 rounded-full object-cover shrink-0"
+                      onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                    />
+                  )}
+                  <span>
+                    {formattedFooterText}
+                    {safeEmbedData.timestamp_enabled !== false && (
+                      <>
+                        {formattedFooterText ? " • " : ""}
+                        Today at 11:53 AM
+                      </>
                     )}
-                    <span>
-                      {formattedFooterText}
-                      {safeEmbedData.timestamp_enabled !== false && (
-                        <>
-                          {formattedFooterText ? " • " : ""}
-                          Today at 9:45 PM
-                        </>
-                      )}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
 
-            {/* Welcome Card Image Attachment (if card enabled and simple response type) */}
-            {welcomeType === "simple" && cardEnabled && imageConfig && (
-              <div className="rounded-xl overflow-hidden mt-3 border border-black/15 shadow max-w-[450px]">
-                <WelcomePreviewCanvas imageConfig={imageConfig} serverName={serverName} />
-              </div>
-            )}
+          {/* Card Image inside message if card is enabled */}
+          {cardEnabled && imageConfig && (
+            <div className="rounded-xl overflow-hidden mt-3 max-w-[480px] border border-white/10 shadow-lg">
+              <WelcomePreviewCanvas imageConfig={imageConfig} serverName={serverName} />
+            </div>
+          )}
 
-            {/* Interactive Discord Buttons Mock */}
-            {buttons && buttons.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-3 pl-1">
-                {buttons.map((btn, idx) => {
-                  let btnBgClass = "bg-[#5865F2] hover:bg-[#4752C4]"; // Blurple (2)
-                  if (btn.style === 1) btnBgClass = "bg-[#4e5058] hover:bg-[#6d6f78]"; // Grey
-                  if (btn.style === 3) btnBgClass = "bg-[#248046] hover:bg-[#1a6535]"; // Green
-                  if (btn.style === 4) btnBgClass = "bg-[#da373c] hover:bg-[#a92b2f]"; // Red
-
-                  return (
-                    <button
-                      key={idx}
-                      className={cn(
-                        "flex items-center gap-1.5 px-3 py-1.5 rounded text-white text-xs font-semibold transition-colors cursor-pointer shadow-sm active:scale-95",
-                        btnBgClass
-                      )}
-                    >
-                      {btn.emoji && <span className="text-sm">{btn.emoji}</span>}
-                      <span>{btn.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-          </div>
+          {/* Action Buttons if any */}
+          {buttons.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {buttons.map((b, i) => (
+                <button
+                  key={i}
+                  className="px-3 py-1.5 rounded text-xs font-semibold bg-[#4f545c] hover:bg-[#686d73] text-white transition-colors flex items-center gap-1.5"
+                >
+                  {b.emoji && <span>{b.emoji}</span>}
+                  <span>{b.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

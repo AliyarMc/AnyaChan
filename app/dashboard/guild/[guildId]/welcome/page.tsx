@@ -36,15 +36,15 @@ export default async function WelcomePage({ params }: { params: { guildId: strin
   return (
     <div className="w-full space-y-6 animate-in fade-in duration-300">
       {/* Koya Style Breadcrumb Header */}
-      <div className="flex items-center justify-between gap-4 pb-2 border-b border-white/5">
+      <div className="flex items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6">
         <div className="flex items-center gap-2 text-2xl font-bold flex-wrap">
           <Link 
             href={`/dashboard/guild/${params.guildId}`}
-            className="text-white/40 hover:text-white/80 transition-colors"
+            className="text-gray-400 hover:text-white transition-colors"
           >
             Announcements
           </Link>
-          <ChevronRight className="w-5 h-5 text-white/30" />
+          <ChevronRight className="w-5 h-5 text-gray-500" />
           <span className="text-white">Join Message</span>
         </div>
       </div>

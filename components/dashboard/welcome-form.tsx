@@ -17,24 +17,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
+import {
   Save,
-  MessageSquare,
-  Type,
-  LayoutTemplate,
-  RefreshCcw,
+  RotateCcw,
   Sparkles,
-  Palette,
-  Settings,
   Layers,
+  Palette,
   Eye,
   Sliders,
-  Brush
+  Brush,
+  Variable,
+  Hash,
+  Check,
+  ChevronDown
 } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { WelcomePreviewCanvas } from "./welcome-preview-canvas";
 import { DiscordMessagePreview } from "./discord-message-preview";
@@ -64,29 +62,30 @@ const defaultImageConfig: WelcomeImageConfig = {
     gradient_color2: "#140B17",
     background_image_url: "",
     overlay_opacity: 0.4,
-    border_thickness: 8,
-    border_color: "#FF6B00"
+    border_thickness: 2,
+    border_color: "#333333"
   },
   avatar: {
     x: 510,
-    y: 180,
-    size: 180,
+    y: 130,
+    size: 130,
     shape: "rounded",
-    border_thickness: 8,
-    border_color: "#FF6B00"
+    border_thickness: 4,
+    border_color: "#FFFFFF"
   },
   texts: {
     text1: {
-      content: "WELCOME TO [accent:{server_name}]",
+      content: "WELCOME",
       x: 510,
-      y: 60,
-      color: "#ffffff",
-      font_size: 40
+      y: 260,
+      color: "#FFFFFF",
+      font_size: 48,
+      is_bold: true
     },
     text2: {
-      content: "{user_name}. Has joined the Community!",
+      content: "{user_name}",
       x: 510,
-      y: 320,
+      y: 315,
       color: "#ffffff",
       font_size: 36
     },
@@ -94,7 +93,7 @@ const defaultImageConfig: WelcomeImageConfig = {
       content: "Member #{server_membercount}",
       x: 510,
       y: 370,
-      color: "#FF6B00",
+      color: "#5865F2",
       font_size: 24
     },
     text4: {
@@ -114,27 +113,35 @@ const defaultImageConfig: WelcomeImageConfig = {
   }
 };
 
-export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Vada SMP" }: WelcomeFormProps) {
-  const [config, setConfig] = useState<WelcomeConfig>(() => {
-    return {
-      ...initialConfig,
-      image_config: initialConfig.image_config || defaultImageConfig
-    };
-  });
-  const canvasWidth = config.image_config?.canvas?.width ?? 1020;
-  const canvasHeight = config.image_config?.canvas?.height ?? 450;
-  const [activeTab, setActiveTab] = useState<"message" | "card">("message");
-  const [activeTextLayer, setActiveTextLayer] = useState<string>("text1");
+export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Discord Server" }: WelcomeFormProps) {
+  const [config, setConfig] = useState<WelcomeConfig>(() => ({
+    ...initialConfig,
+    welcome_type: initialConfig.welcome_type || "simple",
+    image_config: initialConfig.image_config || defaultImageConfig
+  }));
+
+  const [initialState] = useState<WelcomeConfig>(config);
   const [saving, setSaving] = useState(false);
+  const [messageTab, setMessageTab] = useState<"message" | "components">("message");
+  const [imageMode, setImageMode] = useState<"basic" | "advanced">("basic");
+  const [showVariables, setShowVariables] = useState(false);
+  const [sendInDm, setSendInDm] = useState(false);
+  const [activeTextLayer, setActiveTextLayer] = useState<string>("text1");
+
+  // Determine if embed is enabled
+  const isEmbed = config.welcome_type === "embed";
+
+  // Check for unsaved changes
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(initialState);
 
   const handleSave = async () => {
     setSaving(true);
     const promise = api.updateWelcome(guildId, config);
 
     toast.promise(promise, {
-      loading: 'Saving welcome configuration...',
-      success: 'Welcome settings saved successfully!',
-      error: 'Failed to update welcome settings',
+      loading: "Saving welcome configuration...",
+      success: "Changes saved successfully!",
+      error: "Failed to update welcome settings",
     });
 
     try {
@@ -146,295 +153,419 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Va
     }
   };
 
-  const channelOptions = channels.map(c => ({
-    value: c.id.toString(),
-    label: `#${c.name}`
-  }));
-
-  const typeOptions = [
-    { value: "simple", label: "Simple Text Message" },
-    { value: "embed", label: "Rich Embed Message" }
-  ];
-
-  const bgTypeOptions = [
-    { value: "gradient", label: "Gradient Fill" },
-    { value: "solid", label: "Solid Color" },
-    { value: "image", label: "Custom Background Image" }
-  ];
-
-  const avShapeOptions = [
-    { value: "rounded", label: "Rounded (Circle)" },
-    { value: "square", label: "Square" }
-  ];
-
-  const textLayerOptions = [
-    { value: "text1", label: "Text Layer 1 (Header)" },
-    { value: "text2", label: "Text Layer 2 (Join Msg)" },
-    { value: "text3", label: "Text Layer 3 (Member Count)" },
-    { value: "text4", label: "Text Layer 4 (Subtext)" },
-    { value: "text5", label: "Text Layer 5 (Footer)" }
-  ];
-
-  // Helper State Handlers
-  const updateImageConfig = (updater: (prev: WelcomeImageConfig) => WelcomeImageConfig) => {
-    setConfig(prev => ({
-      ...prev,
-      image_config: updater(prev.image_config || defaultImageConfig)
-    }));
+  const handleReset = () => {
+    setConfig(initialState);
+    toast.info("Changes reset to previous configuration");
   };
 
-  const updateCanvas = (field: string, value: any) => {
-    updateImageConfig(prev => ({
-      ...prev,
-      canvas: {
-        ...(prev.canvas || defaultImageConfig.canvas!),
-        [field]: value
-      }
-    }));
-  };
-
-  const updateAvatar = (field: string, value: any) => {
-    updateImageConfig(prev => ({
-      ...prev,
-      avatar: {
-        ...(prev.avatar || defaultImageConfig.avatar!),
-        [field]: value
-      }
-    }));
-  };
-
-  const updateText = (layer: string, field: string, value: any) => {
-    updateImageConfig(prev => {
-      const currentTexts = prev.texts || defaultImageConfig.texts!;
-      const targetText = currentTexts[layer as keyof typeof currentTexts] || { content: "", x: 510, y: 200, color: "#ffffff", font_size: 24 };
-      return {
-        ...prev,
-        texts: {
-          ...currentTexts,
-          [layer]: {
-            ...targetText,
-            [field]: value
-          }
+  // Surprise me random image generator
+  const handleSurpriseMe = () => {
+    const randomGradients = [
+      ["#1e3c72", "#2a5298"],
+      ["#134e5e", "#71b280"],
+      ["#2c3e50", "#3498db"],
+      ["#0f2027", "#203a43"],
+      ["#3a1c71", "#d76d77"]
+    ];
+    const pick = randomGradients[Math.floor(Math.random() * randomGradients.length)];
+    setConfig({
+      ...config,
+      image_config: {
+        ...(config.image_config || defaultImageConfig),
+        canvas: {
+          ...(config.image_config?.canvas || defaultImageConfig.canvas!),
+          gradient_color1: pick[0],
+          gradient_color2: pick[1],
         }
-      };
+      }
     });
+    toast.success("Surprise! New color gradient applied.");
   };
-
-  const currentTexts = config.image_config?.texts || defaultImageConfig.texts!;
-  const currentTextLayer = currentTexts[activeTextLayer as keyof typeof currentTexts] || { content: "", x: 510, y: 200, color: "#ffffff", font_size: 24 };
 
   return (
-    <div className="space-y-8">
-      {/* Tabs Selector */}
-      <div className="flex border-b border-slate-800/80 pb-px">
-        <button
-          onClick={() => setActiveTab("message")}
-          className={`flex items-center gap-2 px-6 py-3 border-b-2 font-bold text-sm transition-all focus:outline-none ${
-            activeTab === "message"
-              ? "border-primary text-primary"
-              : "border-transparent text-slate-400 hover:text-white"
-          }`}
-        >
-          <MessageSquare className="w-4 h-4" />
-          Message & Embed Config
-        </button>
-        <button
-          onClick={() => setActiveTab("card")}
-          className={`flex items-center gap-2 px-6 py-3 border-b-2 font-bold text-sm transition-all focus:outline-none ${
-            activeTab === "card"
-              ? "border-primary text-primary"
-              : "border-transparent text-slate-400 hover:text-white"
-          }`}
-        >
-          <Brush className="w-4 h-4" />
-          Welcome Card Designer
-        </button>
+    <div className="w-full space-y-8 animate-in fade-in duration-200">
+      {/* ── STEP 1: CHANNEL SELECTION ── */}
+      <div id="setup-step-1" className="space-y-3">
+        <div className="flex items-center gap-1">
+          <span className="text-white/70 text-sm font-bold tracking-wide uppercase">
+            Channel <span className="text-red-500">*</span>
+          </span>
+        </div>
+        <p className="text-white/50 text-sm">
+          Select channel where messages are going to be sent.
+        </p>
+
+        <div className="max-w-xl">
+          <div className="relative">
+            <select
+              value={config.channel_id || ""}
+              onChange={(e) => setConfig({ ...config, channel_id: e.target.value })}
+              className="w-full appearance-none bg-[#2b2c32] border border-white/10 hover:border-white/20 focus:border-white/40 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none transition-colors cursor-pointer"
+            >
+              <option value="" disabled>Select a channel...</option>
+              {channels.map((c) => (
+                <option key={c.id} value={c.id.toString()}>
+                  # {c.name}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-4 h-4 text-white/40 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+        </div>
+
+        {/* Send in user DMs Checkbox */}
+        <label className="flex items-center gap-2.5 w-fit cursor-pointer select-none pt-1">
+          <input
+            type="checkbox"
+            checked={sendInDm}
+            onChange={(e) => setSendInDm(e.target.checked)}
+            className="w-4 h-4 rounded border-white/20 bg-[#2b2c32] text-white focus:ring-0 cursor-pointer"
+          />
+          <span className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+            Send the message in user DMs
+          </span>
+        </label>
       </div>
 
-      {activeTab === "message" ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl shadow-xl p-8 space-y-6">
-              <div className="space-y-4">
-                <div>
-                  <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Response Type</label>
-                  <Select 
-                    value={config.welcome_type || "simple"}
-                    onValueChange={(val) => setConfig({ ...config, welcome_type: val })}
-                    options={typeOptions}
-                    className="mt-2"
-                  />
-                </div>
+      <div className="border-b border-white/10" />
 
-                <div>
-                  <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Welcome Channel</label>
-                  <Select 
-                    value={config.channel_id || ""}
-                    onValueChange={(val) => setConfig({ ...config, channel_id: val })}
-                    options={channelOptions}
-                    placeholder="Select a channel..."
-                    className="mt-2"
-                  />
-                </div>
+      {/* ── STEP 2: MESSAGE CONFIGURATION & LIVE PREVIEW ── */}
+      <div id="setup-step-2" className="space-y-4">
+        <div>
+          <h3 className="text-white/70 text-sm font-bold tracking-wide uppercase">Message</h3>
+          <p className="text-white/50 text-sm mt-1">Set the custom message that will be sent.</p>
+        </div>
 
-                {config.welcome_type === "simple" && (
-                  <div>
-                    <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Message Content</label>
-                    <textarea 
-                      value={config.welcome_message || ""}
-                      onChange={(e) => setConfig({ ...config, welcome_message: e.target.value })}
-                      placeholder="Welcome {user} to {server_name}!"
-                      className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white min-h-[120px]"
-                    />
-                  </div>
-                )}
-
-                {config.welcome_type === "embed" && (
-                  <div className="space-y-4 pt-4 border-t border-slate-800/50">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Embed Title</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.title || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, title: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="Welcome to the server!"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Embed Color (Hex)</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.color || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, color: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="#3498db"
-                        />
-                        <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-                          {DISCORD_COLOR_PRESETS.map((c) => (
-                            <button
-                              key={c}
-                              type="button"
-                              onClick={() => setConfig({ ...config, embed_data: { ...config.embed_data, color: c } })}
-                              style={{ backgroundColor: c }}
-                              className={cn(
-                                "w-5 h-5 rounded-full border border-white/20 transition-transform hover:scale-115",
-                                config.embed_data?.color?.toLowerCase() === c.toLowerCase() && "ring-2 ring-white scale-110"
-                              )}
-                              title={c}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Embed Description</label>
-                      <textarea 
-                        value={config.embed_data?.description || ""}
-                        onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, description: e.target.value }})}
-                        placeholder="We're glad to have you here, {user}!"
-                        className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white min-h-[100px]"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Thumbnail URL</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.thumbnail || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, thumbnail: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="{user_avatar} or https://..."
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Image URL</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.image || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, image: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="https://..."
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Author Name</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.author_name || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, author_name: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="Author Name"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Author Icon URL</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.author_icon || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, author_icon: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="{server_icon} or https://..."
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Footer Text</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.footer_text || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, footer_text: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="Footer Text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs font-black uppercase text-slate-500 tracking-widest pl-1">Footer Icon URL</label>
-                        <input 
-                          type="text"
-                          value={config.embed_data?.footer_icon || ""}
-                          onChange={(e) => setConfig({ ...config, embed_data: { ...config.embed_data, footer_icon: e.target.value }})}
-                          className="w-full mt-2 bg-[#131926] border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-white"
-                          placeholder="https://..."
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between bg-slate-900/30 border border-slate-800/60 p-4 rounded-2xl mt-4">
-                      <div>
-                        <span className="text-sm font-bold text-white">Enable Embed Timestamp</span>
-                        <p className="text-xs text-slate-400 mt-1">Show the joining date/time in the embed footer.</p>
-                      </div>
-                      <Switch 
-                        checked={config.embed_data?.timestamp_enabled !== false}
-                        onCheckedChange={(val) => setConfig({ ...config, embed_data: { ...config.embed_data, timestamp_enabled: val }})}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <Button 
-                onClick={handleSave}
-                disabled={saving}
-                className="w-full h-14 text-base font-bold gap-2"
-              >
-                {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-                Save Configuration
-              </Button>
-            </div>
+        {/* Tab & Utility Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2">
+          {/* Mode Switcher */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setMessageTab("message")}
+              className={cn(
+                "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border",
+                messageTab === "message"
+                  ? "bg-[#2b2c32] text-white border-white/20"
+                  : "bg-transparent text-white/40 border-transparent hover:text-white"
+              )}
+            >
+              Message &amp; Embeds
+            </button>
+            <button
+              type="button"
+              onClick={() => setMessageTab("components")}
+              className={cn(
+                "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border flex items-center gap-1.5",
+                messageTab === "components"
+                  ? "bg-[#2b2c32] text-white border-white/20"
+                  : "bg-transparent text-white/40 border-transparent hover:text-white"
+              )}
+            >
+              <span>Components</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-white/10 text-white/80">
+                New
+              </span>
+            </button>
           </div>
 
-          <div className="space-y-6 font-sans">
-            {/* Discord Message Live Preview */}
+          {/* Action Tools (Variables, Auto Setup) */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowVariables(!showVariables)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2b2c32] border border-white/10 hover:border-white/20 text-xs font-medium text-white/70 hover:text-white transition-colors"
+            >
+              <Variable className="w-3.5 h-3.5" />
+              <span>Variables</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setConfig({
+                  ...config,
+                  welcome_type: "embed",
+                  welcome_message: "Welcome {user} to **{server_name}**!",
+                  embed_data: {
+                    title: "Welcome to {server_name}!",
+                    description: "Hi {user}, we're excited to have you here! You are member #{server_membercount}.",
+                    color: "#5865F2",
+                    thumbnail: "{user_avatar}",
+                    timestamp_enabled: true
+                  }
+                });
+                toast.success("Preset layout applied!");
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2b2c32] border border-white/10 hover:border-white/20 text-xs font-medium text-white/70 hover:text-white transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Auto Setup</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Variables Popover Info */}
+        {showVariables && (
+          <div className="bg-[#2b2c32] border border-white/10 rounded-xl p-4 animate-in fade-in duration-150">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Available Variables</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono text-white/70">
+              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{user}'}</span> — @Username</div>
+              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{user_name}'}</span> — Plain Username</div>
+              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{server_name}'}</span> — Server Name</div>
+              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{server_membercount}'}</span> — Member Count</div>
+              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{user_avatar}'}</span> — User Avatar URL</div>
+              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{server_icon}'}</span> — Server Icon URL</div>
+            </div>
+          </div>
+        )}
+
+        {/* Side-by-Side Editor & Live Preview (Koya Grid) */}
+        <div className="grid grid-cols-1 2xl:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Editor */}
+          <div className="2xl:col-span-7 space-y-4">
+            {/* Raw Message Box (Anya Look) */}
+            <div className="bg-[#2b2c32] border border-white/10 rounded-xl p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#5865F2] flex items-center justify-center font-bold text-white text-sm shrink-0">
+                  A
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-semibold text-white text-sm">Anya</span>
+                  <span className="bg-[#5865f2] text-[10px] font-bold uppercase px-1 text-white rounded">APP</span>
+                  <span className="text-white/40 text-xs">Today at 11:53 AM</span>
+                </div>
+              </div>
+
+              <div className="relative">
+                <textarea
+                  value={config.welcome_message || ""}
+                  onChange={(e) => setConfig({ ...config, welcome_message: e.target.value })}
+                  placeholder="Content of the message (e.g. Welcome {user} to **{server_name}**!)"
+                  maxLength={2000}
+                  className="w-full bg-[#202225] border border-white/10 rounded-lg p-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 min-h-[90px] resize-y"
+                />
+                <div className="text-right text-[11px] text-white/40 font-mono mt-1">
+                  {(config.welcome_message || "").length} / 2000
+                </div>
+              </div>
+
+              {/* Embed Toggle Switch */}
+              <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                <span className="text-sm font-medium text-white/80 select-none">
+                  Send an embed with this message
+                </span>
+                <Switch
+                  checked={isEmbed}
+                  onCheckedChange={(checked) =>
+                    setConfig({ ...config, welcome_type: checked ? "embed" : "simple" })
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Embed Configuration Card */}
+            {isEmbed && (
+              <div
+                className="bg-[#2b2c32] border border-white/10 rounded-xl p-4 sm:p-5 space-y-4 relative"
+                style={{ borderLeft: `4px solid ${config.embed_data?.color || "#5865F2"}` }}
+              >
+                {/* Embed Color Row with circular swatches */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-white/50">
+                      Embed Color
+                    </label>
+                    <input
+                      type="text"
+                      value={config.embed_data?.color || "#5865F2"}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          embed_data: { ...config.embed_data, color: e.target.value }
+                        })
+                      }
+                      className="w-24 bg-[#202225] border border-white/10 rounded px-2 py-0.5 text-xs text-white font-mono text-center focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {DISCORD_COLOR_PRESETS.map((color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() =>
+                          setConfig({
+                            ...config,
+                            embed_data: { ...config.embed_data, color }
+                          })
+                        }
+                        style={{ backgroundColor: color }}
+                        className={cn(
+                          "w-6 h-6 rounded-full border border-white/20 transition-transform hover:scale-110",
+                          config.embed_data?.color?.toLowerCase() === color.toLowerCase() && "ring-2 ring-white scale-110"
+                        )}
+                        title={color}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Author Fields */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-white/5">
+                  <div>
+                    <label className="text-xs font-medium text-white/50">Author Name</label>
+                    <input
+                      type="text"
+                      value={config.embed_data?.author_name || ""}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          embed_data: { ...config.embed_data, author_name: e.target.value }
+                        })
+                      }
+                      placeholder="Author text"
+                      className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-white/50">Author Icon URL</label>
+                    <input
+                      type="text"
+                      value={config.embed_data?.author_icon || ""}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          embed_data: { ...config.embed_data, author_icon: e.target.value }
+                        })
+                      }
+                      placeholder="https://... or {server_icon}"
+                      className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Title */}
+                <div>
+                  <label className="text-xs font-medium text-white/50">Embed Title</label>
+                  <input
+                    type="text"
+                    value={config.embed_data?.title || ""}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        embed_data: { ...config.embed_data, title: e.target.value }
+                      })
+                    }
+                    placeholder="Welcome to the server!"
+                    className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none"
+                  />
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="text-xs font-medium text-white/50">Embed Description</label>
+                  <textarea
+                    value={config.embed_data?.description || ""}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        embed_data: { ...config.embed_data, description: e.target.value }
+                      })
+                    }
+                    placeholder="We're glad to have you here, {user}!"
+                    rows={3}
+                    className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg p-3 text-xs text-white placeholder:text-white/30 focus:outline-none resize-y"
+                  />
+                </div>
+
+                {/* Thumbnail & Image */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs font-medium text-white/50">Thumbnail URL</label>
+                    <input
+                      type="text"
+                      value={config.embed_data?.thumbnail || ""}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          embed_data: { ...config.embed_data, thumbnail: e.target.value }
+                        })
+                      }
+                      placeholder="{user_avatar} or https://..."
+                      className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-white/50">Main Image URL</label>
+                    <input
+                      type="text"
+                      value={config.embed_data?.image || ""}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          embed_data: { ...config.embed_data, image: e.target.value }
+                        })
+                      }
+                      placeholder="https://..."
+                      className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Footer & Timestamp */}
+                <div className="pt-2 border-t border-white/5 space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-medium text-white/50">Footer Text</label>
+                      <input
+                        type="text"
+                        value={config.embed_data?.footer_text || ""}
+                        onChange={(e) =>
+                          setConfig({
+                            ...config,
+                            embed_data: { ...config.embed_data, footer_text: e.target.value }
+                          })
+                        }
+                        placeholder="Footer text"
+                        className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-white/50">Footer Icon URL</label>
+                      <input
+                        type="text"
+                        value={config.embed_data?.footer_icon || ""}
+                        onChange={(e) =>
+                          setConfig({
+                            ...config,
+                            embed_data: { ...config.embed_data, footer_icon: e.target.value }
+                          })
+                        }
+                        placeholder="https://..."
+                        className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-white/70">Enable Embed Timestamp</span>
+                    <Switch
+                      checked={config.embed_data?.timestamp_enabled !== false}
+                      onCheckedChange={(val) =>
+                        setConfig({
+                          ...config,
+                          embed_data: { ...config.embed_data, timestamp_enabled: val }
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Sticky Live Discord Preview */}
+          <div className="2xl:col-span-5 sticky top-4 space-y-4">
             <DiscordMessagePreview
               welcomeType={config.welcome_type as "simple" | "embed"}
               messageContent={config.welcome_message || ""}
@@ -443,458 +574,236 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Va
               imageConfig={config.image_config}
               serverName={serverName}
             />
+          </div>
+        </div>
+      </div>
 
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl">
-              <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-4">Variables</h3>
-              <div className="space-y-2 text-xs text-slate-400 font-mono bg-slate-900/50 p-4 rounded-2xl border border-white/5">
-                <p className="flex justify-between hover:text-white transition-colors"><span>{'{user}'}</span> <span>@Username</span></p>
-                <p className="flex justify-between hover:text-white transition-colors"><span>{'{user_name}'}</span> <span>Username</span></p>
-                <p className="flex justify-between hover:text-white transition-colors"><span>{'{server_name}'}</span> <span>Server Name</span></p>
-                <p className="flex justify-between hover:text-white transition-colors"><span>{'{server_membercount}'}</span> <span>Total Members</span></p>
-                <p className="border-t border-slate-800 my-2 pt-2 flex justify-between hover:text-white transition-colors"><span>{'{user_avatar}'}</span> <span>Avatar Image</span></p>
-                <p className="flex justify-between hover:text-white transition-colors"><span>{'{server_icon}'}</span> <span>Server Logo</span></p>
-              </div>
-              <p className="text-[10px] text-slate-500 italic text-center mt-4">You can use these variables in both message content and embeds to personalize welcomes.</p>
+      <div className="border-b border-white/10" />
+
+      {/* ── STEP 3: IMAGE BETA (CANVAS CARD) ── */}
+      <div id="setup-step-3" className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-white/70 text-sm font-bold tracking-wide uppercase">Image</h3>
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/10 text-white/80">
+                Beta
+              </span>
             </div>
-            
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl">
-              <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-4">Auto Setup</h3>
-              <Button onClick={() => setConfig({
+            <p className="text-white/50 text-sm mt-1">Add a custom image to the message.</p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* Surprise me button */}
+            <button
+              type="button"
+              onClick={handleSurpriseMe}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2b2c32] border border-white/10 hover:border-white/20 text-xs font-semibold text-white/80 hover:text-white transition-all shadow-sm"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Surprise Me</span>
+            </button>
+
+            {/* Master Image Toggle */}
+            <Switch
+              checked={config.image_config?.enabled || false}
+              onCheckedChange={(checked) =>
+                setConfig({
                   ...config,
-                  welcome_type: "embed",
-                  embed_data: {
-                    ...config.embed_data,
-                    title: "Welcome to {server_name}!",
-                    description: "Hi {user}, we're glad you joined! You are member #{server_membercount}.",
-                    color: "FC5824",
-                    thumbnail: "{user_avatar}"
+                  image_config: {
+                    ...(config.image_config || defaultImageConfig),
+                    enabled: checked
                   }
-                })} 
-                variant="outline" 
-                className="w-full border-primary/50 hover:bg-primary/20 text-primary"
-              >
-                <LayoutTemplate className="w-4 h-4 mr-2" />
-                Apply Default Template
-              </Button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        /* Welcome Card Designer Tab */
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Live Preview Column */}
-          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-4">
-            <WelcomePreviewCanvas 
-              imageConfig={config.image_config} 
-              serverName={serverName}
+                })
+              }
             />
-            
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
-                <div>
-                  <h3 className="text-sm font-black uppercase text-white tracking-wider">Welcome Card Status</h3>
-                  <p className="text-xs text-slate-400 mt-1">Generate and attach this welcome card image on joins.</p>
-                </div>
-                <Switch 
-                  checked={config.image_config?.enabled || false}
-                  onCheckedChange={(val) => updateImageConfig(prev => ({ ...prev, enabled: val }))}
-                />
-              </div>
-
-              <div className="text-xs text-slate-400 space-y-2 leading-relaxed">
-                <p>💡 <span className="font-bold text-slate-200">How it works:</span> If enabled, the bot will dynamically compile this image. If using <strong>Embed</strong> mode, it attaches the card as the main embed image. If using <strong>Simple</strong> mode, it sends it as a message attachment.</p>
-              </div>
-
-              <Button 
-                onClick={handleSave}
-                disabled={saving}
-                className="w-full h-12 text-sm font-bold gap-2 mt-2"
-              >
-                {saving ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                Save Designer Config
-              </Button>
-            </div>
-          </div>
-
-          {/* Designer Controls Column */}
-          <div className="lg:col-span-7 space-y-6">
-            {/* 1. Canvas Dimensions & Border */}
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-              <h3 className="text-sm font-black uppercase text-slate-400 tracking-wider flex items-center gap-2">
-                <Settings className="w-4 h-4 text-primary" />
-                Canvas & Border Settings
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-slate-400">Canvas Width (px)</label>
-                  <input 
-                    type="number" 
-                    value={config.image_config?.canvas?.width ?? 1020}
-                    onChange={(e) => updateCanvas("width", parseInt(e.target.value) || 1020)}
-                    className="w-full mt-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400">Canvas Height (px)</label>
-                  <input 
-                    type="number" 
-                    value={config.image_config?.canvas?.height ?? 450}
-                    onChange={(e) => updateCanvas("height", parseInt(e.target.value) || 450)}
-                    className="w-full mt-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400">Canvas Border Thickness (px)</label>
-                  <input 
-                    type="number" 
-                    value={config.image_config?.canvas?.border_thickness ?? 8}
-                    onChange={(e) => updateCanvas("border_thickness", parseInt(e.target.value) || 0)}
-                    className="w-full mt-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400 flex justify-between">
-                    <span>Canvas Border Color</span>
-                    <span className="text-slate-500 font-mono">{config.image_config?.canvas?.border_color ?? "#9b5de5"}</span>
-                  </label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <input 
-                      type="color" 
-                      value={config.image_config?.canvas?.border_color ?? "#9b5de5"}
-                      onChange={(e) => updateCanvas("border_color", e.target.value)}
-                      className="bg-transparent border-0 w-8 h-8 rounded cursor-pointer p-0"
-                    />
-                    <input 
-                      type="text" 
-                      value={config.image_config?.canvas?.border_color ?? "#9b5de5"}
-                      onChange={(e) => updateCanvas("border_color", e.target.value)}
-                      className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 2. Background Style */}
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-              <h3 className="text-sm font-black uppercase text-slate-400 tracking-wider flex items-center gap-2">
-                <Palette className="w-4 h-4 text-primary" />
-                Background Customization
-              </h3>
-              
-              <div>
-                <label className="text-xs font-bold text-slate-400">Background Type</label>
-                <Select
-                  value={config.image_config?.canvas?.background_type || "gradient"}
-                  onValueChange={(val) => updateCanvas("background_type", val)}
-                  options={bgTypeOptions}
-                  className="mt-1"
-                />
-              </div>
-
-              {(config.image_config?.canvas?.background_type || "gradient") === "solid" && (
-                <div>
-                  <label className="text-xs font-bold text-slate-400 flex justify-between">
-                    <span>Solid Color</span>
-                    <span className="text-slate-500 font-mono">{config.image_config?.canvas?.background_color ?? "#0f081d"}</span>
-                  </label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <input 
-                      type="color" 
-                      value={config.image_config?.canvas?.background_color ?? "#0f081d"}
-                      onChange={(e) => updateCanvas("background_color", e.target.value)}
-                      className="bg-transparent border-0 w-8 h-8 rounded cursor-pointer p-0"
-                    />
-                    <input 
-                      type="text" 
-                      value={config.image_config?.canvas?.background_color ?? "#0f081d"}
-                      onChange={(e) => updateCanvas("background_color", e.target.value)}
-                      className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {(config.image_config?.canvas?.background_type || "gradient") === "gradient" && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-bold text-slate-400 flex justify-between">
-                      <span>Gradient Start</span>
-                      <span className="text-slate-500 font-mono">{config.image_config?.canvas?.gradient_color1 ?? "#0f081d"}</span>
-                    </label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <input 
-                        type="color" 
-                        value={config.image_config?.canvas?.gradient_color1 ?? "#0f081d"}
-                        onChange={(e) => updateCanvas("gradient_color1", e.target.value)}
-                        className="bg-transparent border-0 w-8 h-8 rounded cursor-pointer p-0"
-                      />
-                      <input 
-                        type="text" 
-                        value={config.image_config?.canvas?.gradient_color1 ?? "#0f081d"}
-                        onChange={(e) => updateCanvas("gradient_color1", e.target.value)}
-                        className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-slate-400 flex justify-between">
-                      <span>Gradient End</span>
-                      <span className="text-slate-500 font-mono">{config.image_config?.canvas?.gradient_color2 ?? "#2b0a3d"}</span>
-                    </label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <input 
-                        type="color" 
-                        value={config.image_config?.canvas?.gradient_color2 ?? "#2b0a3d"}
-                        onChange={(e) => updateCanvas("gradient_color2", e.target.value)}
-                        className="bg-transparent border-0 w-8 h-8 rounded cursor-pointer p-0"
-                      />
-                      <input 
-                        type="text" 
-                        value={config.image_config?.canvas?.gradient_color2 ?? "#2b0a3d"}
-                        onChange={(e) => updateCanvas("gradient_color2", e.target.value)}
-                        className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {(config.image_config?.canvas?.background_type || "gradient") === "image" && (
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-xs font-bold text-slate-400">Background Image URL</label>
-                    <input 
-                      type="text" 
-                      value={config.image_config?.canvas?.background_image_url ?? ""}
-                      onChange={(e) => updateCanvas("background_image_url", e.target.value)}
-                      placeholder="https://example.com/welcome-bg.png"
-                      className="w-full mt-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-slate-400 flex justify-between">
-                      <span>Dark Overlay Opacity</span>
-                      <span className="text-primary font-bold">{Math.round((config.image_config?.canvas?.overlay_opacity ?? 0.4) * 100)}%</span>
-                    </label>
-                    <input 
-                      type="range" 
-                      min="0" 
-                      max="1" 
-                      step="0.05"
-                      value={config.image_config?.canvas?.overlay_opacity ?? 0.4}
-                      onChange={(e) => updateCanvas("overlay_opacity", parseFloat(e.target.value))}
-                      className="w-full mt-2 accent-primary"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* 3. Avatar Config */}
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-              <h3 className="text-sm font-black uppercase text-slate-400 tracking-wider flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-primary" />
-                Avatar Position & Style
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-slate-400 flex justify-between">
-                    <span>Position X (Horizontal Center)</span>
-                    <span className="text-slate-500 font-mono">{config.image_config?.avatar?.x ?? 510}px</span>
-                  </label>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max={canvasWidth}
-                    value={config.image_config?.avatar?.x ?? 510}
-                    onChange={(e) => updateAvatar("x", parseInt(e.target.value))}
-                    className="w-full mt-2 accent-primary"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400 flex justify-between">
-                    <span>Position Y (Vertical Center)</span>
-                    <span className="text-slate-500 font-mono">{config.image_config?.avatar?.y ?? 180}px</span>
-                  </label>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max={canvasHeight}
-                    value={config.image_config?.avatar?.y ?? 180}
-                    onChange={(e) => updateAvatar("y", parseInt(e.target.value))}
-                    className="w-full mt-2 accent-primary"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400 flex justify-between">
-                    <span>Avatar Diameter</span>
-                    <span className="text-slate-500 font-mono">{config.image_config?.avatar?.size ?? 180}px</span>
-                  </label>
-                  <input 
-                    type="range" 
-                    min="40" 
-                    max="300"
-                    value={config.image_config?.avatar?.size ?? 180}
-                    onChange={(e) => updateAvatar("size", parseInt(e.target.value))}
-                    className="w-full mt-2 accent-primary"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400">Shape</label>
-                  <Select
-                    value={config.image_config?.avatar?.shape || "rounded"}
-                    onValueChange={(val) => updateAvatar("shape", val)}
-                    options={avShapeOptions}
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400 flex justify-between">
-                    <span>Border Thickness</span>
-                    <span className="text-slate-500 font-mono">{config.image_config?.avatar?.border_thickness ?? 8}px</span>
-                  </label>
-                  <input 
-                    type="number" 
-                    value={config.image_config?.avatar?.border_thickness ?? 8}
-                    onChange={(e) => updateAvatar("border_thickness", parseInt(e.target.value) || 0)}
-                    className="w-full mt-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-400 flex justify-between">
-                    <span>Border Color</span>
-                    <span className="text-slate-500 font-mono">{config.image_config?.avatar?.border_color ?? "#9b5de5"}</span>
-                  </label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <input 
-                      type="color" 
-                      value={config.image_config?.avatar?.border_color ?? "#9b5de5"}
-                      onChange={(e) => updateAvatar("border_color", e.target.value)}
-                      className="bg-transparent border-0 w-8 h-8 rounded cursor-pointer p-0"
-                    />
-                    <input 
-                      type="text" 
-                      value={config.image_config?.avatar?.border_color ?? "#9b5de5"}
-                      onChange={(e) => updateAvatar("border_color", e.target.value)}
-                      className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 4. Text Layers Designer */}
-            <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-                <h3 className="text-sm font-black uppercase text-slate-400 tracking-wider flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-primary" />
-                  Text Layers Designer
-                </h3>
-                <div className="w-full md:w-64">
-                  <Select
-                    value={activeTextLayer}
-                    onValueChange={(val) => setActiveTextLayer(val)}
-                    options={textLayerOptions}
-                  />
-                </div>
-              </div>
-
-              <div className="bg-[#131926]/60 border border-slate-800/80 rounded-2xl p-6 space-y-4">
-                <div>
-                  <label className="text-xs font-bold text-slate-400">Content (Supports Variables)</label>
-                  <input 
-                    type="text" 
-                    value={currentTextLayer.content || ""}
-                    onChange={(e) => updateText(activeTextLayer, "content", e.target.value)}
-                    placeholder="Welcome {user}!"
-                    className="w-full mt-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-bold text-slate-400 flex justify-between">
-                      <span>Position X (Horizontal Center)</span>
-                      <span className="text-slate-500 font-mono">{currentTextLayer.x}px</span>
-                    </label>
-                    <input 
-                      type="range" 
-                      min="0" 
-                      max={canvasWidth}
-                      value={currentTextLayer.x}
-                      onChange={(e) => updateText(activeTextLayer, "x", parseInt(e.target.value))}
-                      className="w-full mt-2 accent-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-slate-400 flex justify-between">
-                      <span>Position Y (Vertical Center)</span>
-                      <span className="text-slate-500 font-mono">{currentTextLayer.y}px</span>
-                    </label>
-                    <input 
-                      type="range" 
-                      min="0" 
-                      max={canvasHeight}
-                      value={currentTextLayer.y}
-                      onChange={(e) => updateText(activeTextLayer, "y", parseInt(e.target.value))}
-                      className="w-full mt-2 accent-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-slate-400 flex justify-between">
-                      <span>Font Size (px)</span>
-                      <span className="text-slate-500 font-mono">{currentTextLayer.font_size}px</span>
-                    </label>
-                    <input 
-                      type="number" 
-                      value={currentTextLayer.font_size}
-                      onChange={(e) => updateText(activeTextLayer, "font_size", parseInt(e.target.value) || 12)}
-                      className="w-full mt-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-slate-400 flex justify-between">
-                      <span>Color</span>
-                      <span className="text-slate-500 font-mono">{currentTextLayer.color}</span>
-                    </label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <input 
-                        type="color" 
-                        value={currentTextLayer.color}
-                        onChange={(e) => updateText(activeTextLayer, "color", e.target.value)}
-                        className="bg-transparent border-0 w-8 h-8 rounded cursor-pointer p-0"
-                      />
-                      <input 
-                        type="text" 
-                        value={currentTextLayer.color}
-                        onChange={(e) => updateText(activeTextLayer, "color", e.target.value)}
-                        className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between md:col-span-2 border-t border-slate-800/50 pt-4 mt-2">
-                    <div>
-                      <span className="text-xs font-bold text-slate-400">Bold Text</span>
-                      <p className="text-[10px] text-slate-500 mt-0.5">Toggle between bold and regular font weight for this text layer.</p>
-                    </div>
-                    <Switch 
-                      checked={currentTextLayer.is_bold !== undefined ? currentTextLayer.is_bold : true}
-                      onCheckedChange={(val) => updateText(activeTextLayer, "is_bold", val)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-      )}
+
+        {config.image_config?.enabled && (
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start pt-2">
+            {/* Left Controls */}
+            <div className="xl:col-span-5 bg-[#2b2c32] border border-white/10 rounded-xl p-5 space-y-4">
+              {/* Background Style */}
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-white/50">Background Type</label>
+                <div className="grid grid-cols-3 gap-2 mt-2">
+                  {["gradient", "solid", "image"].map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() =>
+                        setConfig({
+                          ...config,
+                          image_config: {
+                            ...(config.image_config || defaultImageConfig),
+                            canvas: {
+                              ...(config.image_config?.canvas || defaultImageConfig.canvas!),
+                              background_type: type
+                            }
+                          }
+                        })
+                      }
+                      className={cn(
+                        "py-2 text-xs font-medium rounded-lg border transition-colors capitalize",
+                        config.image_config?.canvas?.background_type === type
+                          ? "bg-white/10 border-white/30 text-white"
+                          : "bg-transparent border-white/5 text-white/40 hover:text-white"
+                      )}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Background Image URL if image type */}
+              {config.image_config?.canvas?.background_type === "image" && (
+                <div>
+                  <label className="text-xs font-medium text-white/50">Background Image URL</label>
+                  <input
+                    type="text"
+                    value={config.image_config?.canvas?.background_image_url || ""}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        image_config: {
+                          ...(config.image_config || defaultImageConfig),
+                          canvas: {
+                            ...(config.image_config?.canvas || defaultImageConfig.canvas!),
+                            background_image_url: e.target.value
+                          }
+                        }
+                      })
+                    }
+                    placeholder="https://..."
+                    className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none"
+                  />
+                </div>
+              )}
+
+              {/* Gradient Colors if gradient type */}
+              {config.image_config?.canvas?.background_type === "gradient" && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs font-medium text-white/50">Color 1</label>
+                    <input
+                      type="text"
+                      value={config.image_config?.canvas?.gradient_color1 || "#080808"}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          image_config: {
+                            ...(config.image_config || defaultImageConfig),
+                            canvas: {
+                              ...(config.image_config?.canvas || defaultImageConfig.canvas!),
+                              gradient_color1: e.target.value
+                            }
+                          }
+                        })
+                      }
+                      className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-white/50">Color 2</label>
+                    <input
+                      type="text"
+                      value={config.image_config?.canvas?.gradient_color2 || "#140B17"}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          image_config: {
+                            ...(config.image_config || defaultImageConfig),
+                            canvas: {
+                              ...(config.image_config?.canvas || defaultImageConfig.canvas!),
+                              gradient_color2: e.target.value
+                            }
+                          }
+                        })
+                      }
+                      className="w-full mt-1 bg-[#202225] border border-white/10 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Avatar Shape */}
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-white/50">Avatar Shape</label>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  {["rounded", "square"].map((shape) => (
+                    <button
+                      key={shape}
+                      type="button"
+                      onClick={() =>
+                        setConfig({
+                          ...config,
+                          image_config: {
+                            ...(config.image_config || defaultImageConfig),
+                            avatar: {
+                              ...(config.image_config?.avatar || defaultImageConfig.avatar!),
+                              shape
+                            }
+                          }
+                        })
+                      }
+                      className={cn(
+                        "py-2 text-xs font-medium rounded-lg border transition-colors capitalize",
+                        config.image_config?.avatar?.shape === shape
+                          ? "bg-white/10 border-white/30 text-white"
+                          : "bg-transparent border-white/5 text-white/40 hover:text-white"
+                      )}
+                    >
+                      {shape}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Live Canvas */}
+            <div className="xl:col-span-7 sticky top-4 bg-[#2b2c32] border border-white/10 rounded-xl p-4 shadow-lg">
+              <div className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-3">Live Card Canvas</div>
+              <div className="rounded-xl overflow-hidden border border-white/10 shadow-inner">
+                <WelcomePreviewCanvas
+                  imageConfig={config.image_config}
+                  serverName={serverName}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── FLOATING STICKY SAVE BAR (Matching Koya form#join) ── */}
+      <div className="sticky bottom-4 z-30 pt-4">
+        <div className="bg-[#2b2c32] border border-white/15 rounded-xl p-3.5 px-5 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 backdrop-blur-md">
+          <span className="text-sm font-medium text-white/80">
+            {hasChanges ? "You have unsaved changes! Save or reset them." : "All changes are up to date."}
+          </span>
+
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <button
+              type="button"
+              onClick={handleReset}
+              disabled={!hasChanges || saving}
+              className="flex-1 sm:flex-none px-4 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 text-white/70 hover:text-white text-xs font-semibold transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={saving}
+              className="flex-1 sm:flex-none px-5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 disabled:opacity-50"
+            >
+              {saving ? <RotateCcw className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
+              <span>Save Changes</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
-
-function formatVar(text: string, serverName: string = "Vada SMP") {
-  return text.replace(/{server_name}/g, serverName);
 }

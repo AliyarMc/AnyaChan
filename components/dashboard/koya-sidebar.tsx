@@ -1,40 +1,55 @@
+/**
+ * ╔══════════════════════════════════════════════════════════════════╗
+ * ║                                                                  ║
+ * ║   ░█▀▀░█▀█░█▀▄░█▀▀░█░█   ░█▀▄░█▀▀░█░█░█▀▀                     ║
+ * ║   ░█░░░█░█░█░█░█▀▀░▄▀▄   ░█░█░█▀▀░▀▄▀░▀▀█                     ║
+ * ║   ░▀▀▀░▀▀▀░▀▀░░▀▀▀░▀░▀   ░▀▀░░▀▀▀░░▀░░▀▀▀                     ║
+ * ║                                                                  ║
+ * ║           © 2026 ZAPTRO — All Rights Reserved               ║
+ * ║                                                                  ║
+ * ║   discord  ──  https://discord.gg/zaptro                      ║
+ * ║   youtube  ──  https://youtube.com/@ZAPTRO                   ║
+ * ║   github   ──  https://github.com/ZAPTRO                        ║
+ * ║                                                                  ║
+ * ╚══════════════════════════════════════════════════════════════════╝
+ */
+
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  RotateCcw,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Search,
+  ChevronDown,
+  ChevronRight,
+  Check,
   LayoutDashboard,
   Settings,
-  Sparkles,
-  Bot,
+  UserCheck,
   MessageSquare,
   Send,
-  Ticket,
+  Bot,
   Zap,
-  Mic,
   Mail,
+  Ticket,
+  Sparkles,
+  Volume2,
+  Link2,
   ShieldCheck,
   Sword,
   ShieldAlert,
   FileText,
   BarChart4,
   Trophy,
+  Mic,
   Users,
   Activity,
-  ChevronDown,
-  ChevronRight,
-  ChevronLeft,
-  Search,
-  RefreshCw,
   Server,
-  UserCheck,
-  Volume2,
-  Link2,
-  X,
-  Check,
-  ExternalLink,
-  Crown
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
@@ -81,40 +96,38 @@ export function KoyaSidebar({
   const pathname = usePathname();
   const router = useRouter();
 
-  // Search filter
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
-  // Server switcher state
-  const [isServerDropdownOpen, setIsServerDropdownOpen] = useState(false);
-  const [serverSearchQuery, setServerSearchQuery] = useState("");
   const [guilds, setGuilds] = useState<GuildSummary[]>([]);
   const [currentGuild, setCurrentGuild] = useState<{ id: string; name: string; icon: string | null } | null>(null);
+  const [isServerDropdownOpen, setIsServerDropdownOpen] = useState(false);
+  const [serverSearchQuery, setServerSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const serverDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Category collapsed states
+  // Category collapsible state
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
     general: true,
     messaging: true,
     roles: true,
     moderation: true,
     engagement: true,
-    utilities: true,
   });
 
-  // Announcements sub-menu expand state
-  const [announcementsExpanded, setAnnouncementsExpanded] = useState(true);
+  // Expand announcements sub-items
+  const isAnnouncementsActive = pathname.includes("/welcome") || pathname.includes("/leave");
+  const [announcementsExpanded, setAnnouncementsExpanded] = useState(isAnnouncementsActive);
 
-  // Close server dropdown on click outside
+  const serverDropdownRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Close server dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleOutsideClick = (e: MouseEvent) => {
       if (serverDropdownRef.current && !serverDropdownRef.current.contains(e.target as Node)) {
         setIsServerDropdownOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
   // Fetch guilds for switcher
@@ -137,7 +150,6 @@ export function KoyaSidebar({
           }
         }
       } catch (err) {
-        // Fallback: fetch single guild details if list fails
         if (currentGuildId && isMounted) {
           try {
             const details = await api.getGuildDetails(currentGuildId);
@@ -149,7 +161,6 @@ export function KoyaSidebar({
               });
             }
           } catch {
-            // Silently fallback
             if (isMounted) {
               setCurrentGuild({
                 id: currentGuildId,
@@ -213,7 +224,7 @@ export function KoyaSidebar({
     }));
   };
 
-  // Navigation data matching Koya
+  // Navigation data matching Koya (neutral grayscale, no orange)
   const navigationCategories: NavCategory[] = useMemo(() => {
     if (!currentGuildId) {
       return [
@@ -223,7 +234,7 @@ export function KoyaSidebar({
           items: [
             { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
             { name: "Servers", href: "/dashboard/guilds", icon: Server },
-            { name: "Admin Panel", href: "/dashboard/admin", icon: ShieldCheck, badge: "Admin" },
+            { name: "Admin Panel", href: "/dashboard/admin", icon: ShieldCheck },
           ],
         },
       ];
@@ -236,7 +247,6 @@ export function KoyaSidebar({
         items: [
           { name: "Main", href: `/dashboard/guild/${currentGuildId}`, icon: LayoutDashboard },
           { name: "Settings", href: `/dashboard/guild/${currentGuildId}/settings`, icon: Settings },
-          { name: "Premium", href: `/dashboard/guild/${currentGuildId}/settings`, icon: Crown, badge: "PRO", badgeColor: "gold" },
           { name: "Custom Profile", href: `/dashboard/guild/${currentGuildId}/customroles`, icon: UserCheck },
         ],
       },
@@ -259,7 +269,7 @@ export function KoyaSidebar({
           { name: "Message Builder", href: `/dashboard/guild/${currentGuildId}/embedsender`, icon: Send },
           { name: "Auto Responders", href: `/dashboard/guild/${currentGuildId}/autoreact`, icon: Bot },
           { name: "Auto Threads", href: `/dashboard/guild/${currentGuildId}/j2c`, icon: Zap },
-          { name: "Sticky Messages", href: `/dashboard/guild/${currentGuildId}/joindm`, icon: Mail, badge: "New", badgeColor: "sky" },
+          { name: "Sticky Messages", href: `/dashboard/guild/${currentGuildId}/joindm`, icon: Mail },
           { name: "Ticketing", href: `/dashboard/guild/${currentGuildId}/tickets`, icon: Ticket },
         ],
       },
@@ -278,8 +288,8 @@ export function KoyaSidebar({
         key: "moderation",
         name: "Moderation",
         items: [
-          { name: "Auto Mod", href: `/dashboard/guild/${currentGuildId}/automod`, icon: ShieldCheck, badge: "New", badgeColor: "sky" },
-          { name: "Anti-Nuke", href: `/dashboard/guild/${currentGuildId}/antinuke`, icon: Sword, badge: "Beta", badgeColor: "orange" },
+          { name: "Auto Mod", href: `/dashboard/guild/${currentGuildId}/automod`, icon: ShieldCheck, badge: "New" },
+          { name: "Anti-Nuke", href: `/dashboard/guild/${currentGuildId}/antinuke`, icon: Sword },
           { name: "Verification", href: `/dashboard/guild/${currentGuildId}/verification`, icon: ShieldAlert },
           { name: "Logs", href: `/dashboard/guild/${currentGuildId}/logging`, icon: FileText },
         ],
@@ -323,350 +333,308 @@ export function KoyaSidebar({
 
   return (
     <>
-      {/* Mobile Backdrop Overlay */}
+      {/* Mobile Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity duration-200"
           onClick={onClose}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-in fade-in duration-200"
         />
       )}
 
-      {/* Main Single Sidebar */}
+      {/* Main Sidebar (Spacious 300px - 320px matching Koya) */}
       <aside
         className={cn(
-          "bg-[#18191e] border-r border-white/10 fixed lg:static inset-y-0 left-0 z-50 h-dvh flex flex-col transition-all duration-200 ease-in-out select-none",
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-          isCollapsed ? "w-20 min-w-20" : "w-72 min-w-72 sm:w-[285px] sm:min-w-[285px]"
+          "bg-[#202225] border-r border-white/10 fixed lg:static top-0 bottom-0 left-0 z-50 transition-all duration-200 ease-in-out flex flex-col shrink-0 select-none",
+          isCollapsed ? "lg:w-20" : "w-[300px] sm:w-[320px] lg:w-[310px] xl:w-[320px]",
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
-        {/* Top Header: Logo + Brand + Action Buttons */}
-        <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/5 shrink-0">
-          <Link href="/dashboard" className="flex items-center gap-3 group focus:outline-none">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FC5824] to-[#ff7d4d] flex items-center justify-center p-0.5 ring-1 ring-white/20 shadow-md group-hover:scale-105 transition-transform">
-                <Bot className="w-5 h-5 text-white" />
+        <div className="w-full h-full flex flex-col overflow-hidden">
+          {/* Top Brand Header */}
+          <div className="p-4 sm:p-5 pb-3 shrink-0 flex items-center justify-between border-b border-white/5">
+            <Link href="/dashboard" className="flex items-center gap-3 group">
+              <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold text-base shadow-sm group-hover:scale-105 transition-transform">
+                A
               </div>
-            </div>
-            {!isCollapsed && (
-              <div className="flex flex-col">
-                <h1 className="text-xl font-bold font-mono tracking-tight text-white group-hover:text-[#FC5824] transition-colors leading-none">
-                  Anya
-                </h1>
-                <span className="text-[10px] font-semibold text-white/40 tracking-wider mt-0.5">
-                  DISCORD BOT
-                </span>
-              </div>
-            )}
-          </Link>
-
-          <div className="flex items-center gap-1.5">
-            {/* Refresh server data button */}
-            <button
-              onClick={handleRefresh}
-              title="Refresh server data"
-              className="flex items-center justify-center w-8 h-8 rounded-full ring-1 ring-white/10 hover:bg-white/5 hover:ring-white/20 transition-all text-white/60 hover:text-white"
-            >
-              <RefreshCw className={cn("w-4 h-4", isRefreshing && "animate-spin text-[#FC5824]")} />
-            </button>
-
-            {/* Desktop Collapse button */}
-            <button
-              onClick={onToggleCollapse}
-              title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              className="hidden lg:flex items-center justify-center w-8 h-8 rounded-full ring-1 ring-white/10 hover:bg-white/5 hover:ring-white/20 transition-all text-white/60 hover:text-white"
-            >
-              {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-            </button>
-
-            {/* Mobile close button */}
-            <button
-              onClick={onClose}
-              className="flex lg:hidden items-center justify-center w-8 h-8 rounded-full ring-1 ring-white/10 hover:bg-white/5 text-white/60 hover:text-white"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Server Selector Dropdown (Koya Style) */}
-        {!isCollapsed && (
-          <div className="p-3 pb-2 relative shrink-0" ref={serverDropdownRef}>
-            <button
-              onClick={() => setIsServerDropdownOpen((prev) => !prev)}
-              type="button"
-              className={cn(
-                "w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl bg-[#22242b] hover:bg-[#282a33] border border-white/10 hover:border-white/20 transition-all text-left group",
-                isServerDropdownOpen && "border-[#FC5824]/50 ring-2 ring-[#FC5824]/20"
+              {!isCollapsed && (
+                <div className="flex flex-col">
+                  <h1 className="text-xl font-mono font-bold tracking-tight text-white leading-tight">
+                    Anya
+                  </h1>
+                </div>
               )}
-            >
-              <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                {currentGuild?.icon ? (
-                  <img
-                    src={currentGuild.icon}
-                    alt={currentGuild.name}
-                    className="w-7 h-7 rounded-full object-cover ring-1 ring-white/15 shrink-0"
-                  />
-                ) : (
-                  <div className="w-7 h-7 rounded-full bg-[#FC5824]/20 border border-[#FC5824]/40 flex items-center justify-center font-bold text-xs text-[#FC5824] shrink-0">
-                    {currentGuild?.name ? currentGuild.name.charAt(0).toUpperCase() : "S"}
-                  </div>
-                )}
-                <span className="text-sm font-semibold text-white truncate flex-1">
-                  {currentGuild?.name || "Select a Server"}
-                </span>
-              </div>
-              <ChevronDown
-                className={cn(
-                  "w-4 h-4 text-white/40 group-hover:text-white/80 transition-transform duration-200 shrink-0",
-                  isServerDropdownOpen && "rotate-180 text-white"
-                )}
-              />
-            </button>
+            </Link>
 
-            {/* Server Dropdown Popover */}
-            {isServerDropdownOpen && (
-              <div className="absolute left-3 right-3 top-14 mt-1 bg-[#1e1f26] border border-white/15 rounded-xl shadow-2xl z-50 p-2 animate-in fade-in zoom-in-95 duration-150">
-                <div className="relative mb-2">
-                  <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-white/40" />
-                  <input
-                    type="text"
-                    value={serverSearchQuery}
-                    onChange={(e) => setServerSearchQuery(e.target.value)}
-                    placeholder="Search for a server..."
-                    className="w-full bg-[#15161a] border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-[#FC5824]/50"
-                    autoFocus
-                  />
-                </div>
+            <div className="flex items-center gap-1.5">
+              {/* Refresh Server Data Button */}
+              <button
+                onClick={handleRefresh}
+                title="Refresh server data"
+                className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors"
+              >
+                <RotateCcw className={cn("w-3.5 h-3.5", isRefreshing && "animate-spin text-white")} />
+              </button>
 
-                <div className="max-h-48 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
-                  {filteredGuilds.length > 0 ? (
-                    filteredGuilds.map((g) => {
-                      const isSelected = g.id.toString() === currentGuildId;
-                      return (
-                        <button
-                          key={g.id}
-                          onClick={() => {
-                            setIsServerDropdownOpen(false);
-                            router.push(`/dashboard/guild/${g.id}`);
-                          }}
-                          className={cn(
-                            "w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-colors",
-                            isSelected
-                              ? "bg-[#FC5824]/15 text-white font-semibold"
-                              : "text-white/70 hover:bg-white/5 hover:text-white"
-                          )}
-                        >
-                          <div className="flex items-center gap-2 truncate">
-                            {g.icon_url ? (
-                              <img
-                                src={g.icon_url}
-                                alt={g.name}
-                                className="w-5 h-5 rounded-full object-cover shrink-0"
-                              />
-                            ) : (
-                              <div className="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold shrink-0">
-                                {g.name.charAt(0).toUpperCase()}
-                              </div>
-                            )}
-                            <span className="truncate">{g.name}</span>
-                          </div>
-                          {isSelected && <Check className="w-3.5 h-3.5 text-[#FC5824] shrink-0" />}
-                        </button>
-                      );
-                    })
-                  ) : (
-                    <div className="py-3 text-center text-xs text-white/40">No servers found</div>
-                  )}
-                </div>
+              {/* Desktop Collapse Toggle */}
+              <button
+                onClick={onToggleCollapse}
+                title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                className="hidden lg:flex w-8 h-8 rounded-full border border-white/10 items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors"
+              >
+                {isCollapsed ? <PanelLeftOpen className="w-3.5 h-3.5" /> : <PanelLeftClose className="w-3.5 h-3.5" />}
+              </button>
 
-                <div className="pt-2 mt-2 border-t border-white/5">
-                  <Link
-                    href="/dashboard/guilds"
-                    onClick={() => setIsServerDropdownOpen(false)}
-                    className="flex items-center justify-center gap-1.5 w-full py-1.5 text-xs font-semibold text-[#FC5824] hover:bg-[#FC5824]/10 rounded-lg transition-colors"
-                  >
-                    <Server className="w-3.5 h-3.5" />
-                    <span>View All Servers</span>
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Module Quick Search Bar (Ctrl+K) */}
-        {!isCollapsed && (
-          <div className="px-3 pb-2 shrink-0">
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search modules..."
-                className="w-full bg-[#22242b] border border-white/10 rounded-lg pl-9 pr-14 py-1.5 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-white/20 transition-colors"
-              />
-              <kbd className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center h-4.5 px-1.5 rounded bg-[#16171a] text-[10px] font-mono text-white/50 ring-1 ring-white/10 pointer-events-none">
-                Ctrl+K
-              </kbd>
+              {/* Mobile Close Button */}
+              <button
+                onClick={onClose}
+                className="lg:hidden w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
           </div>
-        )}
 
-        {/* Scrollable Navigation List */}
-        <div className="flex-1 overflow-y-auto px-3 py-2 space-y-4 custom-scrollbar">
-          {filteredCategories.map((cat) => {
-            const isExpanded = expandedCategories[cat.key] ?? true;
-
-            return (
-              <div key={cat.key} className="space-y-1">
-                {/* Category Header */}
-                {!isCollapsed && (
-                  <button
-                    onClick={() => toggleCategory(cat.key)}
-                    className="w-full flex items-center justify-between px-2 py-1 text-left group focus:outline-none"
-                  >
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/40 group-hover:text-white/70 transition-colors">
-                      {cat.name}
-                    </span>
-                    <ChevronDown
-                      className={cn(
-                        "w-3.5 h-3.5 text-white/30 group-hover:text-white/60 transition-transform duration-200",
-                        !isExpanded && "-rotate-90"
-                      )}
+          {/* Server Selector Combobox */}
+          {!isCollapsed && currentGuildId && (
+            <div className="px-4 pt-4 pb-2 shrink-0 relative" ref={serverDropdownRef}>
+              <button
+                onClick={() => setIsServerDropdownOpen(!isServerDropdownOpen)}
+                className="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl bg-[#2b2c32] border border-white/10 hover:border-white/20 transition-all text-left group"
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  {currentGuild?.icon ? (
+                    <img
+                      src={currentGuild.icon}
+                      alt={currentGuild.name}
+                      className="w-7 h-7 rounded-full object-cover shrink-0 ring-1 ring-white/10"
                     />
-                  </button>
-                )}
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-xs font-bold text-white shrink-0">
+                      {currentGuild?.name?.charAt(0)?.toUpperCase() || "S"}
+                    </div>
+                  )}
+                  <span className="text-sm font-semibold text-white truncate">
+                    {currentGuild?.name || "Select Server"}
+                  </span>
+                </div>
+                <ChevronDown
+                  className={cn(
+                    "w-4 h-4 text-white/40 group-hover:text-white transition-transform duration-200 shrink-0",
+                    isServerDropdownOpen && "rotate-180"
+                  )}
+                />
+              </button>
 
-                {/* Items */}
-                {(isExpanded || isCollapsed) && (
-                  <div className="space-y-0.5">
-                    {cat.items.map((item: any) => {
-                      const Icon = item.icon;
-                      const hasSubItems = item.subItems && item.subItems.length > 0;
-                      const isItemActive = pathname === item.href || (hasSubItems && item.subItems.some((s: any) => pathname === s.href));
+              {/* Server Search & Dropdown Popover */}
+              {isServerDropdownOpen && (
+                <div className="absolute left-4 right-4 top-[calc(100%-4px)] z-50 bg-[#2b2c32] border border-white/15 rounded-xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="relative mb-2">
+                    <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-white/40" />
+                    <input
+                      type="text"
+                      value={serverSearchQuery}
+                      onChange={(e) => setServerSearchQuery(e.target.value)}
+                      placeholder="Search for a server..."
+                      className="w-full bg-[#202225] border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-white/30"
+                      autoFocus
+                    />
+                  </div>
 
-                      return (
-                        <div key={item.name} className="relative">
-                          {/* Item Link or Toggle Header */}
-                          <div className="flex items-center">
-                            <Link
-                              href={item.href}
-                              onClick={onClose}
-                              className={cn(
-                                "flex-1 flex items-center gap-2.5 px-2.5 py-1.75 rounded-lg text-[13px] font-medium transition-all group",
-                                isItemActive
-                                  ? "bg-white/10 text-white font-semibold shadow-sm"
-                                  : "text-white/60 hover:text-white hover:bg-white/[0.04]",
-                                isCollapsed && "justify-center px-0 py-2.5"
+                  <div className="max-h-48 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+                    {filteredGuilds.length > 0 ? (
+                      filteredGuilds.map((g) => {
+                        const isSelected = g.id.toString() === currentGuildId;
+                        return (
+                          <button
+                            key={g.id}
+                            onClick={() => {
+                              setIsServerDropdownOpen(false);
+                              router.push(`/dashboard/guild/${g.id}`);
+                            }}
+                            className={cn(
+                              "w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-colors",
+                              isSelected
+                                ? "bg-white/10 text-white font-semibold"
+                                : "text-white/60 hover:bg-white/5 hover:text-white"
+                            )}
+                          >
+                            <div className="flex items-center gap-2 truncate">
+                              {g.icon_url ? (
+                                <img
+                                  src={g.icon_url}
+                                  alt={g.name}
+                                  className="w-5 h-5 rounded-full object-cover shrink-0"
+                                />
+                              ) : (
+                                <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-bold shrink-0">
+                                  {g.name.charAt(0).toUpperCase()}
+                                </div>
                               )}
-                              title={isCollapsed ? item.name : undefined}
-                            >
-                              <Icon
+                              <span className="truncate">{g.name}</span>
+                            </div>
+                            {isSelected && <Check className="w-3.5 h-3.5 text-white shrink-0" />}
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <div className="py-3 text-center text-xs text-white/40">No servers found</div>
+                    )}
+                  </div>
+
+                  <div className="pt-2 mt-2 border-t border-white/10">
+                    <Link
+                      href="/dashboard/guilds"
+                      onClick={() => setIsServerDropdownOpen(false)}
+                      className="block text-center text-[11px] font-medium text-white/50 hover:text-white py-1 transition-colors"
+                    >
+                      View All Servers →
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Module Quick Search Bar (Ctrl+K) */}
+          {!isCollapsed && (
+            <div className="px-4 py-2 shrink-0">
+              <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#2b2c32] border border-white/10 text-white/40 focus-within:border-white/20 transition-all">
+                <Search className="w-3.5 h-3.5 text-white/40 shrink-0" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search modules..."
+                  className="bg-transparent text-xs text-white placeholder:text-white/40 focus:outline-none flex-1 min-w-0"
+                />
+                <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[9px] font-mono text-white/40 bg-white/5 border border-white/10 rounded">
+                  Ctrl+K
+                </kbd>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Items (Koya Grayscale Style) */}
+          <nav className="flex-1 overflow-y-auto px-3 py-2 space-y-4 custom-scrollbar">
+            {filteredCategories.map((category) => {
+              const isCatExpanded = expandedCategories[category.key] !== false;
+
+              return (
+                <div key={category.key} className="space-y-1">
+                  {/* Category Header */}
+                  {!isCollapsed && (
+                    <button
+                      onClick={() => toggleCategory(category.key)}
+                      className="w-full flex items-center justify-between px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-white/40 hover:text-white/70 transition-colors group"
+                    >
+                      <span>{category.name}</span>
+                      <ChevronDown
+                        className={cn(
+                          "w-3 h-3 text-white/30 group-hover:text-white/60 transition-transform duration-150",
+                          !isCatExpanded && "-rotate-90"
+                        )}
+                      />
+                    </button>
+                  )}
+
+                  {/* Category Items */}
+                  {(isCollapsed || isCatExpanded) && (
+                    <div className="space-y-0.5">
+                      {category.items.map((item) => {
+                        const Icon = item.icon;
+                        const isMainActive = pathname === item.href;
+                        const isAnySubActive = item.subItems?.some((sub) => pathname === sub.href);
+                        const isActive = isMainActive || isAnySubActive;
+
+                        // Expandable Item (e.g. Announcements)
+                        if (item.isExpandable && !isCollapsed) {
+                          return (
+                            <div key={item.name} className="space-y-0.5">
+                              <div
+                                onClick={item.onToggle}
                                 className={cn(
-                                  "w-4 h-4 shrink-0 transition-transform group-hover:scale-110",
-                                  isItemActive ? "text-[#FC5824]" : "text-white/60 group-hover:text-white"
+                                  "flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium cursor-pointer transition-colors group",
+                                  isActive
+                                    ? "text-white bg-white/10"
+                                    : "text-white/60 hover:text-white hover:bg-white/5"
                                 )}
-                              />
-                              {!isCollapsed && (
-                                <span className="truncate flex-1">{item.name}</span>
-                              )}
-
-                              {/* Badges */}
-                              {!isCollapsed && item.badge && (
-                                <span
-                                  className={cn(
-                                    "text-[10px] font-bold px-1.5 py-0.5 rounded-full whitespace-nowrap leading-none",
-                                    item.badgeColor === "sky" && "bg-sky-500/20 text-sky-300",
-                                    item.badgeColor === "orange" && "bg-orange-500/20 text-orange-300",
-                                    item.badgeColor === "gold" && "bg-amber-500/20 text-amber-300",
-                                    !item.badgeColor && "bg-white/10 text-white/80"
-                                  )}
-                                >
-                                  {item.badge}
-                                </span>
-                              )}
-                            </Link>
-
-                            {/* Sub-item Expand/Collapse Chevron */}
-                            {!isCollapsed && hasSubItems && (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  item.onToggle?.();
-                                }}
-                                className="p-1.5 text-white/40 hover:text-white hover:bg-white/5 rounded-md transition-colors ml-0.5"
-                                title="Toggle Sub-menu"
                               >
-                                <ChevronDown
+                                <div className="flex items-center gap-2.5 truncate">
+                                  <Icon className="w-4 h-4 shrink-0 opacity-80" />
+                                  <span className="truncate">{item.name}</span>
+                                </div>
+                                <ChevronRight
                                   className={cn(
-                                    "w-3.5 h-3.5 transition-transform duration-200",
-                                    !item.expanded && "-rotate-90"
+                                    "w-3.5 h-3.5 text-white/40 transition-transform duration-200",
+                                    item.expanded && "rotate-90"
                                   )}
                                 />
-                              </button>
-                            )}
-                          </div>
+                              </div>
 
-                          {/* Sub-items (Tree Guide Lines like Koya) */}
-                          {!isCollapsed && hasSubItems && item.expanded && (
-                            <div className="ml-5 my-1 pl-3 relative space-y-0.5">
-                              {/* Background vertical tree connector */}
-                              <div className="absolute left-0 top-1.5 bottom-1.5 w-px bg-white/10 rounded-full" />
-
-                              {item.subItems.map((sub: any) => {
-                                const isSubActive = pathname === sub.href;
-
-                                return (
-                                  <div key={sub.name} className="relative">
-                                    {/* Active marker on tree line */}
-                                    {isSubActive && (
-                                      <div className="absolute -left-3 top-1.5 bottom-1.5 w-0.5 bg-[#FC5824] rounded-full shadow-[0_0_8px_#FC5824]" />
-                                    )}
-                                    <Link
-                                      href={sub.href}
-                                      onClick={onClose}
-                                      className={cn(
-                                        "block py-1.25 px-2.5 rounded-md text-[12.5px] transition-colors",
-                                        isSubActive
-                                          ? "text-white font-bold bg-white/5"
-                                          : "text-white/50 hover:text-white/90 hover:bg-white/[0.03]"
-                                      )}
-                                    >
-                                      {sub.name}
-                                    </Link>
-                                  </div>
-                                );
-                              })}
+                              {/* Nested Sub-items with Tree Line Indicator */}
+                              {item.expanded && item.subItems && (
+                                <div className="ml-5 my-0.5 pl-3 relative border-l border-white/10 space-y-0.5">
+                                  {item.subItems.map((sub) => {
+                                    const isSubActive = pathname === sub.href;
+                                    return (
+                                      <div key={sub.name} className="relative">
+                                        {/* Active Line Accent */}
+                                        {isSubActive && (
+                                          <div className="absolute -left-[13px] top-1.5 bottom-1.5 w-0.5 bg-white rounded-full" />
+                                        )}
+                                        <Link
+                                          href={sub.href}
+                                          className={cn(
+                                            "block py-1.5 px-2.5 rounded-md text-xs transition-colors",
+                                            isSubActive
+                                              ? "text-white font-semibold bg-white/5"
+                                              : "text-white/40 hover:text-white hover:bg-white/5"
+                                          )}
+                                        >
+                                          {sub.name}
+                                        </Link>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                          );
+                        }
 
-        {/* Footer / Community */}
-        {!isCollapsed && (
-          <div className="p-3 border-t border-white/5 text-center shrink-0">
-            <a
-              href="https://discord.gg/zaptro"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1.5 text-xs text-white/40 hover:text-white/80 transition-colors py-1"
-            >
-              <span>Anya Discord Community</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </div>
-        )}
+                        // Regular Nav Link
+                        return (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            title={isCollapsed ? item.name : undefined}
+                            className={cn(
+                              "flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-colors group",
+                              isActive
+                                ? "text-white bg-white/10 font-semibold"
+                                : "text-white/60 hover:text-white hover:bg-white/5"
+                            )}
+                          >
+                            <div className="flex items-center gap-2.5 truncate">
+                              <Icon className="w-4 h-4 shrink-0 opacity-80" />
+                              {!isCollapsed && <span className="truncate">{item.name}</span>}
+                            </div>
+                            {!isCollapsed && item.badge && (
+                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap bg-white/10 text-white/80">
+                                {item.badge}
+                              </span>
+                            )}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+        </div>
       </aside>
     </>
   );

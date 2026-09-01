@@ -41,16 +41,16 @@ const config: Config = {
           950: '#410f06',
         },
         primary: {
-          DEFAULT: "#FC5824", // Koya Orange
-          hover: "#e04616",
-          glow: "rgba(252, 88, 36, 0.5)",
+          DEFAULT: "#ffffff",
+          hover: "#e2e8f0",
+          glow: "rgba(255, 255, 255, 0.15)",
         },
         secondary: {
-          DEFAULT: "#0c0f16", // Deep Navy/Black
-          light: "#131926",
+          DEFAULT: "#202225",
+          light: "#2b2c32",
         },
         accent: {
-          red: "rgba(252, 88, 36, 0.1)",
+          neutral: "rgba(255, 255, 255, 0.05)",
           glass: "rgba(255, 255, 255, 0.03)",
         }
       },
