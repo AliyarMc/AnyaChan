@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0c0f16;
+  --foreground: #f8fafc;
+  --primary: #FC5824;
+  --primary-glow: rgba(252, 88, 36, 0.15);
+  --glass-bg: rgba(23, 31, 48, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-red-border: rgba(252, 88, 36, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c0f16;
+    --foreground: #f8fafc;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0c0f16;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+  border: 2px solid #0c0f16;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FC5824; /* Primary Orange */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1e293b #0c0f16;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .glass {
+    @apply backdrop-blur-xl bg-white/[0.02] border border-white/[0.05];
+  }
+  .glass-red {
+    @apply backdrop-blur-xl bg-red-500/[0.02] border border-red-500/[0.1];
+  }
+  .liquid-glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+}
