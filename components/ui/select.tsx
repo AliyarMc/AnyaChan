@@ -68,7 +68,7 @@ const Select = ({ children, value, onValueChange, options, placeholder, classNam
           disabled={disabled}
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
-            "flex h-10 w-full items-center justify-between rounded-xl  bg-white/[0.03]/50 px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex h-10 w-full items-center justify-between rounded-xl bg-[#2b2c32] px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
             isOpen && "ring-2 ring-primary/50 border-slate-700"
           )}
         >
@@ -128,7 +128,7 @@ const SelectTrigger = React.forwardRef<
       type="button"
       onClick={() => context.setIsOpen(!context.isOpen)}
       className={cn(
-        "flex h-10 w-full items-center justify-between rounded-xl  bg-white/[0.03]/50 px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
+        "flex h-10 w-full items-center justify-between rounded-xl bg-[#2b2c32] px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
         context.isOpen && "ring-2 ring-primary/50 border-slate-700",
         className
       )}

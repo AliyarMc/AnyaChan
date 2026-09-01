@@ -100,7 +100,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
         </p>
 
         <div className="w-full max-w-sm mt-1">
-          <div className="bg-white/5 hover:bg-white/[0.08] rounded-xl flex items-center px-3.5 py-2.5 transition-colors">
+          <div className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl flex items-center px-3.5 py-2.5 transition-colors">
             <span className="text-white/40 mr-2 font-mono">#</span>
             <select
               value={config.channel_id || ""}
@@ -247,7 +247,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                   onChange={(e) => setConfig({ ...config, leave_message: e.target.value })}
                   placeholder="Insert leave message (e.g. Goodbye {user_name}, we will miss you!)"
                   maxLength={2000}
-                  className="bg-white/5 rounded-xl p-3.5 text-sm text-white placeholder:text-white/30 focus:outline-none w-full min-h-[95px] resize-y"
+                  className="bg-[#2b2c32] rounded-xl p-3.5 text-sm text-white placeholder:text-white/30 focus:outline-none w-full min-h-[95px] resize-y"
                 />
                 <div className="text-right text-[11px] text-white/40 font-mono mt-1">
                   {(config.leave_message || "").length} / 2000
@@ -289,7 +289,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                           embed_data: { ...(config.embed_data || {}), color: e.target.value }
                         })
                       }
-                      className="w-24 bg-white/5 rounded-lg px-2.5 py-1 text-xs text-white font-mono text-center focus:outline-none"
+                      className="w-24 bg-[#2b2c32] rounded-lg px-2.5 py-1 text-xs text-white font-mono text-center focus:outline-none"
                     />
                   </div>
 
@@ -328,7 +328,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                       })
                     }
                     placeholder="Member Left"
-                    className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                    className="bg-[#2b2c32] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                   />
                 </div>
 
@@ -345,7 +345,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                     }
                     placeholder="{user_name} has left the server."
                     rows={3}
-                    className="bg-white/5 rounded-xl p-3.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1 resize-y"
+                    className="bg-[#2b2c32] rounded-xl p-3.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1 resize-y"
                   />
                 </div>
 
@@ -363,7 +363,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                         })
                       }
                       placeholder="{user_avatar} or https://..."
-                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                      className="bg-[#2b2c32] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                     />
                   </div>
                   <div>
@@ -378,7 +378,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                         })
                       }
                       placeholder="https://..."
-                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                      className="bg-[#2b2c32] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                     />
                   </div>
                 </div>
@@ -398,7 +398,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                           })
                         }
                         placeholder="Goodbye!"
-                        className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                        className="bg-[#2b2c32] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                       />
                     </div>
                     <div>
@@ -413,7 +413,7 @@ export function LeaveForm({ initialConfig, channels, guildId, serverName = "Disc
                           })
                         }
                         placeholder="https://..."
-                        className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                        className="bg-[#2b2c32] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                       />
                     </div>
                   </div>

@@ -96,7 +96,7 @@ export const FormInput = ({ label, icon: Icon, className, ...props }: FormInputP
       )}
       <Input 
         className={cn(
-          "bg-white/[0.03]/50 border-white/5 rounded-xl h-12 focus:ring-primary/20",
+          "bg-[#2b2c32] rounded-xl h-12 focus:ring-primary/20",
           Icon && "pl-12",
           className
         )} 

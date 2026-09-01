@@ -392,7 +392,7 @@ export function KoyaSidebar({
             <div className="px-5 pt-4 pb-1 relative shrink-0" ref={serverDropdownRef}>
               <div
                 onClick={() => setIsServerDropdownOpen(!isServerDropdownOpen)}
-                className="bg-white/5 hover:bg-white/10 rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-150"
+                className="bg-[#2b2c32] hover:bg-[#323339] rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-150"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {currentGuild?.icon ? (
@@ -428,7 +428,7 @@ export function KoyaSidebar({
                       value={serverSearchQuery}
                       onChange={(e) => setServerSearchQuery(e.target.value)}
                       placeholder="Search for a server..."
-                      className="w-full bg-white/5 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none"
+                      className="w-full bg-[#202225] rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none"
                       autoFocus
                     />
                   </div>
@@ -491,7 +491,7 @@ export function KoyaSidebar({
           {/* Module Search Button (Bigger font, borderless surface) */}
           {!isCollapsed && (
             <div className="px-5 pt-3 pb-2 shrink-0">
-              <div className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl bg-white/5 text-white/50 focus-within:text-white focus-within:bg-white/10 transition-colors duration-150">
+              <div className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl bg-[#2b2c32] text-white/50 focus-within:text-white focus-within:bg-[#323339] transition-colors duration-150">
                 <Search className="w-4 h-4 shrink-0 opacity-80" />
                 <input
                   ref={searchInputRef}
