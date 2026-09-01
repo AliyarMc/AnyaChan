@@ -70,16 +70,16 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
-          
+        <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
+
           {/* Main Toggle */}
           <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
             <div>
               <h3 className="text-lg font-black text-white">Verification System</h3>
               <p className="text-sm text-slate-400 mt-1">Enable or disable server verification.</p>
             </div>
-            <Switch 
-              checked={config.enabled} 
+            <Switch
+              checked={config.enabled}
               onCheckedChange={(val) => setConfig({ ...config, enabled: val })}
               className="scale-125"
             />
@@ -88,7 +88,7 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
           <div className={`space-y-6 transition-all duration-300 ${!config.enabled && "opacity-50 pointer-events-none"}`}>
             {/* Channel Setup */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
+
               <div className="space-y-3">
                 <label className="text-sm font-bold text-slate-300 flex items-center gap-2">
                   <Hash className="h-4 w-4 text-slate-400" />
@@ -206,10 +206,10 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
             Anya Verification ensures that no unauthorized bots or malicious users enter your server unverified.
           </p>
           <ul className="text-xs text-slate-500 space-y-2">
-             <li>• The bot will create a panel in your Verification Channel.</li>
-             <li>• Unverified members must click &quot;Verify&quot;.</li>
-             <li>• Captcha presents a unique image sequence.</li>
-             <li>• Upon success, role is assigned.</li>
+            <li>• The bot will create a panel in your Verification Channel.</li>
+            <li>• Unverified members must click &quot;Verify&quot;.</li>
+            <li>• Captcha presents a unique image sequence.</li>
+            <li>• Upon success, role is assigned.</li>
           </ul>
         </div>
       </div>

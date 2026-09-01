@@ -76,8 +76,8 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
-          
+        <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
+
           <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/20 text-primary rounded-xl">
@@ -88,7 +88,7 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
                 <p className="text-sm text-slate-400 mt-1">Users need this role to assign the custom roles below.</p>
               </div>
             </div>
-            
+
             <div className="w-64">
               <Select
                 value={config.reqrole?.toString() || "none"}
@@ -121,7 +121,7 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
                     <p className="text-xs text-slate-400 mt-1">Role assigned via .{input.key} command</p>
                   </div>
                 </div>
-                
+
                 <Select
                   value={config[input.key]?.toString() || "none"}
                   onValueChange={(val) => setConfig({ ...config, [input.key]: val === "none" ? null : parseInt(val) })}
@@ -154,10 +154,10 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
             Allows your trusted server managers to grant specific preset roles with simple prefix commands.
           </p>
           <ul className="text-xs text-slate-500 space-y-2">
-             <li>• <code>.staff @user</code> - Assigns/Removes Staff role</li>
-             <li>• <code>.girl @user</code> - Assigns/Removes Girl role</li>
-             <li>• <code>.vip @user</code> - Assigns/Removes VIP role</li>
-             <li>• Ensure Anya is placed higher than these roles in server settings!</li>
+            <li>• <code>.staff @user</code> - Assigns/Removes Staff role</li>
+            <li>• <code>.girl @user</code> - Assigns/Removes Girl role</li>
+            <li>• <code>.vip @user</code> - Assigns/Removes VIP role</li>
+            <li>• Ensure Anya is placed higher than these roles in server settings!</li>
           </ul>
         </div>
       </div>

@@ -73,7 +73,7 @@ export default function VerificationPage({ params }: { params: { guildId: string
       success: 'Verification settings saved!',
       error: 'Failed to save verification config',
     });
-    try { await promise; } catch {} finally { setSaving(false); }
+    try { await promise; } catch { } finally { setSaving(false); }
   };
 
   const textChannels = channels.filter(c => c.type === "0" || c.type === 0);
@@ -101,8 +101,8 @@ export default function VerificationPage({ params }: { params: { guildId: string
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
-            
+          <div className="bg-[#393a41]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
+
             {/* Enable/Disable Toggle */}
             <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
               <div className="flex items-center gap-4">
@@ -121,8 +121,8 @@ export default function VerificationPage({ params }: { params: { guildId: string
                     {config.enabled ? 'Active' : 'Inactive'}
                   </span>
                 </div>
-                <Switch 
-                  checked={config.enabled} 
+                <Switch
+                  checked={config.enabled}
                   onCheckedChange={(val) => setConfig({ ...config, enabled: val })}
                   className="scale-125 data-[state=checked]:bg-emerald-500"
                 />

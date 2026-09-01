@@ -62,7 +62,7 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
 
   const handleSave = async () => {
     setSaving(true);
-    const promise = api.updateInvcRole(params.guildId, { 
+    const promise = api.updateInvcRole(params.guildId, {
       role_id: config.role_id,
       enabled: config.enabled
     });
@@ -71,10 +71,10 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
       success: 'Voice Role settings saved!',
       error: 'Failed to save Voice Role config',
     });
-    try { 
-      await promise; 
+    try {
+      await promise;
       setBaseConfig(config);
-    } catch {} finally { setSaving(false); }
+    } catch { } finally { setSaving(false); }
   };
 
   const filteredRoles = roles.filter(r => r.name !== "@everyone");
@@ -106,8 +106,8 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl p-8 space-y-8 border border-white/10">
-            
+          <div className="bg-[#393a41] rounded-3xl overflow-hidden shadow-xl p-8 space-y-8 border border-white/10">
+
             {/* Status & Toggle */}
             <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
               <div className="flex items-center gap-4">
@@ -126,8 +126,8 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
                     {config.enabled ? 'Live' : 'Off'}
                   </span>
                 </div>
-                <Switch 
-                  checked={config.enabled} 
+                <Switch
+                  checked={config.enabled}
                   onCheckedChange={(checked) => setConfig({ ...config, enabled: checked })}
                   className="data-[state=checked]:bg-emerald-500"
                 />
@@ -135,7 +135,7 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
             </div>
 
             {/* Role Selector */}
-            <div className={cn("p-6 border rounded-2xl space-y-4 transition-all duration-300", 
+            <div className={cn("p-6 border rounded-2xl space-y-4 transition-all duration-300",
               config.enabled ? "bg-white/[0.03]/40 border-white/10 opacity-100" : "bg-white/[0.03]/10 border-slate-900 opacity-50 pointer-events-none grayscale")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-primary/20 text-primary rounded-xl">

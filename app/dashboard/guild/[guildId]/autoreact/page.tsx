@@ -62,10 +62,10 @@ export default function AutoReactPage({ params }: { params: { guildId: string } 
       success: 'Auto react settings saved!',
       error: 'Failed to save auto react config',
     });
-    try { 
-      await promise; 
+    try {
+      await promise;
       setBaseConfig(config);
-    } catch {} finally { setSaving(false); }
+    } catch { } finally { setSaving(false); }
   };
 
   const addTrigger = () => {
@@ -113,8 +113,8 @@ export default function AutoReactPage({ params }: { params: { guildId: string } 
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl p-8 space-y-6 border border-white/10">
-            
+          <div className="bg-[#393a41] rounded-3xl overflow-hidden shadow-xl p-8 space-y-6 border border-white/10">
+
             {config.triggers.length === 0 ? (
               <div className="text-center p-12 bg-white/[0.03]/20 rounded-2xl border border-dashed border-slate-700">
                 <Smile className="w-14 h-14 text-slate-600 mx-auto mb-4" />

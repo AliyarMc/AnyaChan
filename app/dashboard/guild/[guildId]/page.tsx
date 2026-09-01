@@ -18,29 +18,29 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  Settings, 
-  Bot, 
-  Megaphone, 
-  Send, 
-  MessageCircle, 
-  Mail, 
-  Ticket, 
-  Smile, 
-  UserPlus, 
-  SmilePlus, 
-  Clock, 
-  Tag, 
-  Users, 
-  ShieldAlert, 
-  ShieldCheck, 
-  CheckCircle, 
-  FileText, 
-  Trophy, 
-  Radio, 
-  BarChart3, 
-  Medal, 
-  PartyPopper, 
+import {
+  Settings,
+  Bot,
+  Megaphone,
+  Send,
+  MessageCircle,
+  Mail,
+  Ticket,
+  Smile,
+  UserPlus,
+  SmilePlus,
+  Clock,
+  Tag,
+  Users,
+  ShieldAlert,
+  ShieldCheck,
+  CheckCircle,
+  FileText,
+  Trophy,
+  Radio,
+  BarChart3,
+  Medal,
+  PartyPopper,
   X,
   Sparkles
 } from "lucide-react";
@@ -325,16 +325,15 @@ export default function GuildOverviewPage({ params }: { params: { guildId: strin
               <Link
                 key={item.title}
                 href={item.href}
-                className="group relative bg-[#24252a] hover:bg-[#2c2d33] rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-150 shadow-sm border border-white/10 hover:border-white/20"
+                className="group relative bg-[#393a41] hover:bg-[#2c2d33] rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-150 shadow-sm border border-white/10 hover:border-white/20"
               >
                 {/* Badge if present */}
                 {item.badge && (
                   <span
-                    className={`absolute top-3.5 right-3.5 text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      item.badge === "New"
+                    className={`absolute top-3.5 right-3.5 text-[10px] font-bold px-2 py-0.5 rounded-full ${item.badge === "New"
                         ? "bg-[#183642] text-[#4dd0e1]"
                         : "bg-[#3d2b14] text-[#f59e0b] border border-[#f59e0b]/20"
-                    }`}
+                      }`}
                   >
                     {item.badge}
                   </span>

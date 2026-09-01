@@ -105,8 +105,8 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
-          
+        <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
+
           <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/20 text-primary rounded-xl">
@@ -117,8 +117,8 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
                 <p className="text-sm text-slate-400 mt-1">Send a direct message when a user gets/loses a role.</p>
               </div>
             </div>
-            <Switch 
-              checked={config.dm_enabled} 
+            <Switch
+              checked={config.dm_enabled}
               onCheckedChange={toggleDM}
               className="scale-125"
             />
@@ -129,12 +129,12 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
               <Plus className="h-5 w-5 text-primary" />
               Create New Reaction Role
             </h4>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-400">Message ID</label>
-                <Input 
-                  placeholder="e.g. 1234567890" 
+                <Input
+                  placeholder="e.g. 1234567890"
                   value={newRR.message_id}
                   onChange={(e) => setNewRR({ ...newRR, message_id: e.target.value })}
                   className="bg-white/[0.03]/50 h-10"
@@ -142,8 +142,8 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-400">Emoji</label>
-                <Input 
-                  placeholder="e.g. ✅" 
+                <Input
+                  placeholder="e.g. ✅"
                   value={newRR.emoji}
                   onChange={(e) => setNewRR({ ...newRR, emoji: e.target.value })}
                   className="bg-white/[0.03]/50 h-10"
@@ -168,9 +168,9 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
                 </Select>
               </div>
             </div>
-            <Button 
-              onClick={handleAdd} 
-              disabled={loadingAction} 
+            <Button
+              onClick={handleAdd}
+              disabled={loadingAction}
               className="w-full gap-2"
               variant="secondary"
             >
@@ -193,7 +193,7 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
               ) : (
                 config.roles.map((rr: any, idx: number) => {
                   const roleName = roles.find(r => r.id === rr.role_id.toString())?.name || "Unknown Role";
-                  
+
                   return (
                     <div key={idx} className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-xl ">
                       <div className="flex items-center gap-6">
@@ -210,9 +210,9 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
                           <span className="text-sm font-medium text-primary">{roleName}</span>
                         </div>
                       </div>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => handleDelete(rr.message_id, rr.emoji)}
                         disabled={loadingAction}
                         className="text-red-400 hover:text-red-300 hover:bg-red-400/10 h-8 w-8 p-0"
@@ -238,9 +238,9 @@ export function ReactionRolesForm({ initialConfig, roles, guildId }: ReactionRol
             Reaction Roles allow members to self-assign their own roles with a single click.
           </p>
           <ul className="text-xs text-slate-500 space-y-2">
-             <li>• The bot must have access to see the message you specify.</li>
-             <li>• Make sure the bot role is HIGHER than the role you are attempting to assign.</li>
-             <li>• The bot will automatically react to the message once you click &quot;Add to Active Listeners&quot;.</li>
+            <li>• The bot must have access to see the message you specify.</li>
+            <li>• Make sure the bot role is HIGHER than the role you are attempting to assign.</li>
+            <li>• The bot will automatically react to the message once you click &quot;Add to Active Listeners&quot;.</li>
           </ul>
         </div>
       </div>

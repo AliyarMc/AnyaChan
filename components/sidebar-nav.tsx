@@ -5,11 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { 
-  ShieldCheck, 
-  Ticket, 
-  BarChart4, 
-  FileText, 
+import {
+  ShieldCheck,
+  Ticket,
+  BarChart4,
+  FileText,
   Settings,
   Layers,
   Sword,
@@ -44,17 +44,17 @@ interface Category {
   tabs: Tab[];
 }
 
-export function SidebarNav({ 
-  guildId, 
-  guildName, 
-  guildIcon 
-}: { 
-  guildId: string; 
-  guildName: string; 
+export function SidebarNav({
+  guildId,
+  guildName,
+  guildIcon
+}: {
+  guildId: string;
+  guildName: string;
   guildIcon: string | null;
 }) {
   const pathname = usePathname();
-  
+
   // Categorized tabs
   const categories: Category[] = [
     {
@@ -127,7 +127,7 @@ export function SidebarNav({
   };
 
   return (
-    <div className="flex flex-col gap-6 bg-[#24252a]  rounded-3xl p-6 shadow-xl shadow-black/25">
+    <div className="flex flex-col gap-6 bg-[#393a41]  rounded-3xl p-6 shadow-xl shadow-black/25">
       {/* Back button */}
       <Link href="/dashboard/guilds" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-black uppercase tracking-wider group">
         <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />
@@ -137,8 +137,8 @@ export function SidebarNav({
       {/* Mini Guild Header */}
       <div className="flex items-center gap-4 pb-4 border-b border-white/5">
         {guildIcon ? (
-          <Image 
-            src={guildIcon} 
+          <Image
+            src={guildIcon}
             alt={guildName}
             width={48}
             height={48}
@@ -160,7 +160,7 @@ export function SidebarNav({
         {categories.map((cat) => {
           const isExpanded = expanded[cat.name];
           const hasActiveTab = cat.tabs.some(tab => pathname === tab.href);
-          
+
           return (
             <div key={cat.name} className="flex flex-col gap-1">
               {/* Category Header */}
@@ -193,8 +193,8 @@ export function SidebarNav({
                       <Link key={tab.name} href={tab.href}>
                         <div className={cn(
                           "flex items-center gap-3 py-2 px-3.5 rounded-lg text-xs font-bold transition-all duration-300 whitespace-nowrap",
-                          isActive 
-                            ? "bg-primary text-white shadow-md shadow-primary/20" 
+                          isActive
+                            ? "bg-primary text-white shadow-md shadow-primary/20"
                             : "text-slate-400 hover:text-white hover:bg-slate-800/20"
                         )}>
                           <tab.icon className={cn("h-4 w-4", isActive ? "opacity-100" : "opacity-40")} />

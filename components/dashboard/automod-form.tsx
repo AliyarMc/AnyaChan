@@ -17,7 +17,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
+import {
   Zap,
   Type,
   Link as LinkIcon,
@@ -110,21 +110,21 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl border border-white/10">
+        <div className="bg-[#393a41] rounded-3xl overflow-hidden shadow-xl border border-white/10">
           <div className="p-8 space-y-6">
             <div className="flex items-center justify-between mb-4">
-               <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest">Master Control</h3>
-               <Switch 
-                  checked={config.enabled} 
-                  onCheckedChange={() => handleToggle('master')}
-               />
+              <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest">Master Control</h3>
+              <Switch
+                checked={config.enabled}
+                onCheckedChange={() => handleToggle('master')}
+              />
             </div>
 
             <div className="space-y-4">
               {RULES.map((rule) => {
                 const isEnabled = config.enabled && config.punishments?.[rule.id] !== undefined;
                 return (
-                  <div 
+                  <div
                     key={rule.id}
                     className={cn(
                       "p-6 rounded-2xl border transition-all duration-300",
@@ -146,19 +146,19 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
                       </div>
 
                       <div className="flex items-center gap-4">
-                         {isEnabled && (
-                           <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 duration-300">
-                             <Gavel className="h-4 w-4 text-primary" />
-                             <Select 
-                               value={config.punishments[rule.id] || "delete"}
-                               onValueChange={(val) => handlePunishmentChange(rule.id, val)}
-                               options={PUNISHMENT_OPTIONS}
-                               className="w-40"
-                             />
-                           </div>
-                         )}
-                         <div className="h-8 w-[1px] bg-slate-800 hidden sm:block" />
-                         <Switch 
+                        {isEnabled && (
+                          <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 duration-300">
+                            <Gavel className="h-4 w-4 text-primary" />
+                            <Select
+                              value={config.punishments[rule.id] || "delete"}
+                              onValueChange={(val) => handlePunishmentChange(rule.id, val)}
+                              options={PUNISHMENT_OPTIONS}
+                              className="w-40"
+                            />
+                          </div>
+                        )}
+                        <div className="h-8 w-[1px] bg-slate-800 hidden sm:block" />
+                        <Switch
                           disabled={!config.enabled}
                           checked={config.punishments?.[rule.id] !== undefined}
                           onCheckedChange={() => {
@@ -168,7 +168,7 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
                             } else {
                               newPunishments[rule.id] = "delete";
                             }
-                            setConfig({...config, punishments: newPunishments});
+                            setConfig({ ...config, punishments: newPunishments });
                           }}
                         />
                       </div>
@@ -183,28 +183,28 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
       </div>
 
       <div className="space-y-6">
-         <div className="bg-[#24252a] rounded-3xl p-6 border border-white/10">
-            <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-4">Logging Level</h3>
-            <div className="space-y-3">
-               <div className="p-3 bg-white/[0.03]/50 rounded-xl border border-white/5 flex items-center justify-between">
-                  <span className="text-sm text-slate-400">Log Channel</span>
-                  <span className="text-xs font-mono text-primary">#{config.logging_channel || 'None'}</span>
-               </div>
-               <p className="text-[10px] text-slate-500 italic text-center">Mod logs are automatically sent to the configured channel.</p>
+        <div className="bg-[#393a41] rounded-3xl p-6 border border-white/10">
+          <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-4">Logging Level</h3>
+          <div className="space-y-3">
+            <div className="p-3 bg-white/[0.03]/50 rounded-xl border border-white/5 flex items-center justify-between">
+              <span className="text-sm text-slate-400">Log Channel</span>
+              <span className="text-xs font-mono text-primary">#{config.logging_channel || 'None'}</span>
             </div>
-         </div>
+            <p className="text-[10px] text-slate-500 italic text-center">Mod logs are automatically sent to the configured channel.</p>
+          </div>
+        </div>
 
-         <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-3xl p-6 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:scale-110 transition-transform">
-              <ShieldAlert className="h-32 w-32 text-white" />
-            </div>
-            <h3 className="text-sm font-bold text-white mb-2">Automod AI</h3>
-            <p className="text-xs text-slate-400 leading-relaxed mb-4">Our neural network analyzes message context to prevent false positives.</p>
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-primary" />
-              <span className="text-[10px] font-black uppercase text-primary">V2 Active</span>
-            </div>
-         </div>
+        <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-3xl p-6 relative overflow-hidden group">
+          <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:scale-110 transition-transform">
+            <ShieldAlert className="h-32 w-32 text-white" />
+          </div>
+          <h3 className="text-sm font-bold text-white mb-2">Automod AI</h3>
+          <p className="text-xs text-slate-400 leading-relaxed mb-4">Our neural network analyzes message context to prevent false positives.</p>
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-primary" />
+            <span className="text-[10px] font-black uppercase text-primary">V2 Active</span>
+          </div>
+        </div>
       </div>
 
       <FloatingSaveBar

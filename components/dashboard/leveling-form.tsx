@@ -17,9 +17,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
-  Save, 
-  RefreshCcw, 
+import {
+  Save,
+  RefreshCcw,
   Zap,
   Clock,
   Hash,
@@ -83,14 +83,14 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
   return (
     <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
       <div className="lg:col-span-2 space-y-6">
-        <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl shadow-black/20 border border-white/10">
+        <div className="bg-[#393a41] rounded-3xl overflow-hidden shadow-xl shadow-black/20 border border-white/10">
           <div className="p-8 space-y-8">
             <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
-               <span className="text-sm font-bold text-slate-300">Social Economy Status</span>
-               <Switch 
-                  checked={config.enabled} 
-                  onCheckedChange={() => setConfig({...config, enabled: !config.enabled})}
-               />
+              <span className="text-sm font-bold text-slate-300">Social Economy Status</span>
+              <Switch
+                checked={config.enabled}
+                onCheckedChange={() => setConfig({ ...config, enabled: !config.enabled })}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -99,10 +99,10 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
                   <Zap className="h-3 w-3" />
                   XP Weight
                 </label>
-                <Input 
+                <Input
                   type="number"
                   value={config.xp_per_message}
-                  onChange={(e) => setConfig({...config, xp_per_message: parseInt(e.target.value) || 0})}
+                  onChange={(e) => setConfig({ ...config, xp_per_message: parseInt(e.target.value) || 0 })}
                   placeholder="20"
                   disabled={!config.enabled}
                   className="py-6 text-lg font-bold"
@@ -115,10 +115,10 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
                   Cooldown
                 </label>
                 <div className="relative">
-                  <Input 
+                  <Input
                     type="number"
                     value={config.cooldown}
-                    onChange={(e) => setConfig({...config, cooldown: parseInt(e.target.value) || 0})}
+                    onChange={(e) => setConfig({ ...config, cooldown: parseInt(e.target.value) || 0 })}
                     placeholder="60"
                     disabled={!config.enabled}
                     className="py-6 text-lg font-bold pr-12"
@@ -133,9 +133,9 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
                 <Hash className="h-3 w-3" />
                 Level Up Channel
               </label>
-              <Input 
+              <Input
                 value={config.level_up_channel || ""}
-                onChange={(e) => setConfig({...config, level_up_channel: e.target.value ? parseInt(e.target.value.replace(/\D/g, "")) : null})}
+                onChange={(e) => setConfig({ ...config, level_up_channel: e.target.value ? parseInt(e.target.value.replace(/\D/g, "")) : null })}
                 placeholder="Discord Channel ID"
                 disabled={!config.enabled}
                 className="py-6 font-mono"
@@ -144,52 +144,52 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
           </div>
         </div>
 
-        <div className="bg-[#24252a] rounded-3xl p-8 relative overflow-hidden group border border-white/10">
+        <div className="bg-[#393a41] rounded-3xl p-8 relative overflow-hidden group border border-white/10">
           <div className="absolute right-0 top-0 h-full w-1 bg-primary/20" />
-           <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-6 flex items-center gap-2">
+          <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-6 flex items-center gap-2">
             <Palette className="h-4 w-4" />
             Cosmetic Defaults
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative z-10">
-             <div className="space-y-2">
-                <p className="text-xs text-slate-500 font-bold px-1">Rank Card Color</p>
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl border border-slate-700 shadow-inner" style={{ backgroundColor: config.embed_style.color }} />
-                  <Input 
-                    value={config.embed_style.color}
-                    onChange={(e) => setConfig({...config, embed_style: {...config.embed_style, color: e.target.value}})}
-                    className="font-mono h-10"
-                    disabled={!config.enabled}
-                  />
-                </div>
-             </div>
-             <div className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-2xl border border-white/10">
-                <div className="flex items-center gap-3">
-                  <Layout className="h-4 w-4 text-slate-500" />
-                  <span className="text-sm font-bold text-slate-300">Thumbnail</span>
-                </div>
-                <Switch 
-                  checked={config.embed_style.thumbnail}
-                  onCheckedChange={(val) => setConfig({...config, embed_style: {...config.embed_style, thumbnail: val}})}
+            <div className="space-y-2">
+              <p className="text-xs text-slate-500 font-bold px-1">Rank Card Color</p>
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-xl border border-slate-700 shadow-inner" style={{ backgroundColor: config.embed_style.color }} />
+                <Input
+                  value={config.embed_style.color}
+                  onChange={(e) => setConfig({ ...config, embed_style: { ...config.embed_style, color: e.target.value } })}
+                  className="font-mono h-10"
                   disabled={!config.enabled}
                 />
-             </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-3">
+                <Layout className="h-4 w-4 text-slate-500" />
+                <span className="text-sm font-bold text-slate-300">Thumbnail</span>
+              </div>
+              <Switch
+                checked={config.embed_style.thumbnail}
+                onCheckedChange={(val) => setConfig({ ...config, embed_style: { ...config.embed_style, thumbnail: val } })}
+                disabled={!config.enabled}
+              />
+            </div>
           </div>
         </div>
       </div>
 
       <div className="space-y-6">
-        <div className="bg-[#24252a] rounded-3xl p-6 relative overflow-hidden group shadow-lg border border-white/10">
-           <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:scale-110 transition-transform">
-              <Info className="h-32 w-32 text-white" />
-           </div>
-           <h3 className="text-xs font-black uppercase text-slate-500 tracking-widest mb-4">Leveling Logic</h3>
-           <div className="space-y-4 text-sm leading-relaxed text-slate-400">
-              <p>Members earn <span className="text-white font-bold italic">XP</span> by chatting.</p>
-              <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 text-[10px] font-mono">
-                 5 * (level ^ 2) + (50 * level) + 100
-              </div>
-           </div>
+        <div className="bg-[#393a41] rounded-3xl p-6 relative overflow-hidden group shadow-lg border border-white/10">
+          <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:scale-110 transition-transform">
+            <Info className="h-32 w-32 text-white" />
+          </div>
+          <h3 className="text-xs font-black uppercase text-slate-500 tracking-widest mb-4">Leveling Logic</h3>
+          <div className="space-y-4 text-sm leading-relaxed text-slate-400">
+            <p>Members earn <span className="text-white font-bold italic">XP</span> by chatting.</p>
+            <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 text-[10px] font-mono">
+              5 * (level ^ 2) + (50 * level) + 100
+            </div>
+          </div>
         </div>
       </div>
 

@@ -133,8 +133,8 @@ export default function ReactionRolesPage({ params }: { params: { guildId: strin
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
-            
+          <div className="bg-[#393a41]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
+
             {/* DM Toggle */}
             <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
               <div className="flex items-center gap-4">

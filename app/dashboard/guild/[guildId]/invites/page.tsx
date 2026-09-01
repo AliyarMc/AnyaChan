@@ -67,8 +67,8 @@ export default function InvitesPage({ params }: { params: { guildId: string } })
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a] rounded-3xl overflow-hidden shadow-xl p-8 space-y-8 border border-white/10">
-            
+          <div className="bg-[#393a41] rounded-3xl overflow-hidden shadow-xl p-8 space-y-8 border border-white/10">
+
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-5 bg-primary/5 border border-primary/20 rounded-2xl flex flex-col gap-1">

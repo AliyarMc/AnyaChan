@@ -55,17 +55,17 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
 
   const handleSave = async () => {
     setSaving(true);
-    const payload = isEnabled 
-      ? { 
-          join_channel_id: config.join_channel_id, 
-          control_channel_id: config.control_channel_id,
-          category_id: config.category_id 
-        }
-      : { 
-          join_channel_id: null, 
-          control_channel_id: null,
-          category_id: null
-        };
+    const payload = isEnabled
+      ? {
+        join_channel_id: config.join_channel_id,
+        control_channel_id: config.control_channel_id,
+        category_id: config.category_id
+      }
+      : {
+        join_channel_id: null,
+        control_channel_id: null,
+        category_id: null
+      };
 
     const promise = api.updateJ2C(guildId, payload);
 
@@ -89,8 +89,8 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
-          
+        <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 space-y-8 border border-white/10">
+
           <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl border border-white/10">
             <div className="flex items-center gap-4">
               <div className={cn("p-3 rounded-xl transition-colors", isEnabled ? "bg-emerald-500/20 text-emerald-500" : "bg-red-500/20 text-red-500")}>
@@ -108,8 +108,8 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
                   {isEnabled ? 'Active' : 'Inactive'}
                 </span>
               </div>
-              <Switch 
-                checked={isEnabled} 
+              <Switch
+                checked={isEnabled}
                 onCheckedChange={setIsEnabled}
                 className="scale-125 data-[state=checked]:bg-emerald-500"
               />
@@ -127,7 +127,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
                   <p className="text-xs text-slate-400 mt-1">Voice channel users join to trigger creation</p>
                 </div>
               </div>
-              
+
               <Select
                 value={config.join_channel_id ? config.join_channel_id : "none"}
                 onValueChange={(val) => setConfig({ ...config, join_channel_id: val === "none" ? null : val })}
@@ -156,7 +156,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
                   <p className="text-xs text-slate-400 mt-1">Channel where users manage their private VCs</p>
                 </div>
               </div>
-              
+
               <Select
                 value={config.control_channel_id ? config.control_channel_id : "none"}
                 onValueChange={(val) => setConfig({ ...config, control_channel_id: val === "none" ? null : val })}
@@ -185,7 +185,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
                   <p className="text-xs text-slate-400 mt-1">Category where temporary voice channels are created</p>
                 </div>
               </div>
-              
+
               <Select
                 value={config.category_id ? config.category_id : "none"}
                 onValueChange={(val) => setConfig({ ...config, category_id: val === "none" ? null : val })}
@@ -217,9 +217,9 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
             Join to Create instantly creates a private, temporary voice channel for any user who connects to the master Join Channel.
           </p>
           <ul className="text-xs text-slate-500 space-y-2">
-             <li>• The voice channel is owned by the creator.</li>
-             <li>• When the last person leaves, the channel is automatically deleted.</li>
-             <li>• The Control Panel allows owners to lock, unlock, limit members, and kick users.</li>
+            <li>• The voice channel is owned by the creator.</li>
+            <li>• When the last person leaves, the channel is automatically deleted.</li>
+            <li>• The Control Panel allows owners to lock, unlock, limit members, and kick users.</li>
           </ul>
         </div>
       </div>

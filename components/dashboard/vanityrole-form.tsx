@@ -36,7 +36,7 @@ interface VanityRoleFormProps {
 export function VanityRoleForm({ initialSetups, channels, roles, guildId }: VanityRoleFormProps) {
   const [setups, setSetups] = useState<VanityRoleSetup[]>(initialSetups);
   const [saving, setSaving] = useState(false);
-  
+
   const textChannels = channels.filter(c => c.type === "0" || c.type === "text" || !c.type); // ensure text channels
 
   const [newVanity, setNewVanity] = useState("");
@@ -92,11 +92,11 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
 
   return (
     <div className="space-y-8">
-      
+
       {/* List Existing Ones */}
-      <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 border border-white/10">
+      <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 border border-white/10">
         <h3 className="text-xl font-bold text-white mb-6">Active Vanity Roles</h3>
-        
+
         {setups.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 text-slate-500">
             <Link2 className="h-12 w-12 mb-4 opacity-50 bg-slate-800 p-2 rounded-xl" />
@@ -111,9 +111,9 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
                 <div key={idx} className="bg-white/[0.03]/50 p-6 rounded-2xl relative group border border-white/10">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-lg text-primary">{setup.vanity}</h4>
-                    <Button 
-                      variant="destructive" 
-                      size="icon" 
+                    <Button
+                      variant="destructive"
+                      size="icon"
                       onClick={() => handleDelete(setup.vanity)}
                       disabled={saving}
                       className="opacity-0 group-hover:opacity-100 transition-opacity"
@@ -143,19 +143,19 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
       </div>
 
       {/* Add New Setup */}
-      <div className="bg-[#24252a] rounded-3xl shadow-xl p-8 border border-white/10">
+      <div className="bg-[#393a41] rounded-3xl shadow-xl p-8 border border-white/10">
         <h3 className="text-xl font-bold text-white mb-6">Add New Vanity Role</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-3">
             <label className="text-sm font-bold text-slate-300">Vanity Code</label>
-            <Input 
+            <Input
               value={newVanity}
               onChange={(e) => setNewVanity(e.target.value)}
               placeholder="e.g. zyx"
               className="h-12 bg-white/[0.03] border-white/5"
             />
           </div>
-          
+
           <div className="space-y-3">
             <label className="text-sm font-bold text-slate-300">Reward Role</label>
             <Select

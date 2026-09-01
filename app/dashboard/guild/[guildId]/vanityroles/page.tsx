@@ -124,8 +124,8 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
-            
+          <div className="bg-[#393a41]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
+
             {/* Add New Setup */}
             <div className="space-y-4">
               <div className="flex items-center gap-3">
