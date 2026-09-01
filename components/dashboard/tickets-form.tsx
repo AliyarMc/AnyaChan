@@ -137,8 +137,8 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
       {/* Category Editor Modal */}
       {editingCategory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-           <div className="bg-[#141B2D] border border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-              <div className="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+           <div className="bg-[#24252a]  rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+              <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.03]/50">
                 <h3 className="font-bold text-lg text-white flex items-center gap-2">
                    {isAdding ? <Plus className="h-5 w-5 text-primary" /> : <Edit3 className="h-5 w-5 text-primary" />}
                    {isAdding ? "Add Category" : "Edit Category"}
@@ -191,10 +191,10 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
                         data: { ...editingCategory.data, button_style: parseInt(val) }
                       })}
                     >
-                      <SelectTrigger className="bg-slate-900/50 border-slate-800">
+                      <SelectTrigger className="bg-white/[0.03]/50 border-white/5">
                         <SelectValue placeholder="Select Style" />
                       </SelectTrigger>
-                      <SelectContent className="bg-slate-900 border-slate-800">
+                      <SelectContent className="bg-white/[0.03] border-white/5">
                         <SelectItem value="2">Blurple</SelectItem>
                         <SelectItem value="1">Grey</SelectItem>
                         <SelectItem value="3">Green</SelectItem>
@@ -230,8 +230,8 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
       {/* Embed Appearance Editor Modal */}
       {editingEmbed && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-           <div className="bg-[#141B2D] border border-slate-800 rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-              <div className="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+           <div className="bg-[#24252a]  rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+              <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.03]/50">
                 <h3 className="font-bold text-lg text-white flex items-center gap-2">
                    <Edit3 className="h-5 w-5 text-primary" />
                    Customize Panel Appearance
@@ -301,7 +301,7 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Stats & Setup */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-8 shadow-xl space-y-8">
+          <div className="bg-[#24252a]  rounded-3xl p-8 shadow-xl space-y-8">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-primary/10 text-primary"><Settings2 className="h-5 w-5" /></div>
               <h3 className="text-xl font-bold text-white">Global Configuration</h3>
@@ -338,10 +338,10 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
                   value={config.panel_type || "button"}
                   onValueChange={(val) => setConfig({...config, panel_type: val})}
                 >
-                  <SelectTrigger className="bg-slate-900/50 border-slate-800">
+                  <SelectTrigger className="bg-white/[0.03]/50 border-white/5">
                     <SelectValue placeholder="Select Type" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800">
+                  <SelectContent className="bg-white/[0.03] border-white/5">
                     <SelectItem value="button">Buttons</SelectItem>
                     <SelectItem value="dropdown">Dropdown Menu</SelectItem>
                   </SelectContent>
@@ -367,8 +367,8 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
           </div>
 
           {/* Categories Section */}
-          <section className="bg-[#141B2D] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
-            <div className="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/20">
+          <section className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.03]/20">
               <div className="flex items-center gap-2">
                 <Tag className="h-5 w-5 text-primary" />
                 <h3 className="font-bold text-white">Ticket Categories</h3>
@@ -381,7 +381,7 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
             <div className="p-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {config.categories.map((cat, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 bg-slate-900/50 rounded-2xl border border-white/5 hover:border-primary/30 transition-all group">
+                  <div key={i} className="flex items-center justify-between p-4 bg-white/[0.03]/50 rounded-2xl border border-white/5 hover:border-primary/30 transition-all group">
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-xl bg-slate-800 flex items-center justify-center text-xl shadow-inner">
                         {cat.emoji || '📩'}
@@ -414,7 +414,7 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
 
         {/* Right Column: Stats & Configuration */}
         <div className="space-y-6">
-          <div className="bg-[#141B2D] border border-slate-800 p-6 rounded-3xl group shadow-lg">
+          <div className="bg-[#24252a]  p-6 rounded-3xl group shadow-lg">
               <div className="flex items-center justify-between mb-4">
                   <div className="p-3 bg-primary/10 rounded-2xl text-primary group-hover:scale-110 transition-transform">
                     <MessageSquare className="h-6 w-6" />

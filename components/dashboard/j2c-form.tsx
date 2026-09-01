@@ -76,9 +76,9 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#141B2D] border border-slate-800 rounded-3xl shadow-xl p-8 space-y-8">
+        <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8 space-y-8">
           
-          <div className="flex items-center justify-between p-6 bg-slate-900/40 rounded-2xl border border-slate-800">
+          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
             <div className="flex items-center gap-4">
               <div className={cn("p-3 rounded-xl transition-colors", isEnabled ? "bg-emerald-500/20 text-emerald-500" : "bg-red-500/20 text-red-500")}>
                 <Power className="w-5 h-5" />
@@ -89,7 +89,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="px-4 py-2 rounded-full bg-slate-900 border border-slate-800 flex items-center gap-2">
+              <div className="px-4 py-2 rounded-full bg-white/[0.03]  flex items-center gap-2">
                 <div className={cn("w-2 h-2 rounded-full", isEnabled ? 'bg-emerald-500 animate-pulse' : 'bg-red-500')} />
                 <span className="text-xs font-bold uppercase track-wider text-slate-300">
                   {isEnabled ? 'Active' : 'Inactive'}
@@ -104,7 +104,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className={cn("p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
+            <div className={cn("p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-primary/20 text-primary rounded-xl">
                   <Mic className="w-5 h-5" />
@@ -119,10 +119,10 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
                 value={config.join_channel_id ? config.join_channel_id : "none"}
                 onValueChange={(val) => setConfig({ ...config, join_channel_id: val === "none" ? null : val })}
               >
-                <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                   <SelectValue placeholder="Select a voice channel..." />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                   <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                   {voiceChannels.map((c) => (
                     <SelectItem key={c.id} value={c.id.toString()} className="focus:bg-slate-800">
@@ -133,7 +133,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
               </Select>
             </div>
 
-            <div className={cn("p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
+            <div className={cn("p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-blue-500/20 text-blue-500 rounded-xl">
                   <Headset className="w-5 h-5" />
@@ -148,10 +148,10 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
                 value={config.control_channel_id ? config.control_channel_id : "none"}
                 onValueChange={(val) => setConfig({ ...config, control_channel_id: val === "none" ? null : val })}
               >
-                <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                   <SelectValue placeholder="Select a text channel..." />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                   <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                   {textChannels.map((c) => (
                     <SelectItem key={c.id} value={c.id.toString()} className="focus:bg-slate-800">
@@ -162,7 +162,7 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
               </Select>
             </div>
 
-            <div className={cn("p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
+            <div className={cn("p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 transition-all duration-300", !isEnabled && "opacity-50 pointer-events-none")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-purple-500/20 text-purple-500 rounded-xl">
                   <Settings2 className="w-5 h-5" />
@@ -177,10 +177,10 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
                 value={config.category_id ? config.category_id : "none"}
                 onValueChange={(val) => setConfig({ ...config, category_id: val === "none" ? null : val })}
               >
-                <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                   <SelectValue placeholder="Automatic (Same as Join Channel)..." />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                   <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Automatic (Same as Join Channel)</SelectItem>
                   {categoryChannels.map((c) => (
                     <SelectItem key={c.id} value={c.id.toString()} className="focus:bg-slate-800">

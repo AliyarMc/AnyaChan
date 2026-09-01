@@ -85,7 +85,7 @@ export default function LeaderboardPage({ params }: { params: { guildId: string 
               placeholder="Search members..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-12 bg-slate-900/50 border-slate-800 rounded-2xl h-12 focus:ring-primary/20 transition-all"
+              className="pl-12 bg-white/[0.03]/50 border-white/5 rounded-2xl h-12 focus:ring-primary/20 transition-all"
            />
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function LeaderboardPage({ params }: { params: { guildId: string 
                <div className="h-20 w-20 rounded-full bg-slate-800 border-4 border-slate-700 mb-4 flex items-center justify-center relative shadow-2xl">
                   <User className="h-10 w-10 text-slate-500" />
                   <div className={cn(
-                    "absolute -bottom-1 -right-1 h-8 w-8 rounded-full border-4 border-[#141B2D] flex items-center justify-center text-[10px] font-black",
+                    "absolute -bottom-1 -right-1 h-8 w-8 rounded-full border-4 border-[#24252a] flex items-center justify-center text-[10px] font-black",
                     i === 0 ? "bg-amber-500 text-black" : i === 1 ? "bg-slate-300 text-black" : "bg-amber-800 text-white"
                   )}>
                     #{i + 1}
@@ -129,11 +129,11 @@ export default function LeaderboardPage({ params }: { params: { guildId: string 
       </div>
 
       {/* Main Leaderboard Table */}
-      <div className="bg-[#141B2D] border border-slate-800 rounded-[40px] overflow-hidden shadow-2xl">
+      <div className="bg-[#24252a]  rounded-[40px] overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-slate-800 bg-slate-900/30">
+              <tr className="border-b border-white/5 bg-white/[0.03]/30">
                 <th className="px-8 py-6 text-[10px] font-black uppercase text-slate-500 tracking-[0.2em]">Rank</th>
                 <th className="px-8 py-6 text-[10px] font-black uppercase text-slate-500 tracking-[0.2em]">User</th>
                 <th className="px-8 py-6 text-[10px] font-black uppercase text-slate-500 tracking-[0.2em]">Level</th>
@@ -187,15 +187,15 @@ export default function LeaderboardPage({ params }: { params: { guildId: string 
         </div>
         
         {/* Pagination Overlay (Simulation) */}
-        <div className="p-6 border-t border-slate-800 bg-slate-900/20 flex items-center justify-between">
+        <div className="p-6 border-t border-white/5 bg-white/[0.03]/20 flex items-center justify-between">
            <p className="text-xs text-slate-500 font-medium">
              Showing <span className="text-white">{filteredData.length}</span> active competitors
            </p>
            <div className="flex items-center gap-2">
-              <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-slate-800" disabled>
+              <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-white/5" disabled>
                  <ChevronLeft className="h-4 w-4" />
               </Button>
-              <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-slate-800" disabled>
+              <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-white/5" disabled>
                  <ChevronRight className="h-4 w-4" />
               </Button>
            </div>

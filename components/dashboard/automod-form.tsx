@@ -100,7 +100,7 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#141B2D] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl">
           <div className="p-8 space-y-6">
             <div className="flex items-center justify-between mb-4">
                <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest">Master Control</h3>
@@ -118,7 +118,7 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
                     key={rule.id}
                     className={cn(
                       "p-6 rounded-2xl border transition-all duration-300",
-                      config.enabled ? "bg-slate-900/40 border-slate-800" : "bg-slate-900/10 border-slate-900 opacity-40 grayscale"
+                      config.enabled ? "bg-white/[0.03]/40 border-white/5" : "bg-white/[0.03]/10 border-slate-900 opacity-40 grayscale"
                     )}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
@@ -181,10 +181,10 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
       </div>
 
       <div className="space-y-6">
-         <div className="bg-[#141B2D] border border-slate-800 rounded-3xl p-6">
+         <div className="bg-[#24252a]  rounded-3xl p-6">
             <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest mb-4">Logging Level</h3>
             <div className="space-y-3">
-               <div className="p-3 bg-slate-900/50 rounded-xl border border-white/5 flex items-center justify-between">
+               <div className="p-3 bg-white/[0.03]/50 rounded-xl border border-white/5 flex items-center justify-between">
                   <span className="text-sm text-slate-400">Log Channel</span>
                   <span className="text-xs font-mono text-primary">#{config.logging_channel || 'None'}</span>
                </div>

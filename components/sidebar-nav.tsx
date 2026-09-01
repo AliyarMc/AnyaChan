@@ -127,7 +127,7 @@ export function SidebarNav({
   };
 
   return (
-    <div className="flex flex-col gap-6 bg-[#141B2D] border border-slate-800 rounded-3xl p-6 shadow-xl shadow-black/25">
+    <div className="flex flex-col gap-6 bg-[#24252a]  rounded-3xl p-6 shadow-xl shadow-black/25">
       {/* Back button */}
       <Link href="/dashboard/guilds" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-black uppercase tracking-wider group">
         <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />
@@ -135,7 +135,7 @@ export function SidebarNav({
       </Link>
 
       {/* Mini Guild Header */}
-      <div className="flex items-center gap-4 pb-4 border-b border-slate-800">
+      <div className="flex items-center gap-4 pb-4 border-b border-white/5">
         {guildIcon ? (
           <Image 
             src={guildIcon} 
@@ -186,7 +186,7 @@ export function SidebarNav({
                 "grid transition-all duration-300 ease-in-out",
                 isExpanded ? "grid-rows-[1fr] opacity-100 mt-1" : "grid-rows-[0fr] opacity-0 overflow-hidden pointer-events-none"
               )}>
-                <div className="overflow-hidden flex flex-col gap-1 pl-4 border-l border-slate-800/60 ml-5 py-0.5">
+                <div className="overflow-hidden flex flex-col gap-1 pl-4 border-l border-white/5/60 ml-5 py-0.5">
                   {cat.tabs.map((tab) => {
                     const isActive = pathname === tab.href;
                     return (

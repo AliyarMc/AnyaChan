@@ -36,7 +36,7 @@ export default async function WelcomePage({ params }: { params: { guildId: strin
   return (
     <div className="w-full space-y-6 animate-in fade-in duration-300">
       {/* Koya Style Breadcrumb Header */}
-      <div className="flex items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6">
+      <div className="flex items-center justify-between gap-4 pb-2 mb-6">
         <div className="flex items-center gap-2 text-2xl font-bold flex-wrap">
           <Link 
             href={`/dashboard/guild/${params.guildId}`}

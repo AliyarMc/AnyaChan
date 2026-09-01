@@ -38,7 +38,7 @@ export const ToggleSwitch = ({
   disabled,
   className 
 }: ToggleSwitchProps) => (
-  <div className={cn("flex items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900/30 border border-slate-800", className)}>
+  <div className={cn("flex items-center justify-between gap-4 p-4 rounded-2xl bg-white/[0.03]/30 ", className)}>
     {(label || description) && (
       <div className="flex flex-col">
         {label && <span className="text-sm font-bold text-slate-200">{label}</span>}
@@ -96,7 +96,7 @@ export const FormInput = ({ label, icon: Icon, className, ...props }: FormInputP
       )}
       <Input 
         className={cn(
-          "bg-slate-900/50 border-slate-800 rounded-xl h-12 focus:ring-primary/20",
+          "bg-white/[0.03]/50 border-white/5 rounded-xl h-12 focus:ring-primary/20",
           Icon && "pl-12",
           className
         )} 

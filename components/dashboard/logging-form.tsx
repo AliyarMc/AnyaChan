@@ -105,7 +105,7 @@ export function LoggingForm({ initialConfig, channels, guildId }: LoggingFormPro
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-4">
          {LOG_CATEGORIES.map((cat) => (
-            <div key={cat.id} className="bg-[#141B2D] border border-slate-800 p-8 rounded-[40px] shadow-xl hover:border-primary/20 transition-all group">
+            <div key={cat.id} className="bg-[#24252a]  p-8 rounded-[40px] shadow-xl hover:border-primary/20 transition-all group">
                <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                   <div className="flex items-start gap-5">
                      <div className="h-14 w-14 rounded-2xl bg-slate-800/50 flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors border border-white/5 shrink-0">
@@ -127,11 +127,11 @@ export function LoggingForm({ initialConfig, channels, guildId }: LoggingFormPro
                           onValueChange={(val) => handleChannelChange(cat.id, val)}
                           options={channelOptions}
                           placeholder="Select channel..."
-                          className="bg-black/20 border-slate-800 rounded-xl"
+                          className="bg-black/20 border-white/5 rounded-xl"
                         />
                      </div>
 
-                     <div className="flex items-center gap-4 border-l border-slate-800/50 pl-4 md:pl-8">
+                     <div className="flex items-center gap-4 border-l border-white/5/50 pl-4 md:pl-8">
                         <div className="flex-col items-end hidden sm:flex">
                            <span className={cn(
                              "text-[10px] font-black uppercase tracking-widest",
@@ -175,17 +175,17 @@ export function LoggingForm({ initialConfig, channels, guildId }: LoggingFormPro
             </Button>
          </section>
 
-         <div className="bg-[#141B2D] border border-slate-800 rounded-[40px] p-8 shadow-xl">
+         <div className="bg-[#24252a]  rounded-[40px] p-8 shadow-xl">
            <h3 className="text-xs font-black uppercase text-slate-500 tracking-[0.15em] mb-6 flex items-center gap-2">
              <ShieldAlert className="h-4 w-4 text-amber-500" />
              Audit Protection
            </h3>
            <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-slate-900/40 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+              <div className="flex items-center justify-between p-3 bg-white/[0.03]/40 rounded-xl  hover:border-slate-700 transition-colors">
                  <span className="text-xs font-bold text-slate-400">Protect Roles</span>
                  <span className="bg-slate-800 text-slate-300 px-2 py-1 rounded-md text-[10px] font-black">{config.ignore_roles.length}</span>
               </div>
-              <div className="flex items-center justify-between p-3 bg-slate-900/40 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+              <div className="flex items-center justify-between p-3 bg-white/[0.03]/40 rounded-xl  hover:border-slate-700 transition-colors">
                  <span className="text-xs font-bold text-slate-400">Secure Channels</span>
                  <span className="bg-slate-800 text-slate-300 px-2 py-1 rounded-md text-[10px] font-black">{config.ignore_channels.length}</span>
               </div>

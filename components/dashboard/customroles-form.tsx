@@ -66,9 +66,9 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#141B2D] border border-slate-800 rounded-3xl shadow-xl p-8 space-y-8">
+        <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8 space-y-8">
           
-          <div className="flex items-center justify-between p-6 bg-slate-900/40 rounded-2xl border border-slate-800">
+          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/20 text-primary rounded-xl">
                 <Settings className="w-5 h-5" />
@@ -84,10 +84,10 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
                 value={config.reqrole?.toString() || "none"}
                 onValueChange={(val) => setConfig({ ...config, reqrole: val === "none" ? null : parseInt(val) })}
               >
-                <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                   <SelectValue placeholder="Select required role..." />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                   <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">None required / Admins only</SelectItem>
                   {filteredRoles.map((role) => (
                     <SelectItem key={role.id} value={role.id.toString()} className="focus:bg-slate-800">
@@ -101,7 +101,7 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {ROLE_INPUTS.map((input) => (
-              <div key={input.key} className="p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4 hover:border-slate-700 transition-all duration-300">
+              <div key={input.key} className="p-6 bg-white/[0.03]/40  rounded-2xl space-y-4 hover:border-slate-700 transition-all duration-300">
                 <div className="flex items-center gap-3">
                   <div className={cn("p-3 rounded-xl", input.bg, input.color)}>
                     <input.icon className="w-5 h-5" />
@@ -116,10 +116,10 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
                   value={config[input.key]?.toString() || "none"}
                   onValueChange={(val) => setConfig({ ...config, [input.key]: val === "none" ? null : parseInt(val) })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select a role..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                  <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                     <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                     {filteredRoles.map((role) => (
                       <SelectItem key={role.id} value={role.id.toString()} className="focus:bg-slate-800">

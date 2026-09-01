@@ -101,10 +101,10 @@ export default function VerificationPage({ params }: { params: { guildId: string
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#141B2D] border border-slate-800 rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
+          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
             
             {/* Enable/Disable Toggle */}
-            <div className="flex items-center justify-between p-6 bg-slate-900/40 rounded-2xl border border-slate-800">
+            <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
               <div className="flex items-center gap-4">
                 <div className={cn("p-3 rounded-xl transition-colors", config.enabled ? "bg-emerald-500/20 text-emerald-500" : "bg-red-500/20 text-red-500")}>
                   <Power className="w-5 h-5" />
@@ -115,7 +115,7 @@ export default function VerificationPage({ params }: { params: { guildId: string
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="px-4 py-2 rounded-full bg-slate-900 border border-slate-800 flex items-center gap-2">
+                <div className="px-4 py-2 rounded-full bg-white/[0.03]  flex items-center gap-2">
                   <div className={cn("w-2 h-2 rounded-full", config.enabled ? 'bg-emerald-500 animate-pulse' : 'bg-red-500')} />
                   <span className="text-xs font-bold uppercase text-slate-300">
                     {config.enabled ? 'Active' : 'Inactive'}
@@ -132,7 +132,7 @@ export default function VerificationPage({ params }: { params: { guildId: string
             {/* Selectors Grid */}
             <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300", !config.enabled && "opacity-50 pointer-events-none")}>
               {/* Verification Channel */}
-              <div className="p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4">
+              <div className="p-6 bg-white/[0.03]/40  rounded-2xl space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-primary/20 text-primary rounded-xl"><Hash className="w-5 h-5" /></div>
                   <div>
@@ -144,10 +144,10 @@ export default function VerificationPage({ params }: { params: { guildId: string
                   value={config.verification_channel_id || "none"}
                   onValueChange={(val) => setConfig({ ...config, verification_channel_id: val === "none" ? null : val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select a channel..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                  <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                     <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                     {textChannels.map((c) => (
                       <SelectItem key={c.id} value={c.id} className="focus:bg-slate-800">#{c.name}</SelectItem>
@@ -157,7 +157,7 @@ export default function VerificationPage({ params }: { params: { guildId: string
               </div>
 
               {/* Verified Role */}
-              <div className="p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4">
+              <div className="p-6 bg-white/[0.03]/40  rounded-2xl space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-emerald-500/20 text-emerald-500 rounded-xl"><UserCheck className="w-5 h-5" /></div>
                   <div>
@@ -169,10 +169,10 @@ export default function VerificationPage({ params }: { params: { guildId: string
                   value={config.verified_role_id || "none"}
                   onValueChange={(val) => setConfig({ ...config, verified_role_id: val === "none" ? null : val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select a role..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                  <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                     <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                     {filteredRoles.map((r) => (
                       <SelectItem key={r.id} value={r.id} className="focus:bg-slate-800">{r.name}</SelectItem>
@@ -182,7 +182,7 @@ export default function VerificationPage({ params }: { params: { guildId: string
               </div>
 
               {/* Verification Method */}
-              <div className="p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4">
+              <div className="p-6 bg-white/[0.03]/40  rounded-2xl space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-purple-500/20 text-purple-500 rounded-xl"><Fingerprint className="w-5 h-5" /></div>
                   <div>
@@ -194,10 +194,10 @@ export default function VerificationPage({ params }: { params: { guildId: string
                   value={config.verification_method || "both"}
                   onValueChange={(val) => setConfig({ ...config, verification_method: val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select method..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800">
+                  <SelectContent className="bg-white/[0.03] border-white/5">
                     <SelectItem value="button" className="focus:bg-slate-800">Button Click</SelectItem>
                     <SelectItem value="captcha" className="focus:bg-slate-800">CAPTCHA Image</SelectItem>
                     <SelectItem value="both" className="focus:bg-slate-800">Both (Combined)</SelectItem>
@@ -206,7 +206,7 @@ export default function VerificationPage({ params }: { params: { guildId: string
               </div>
 
               {/* Log Channel */}
-              <div className="p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4">
+              <div className="p-6 bg-white/[0.03]/40  rounded-2xl space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-blue-500/20 text-blue-500 rounded-xl"><Bell className="w-5 h-5" /></div>
                   <div>
@@ -218,10 +218,10 @@ export default function VerificationPage({ params }: { params: { guildId: string
                   value={config.log_channel_id || "none"}
                   onValueChange={(val) => setConfig({ ...config, log_channel_id: val === "none" ? null : val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select a channel..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                  <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                     <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Disabled</SelectItem>
                     {textChannels.map((c) => (
                       <SelectItem key={c.id} value={c.id} className="focus:bg-slate-800">#{c.name}</SelectItem>

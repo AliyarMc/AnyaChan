@@ -84,7 +84,7 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
     <div className="space-y-8">
       
       {/* List Existing Ones */}
-      <div className="bg-[#141B2D] border border-slate-800 rounded-3xl shadow-xl p-8">
+      <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8">
         <h3 className="text-xl font-bold text-white mb-6">Active Vanity Roles</h3>
         
         {setups.length === 0 ? (
@@ -98,7 +98,7 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
               const r = roles.find(ro => ro.id.toString() === setup.role_id?.toString());
               const c = channels.find(ch => ch.id.toString() === setup.log_channel_id?.toString());
               return (
-                <div key={idx} className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 relative group">
+                <div key={idx} className="bg-white/[0.03]/50 p-6 rounded-2xl  relative group">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-lg text-primary">{setup.vanity}</h4>
                     <Button 
@@ -133,7 +133,7 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
       </div>
 
       {/* Add New Setup */}
-      <div className="bg-[#141B2D] border border-slate-800 rounded-3xl shadow-xl p-8">
+      <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8">
         <h3 className="text-xl font-bold text-white mb-6">Add New Vanity Role</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-3">
@@ -142,7 +142,7 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
               value={newVanity}
               onChange={(e) => setNewVanity(e.target.value)}
               placeholder="e.g. zyx"
-              className="h-12 bg-slate-900 border-slate-800"
+              className="h-12 bg-white/[0.03] border-white/5"
             />
           </div>
           
@@ -152,10 +152,10 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
               value={newRole || ""}
               onValueChange={(val) => setNewRole(val)}
             >
-              <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 text-left">
+              <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 text-left">
                 <SelectValue placeholder="Select a role..." />
               </SelectTrigger>
-              <SelectContent className="bg-slate-900 border-slate-800">
+              <SelectContent className="bg-white/[0.03] border-white/5">
                 {roles.map((r) => (
                   <SelectItem key={r.id} value={r.id.toString()} className="focus:bg-slate-800">
                     {r.name}
@@ -171,10 +171,10 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
               value={newChannel || ""}
               onValueChange={(val) => setNewChannel(val)}
             >
-              <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 text-left">
+              <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 text-left">
                 <SelectValue placeholder="Select log channel..." />
               </SelectTrigger>
-              <SelectContent className="bg-slate-900 border-slate-800">
+              <SelectContent className="bg-white/[0.03] border-white/5">
                 {textChannels.map((c) => (
                   <SelectItem key={c.id} value={c.id.toString()} className="focus:bg-slate-800">
                     # {c.name}

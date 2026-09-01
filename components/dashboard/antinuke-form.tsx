@@ -115,7 +115,7 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#141B2D] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl">
           <div className="p-8 space-y-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-black uppercase text-slate-500 tracking-widest">Master Control</h3>
@@ -131,7 +131,7 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
                   key={feature.id}
                   className={cn(
                     "p-6 rounded-2xl border transition-all duration-300",
-                    config.status ? "bg-slate-900/40 border-slate-800" : "bg-slate-900/10 border-slate-900 opacity-40 grayscale"
+                    config.status ? "bg-white/[0.03]/40 border-white/5" : "bg-white/[0.03]/10 border-slate-900 opacity-40 grayscale"
                   )}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
@@ -161,7 +161,7 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
               ))}
             </div>
 
-            <div className="pt-6 border-t border-slate-800">
+            <div className="pt-6 border-t border-white/5">
               <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-emerald-500" />
                 Whitelisted Users
@@ -172,7 +172,7 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
                   placeholder="User ID..." 
                   value={wlInput}
                   onChange={(e) => setWlInput(e.target.value)}
-                  className="bg-slate-900/50"
+                  className="bg-white/[0.03]/50"
                 />
                 <Button onClick={handleAddWhitelist} disabled={saving} variant="secondary">
                   <Plus className="h-5 w-5" />
@@ -184,7 +184,7 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
                   <p className="text-xs text-slate-500 italic text-center py-4">No users whitelisted.</p>
                 ) : (
                   whitelistedUsers.map(userId => (
-                    <div key={userId} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/30 border border-slate-800/50">
+                    <div key={userId} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03]/30 /50">
                       <div className="flex items-center gap-3">
                         <div className="h-8 w-8 rounded-full bg-slate-800 flex items-center justify-center">
                           <User className="h-4 w-4 text-slate-400" />

@@ -172,26 +172,26 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
 
   return (
     <div className="w-full space-y-8 animate-in fade-in duration-200">
-      {/* ── STEP 1: CHANNEL SELECTION (Exact Koya DOM) ── */}
+      {/* ── STEP 1: CHANNEL SELECTION (Seamless, borderless) ── */}
       <div id="setup-step-1" className="flex flex-col gap-2">
         <div className="text-gray-300 text-sm font-bold tracking-wide uppercase">
           <span>Channel</span> <span className="text-red-400">*</span>
         </div>
-        <p className="text-gray-300 text-sm">
+        <p className="text-white/50 text-sm">
           Select channel where messages are going to be sent.
         </p>
 
         <div className="w-full max-w-sm mt-1">
-          <div className="kinput bg-kgray-800 ring-1 ring-white/10 hover:ring-white/20 rounded-lg flex items-center px-3 py-2 transition-all">
+          <div className="bg-white/5 hover:bg-white/[0.08] rounded-xl flex items-center px-3.5 py-2.5 transition-colors">
             <span className="text-white/40 mr-2 font-mono">#</span>
             <select
               value={config.channel_id || ""}
               onChange={(e) => setConfig({ ...config, channel_id: e.target.value })}
               className="bg-transparent text-white text-sm w-full focus:outline-none cursor-pointer appearance-none"
             >
-              <option value="" disabled className="bg-kgray-800 text-white">Select a channel...</option>
+              <option value="" disabled className="bg-[#2b2c32] text-white">Select a channel...</option>
               {channels.map((c) => (
-                <option key={c.id} value={c.id.toString()} className="bg-kgray-800 text-white">
+                <option key={c.id} value={c.id.toString()} className="bg-[#2b2c32] text-white">
                   {c.name}
                 </option>
               ))}
@@ -200,26 +200,26 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
           </div>
         </div>
 
-        <label className="flex items-center gap-2 cursor-pointer select-none mt-2 w-fit">
+        <label className="flex items-center gap-2.5 cursor-pointer select-none mt-2 w-fit">
           <input
             type="checkbox"
             checked={sendInDm}
             onChange={(e) => setSendInDm(e.target.checked)}
-            className="w-4 h-4 rounded border-white/20 bg-kgray-800 text-white focus:ring-0 cursor-pointer"
+            className="w-4 h-4 rounded bg-white/10 text-white focus:ring-0 cursor-pointer border-none"
           />
-          <span className="text-gray-300 text-sm hover:text-white transition-colors">
+          <span className="text-white/70 text-sm hover:text-white transition-colors">
             Send the message in user DMs
           </span>
         </label>
       </div>
 
-      <div className="border-b border-white/10 my-6" />
+      <div className="h-px bg-white/5 my-6" />
 
       {/* ── STEP 2: MESSAGE CONFIGURATION & DISCORD LIVE PREVIEW ── */}
       <div id="setup-step-2" className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <div className="text-gray-300 text-sm font-bold tracking-wide uppercase">Message</div>
-          <p className="text-gray-300 text-sm">Set the custom message that will be sent.</p>
+          <p className="text-white/50 text-sm">Set the custom message that will be sent.</p>
         </div>
 
         {/* Tab & Utility Row */}
@@ -230,9 +230,9 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
               type="button"
               onClick={() => setMessageTab("message")}
               className={cn(
-                "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors",
+                "px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors",
                 messageTab === "message"
-                  ? "bg-kgray-800 text-white ring-1 ring-white/10"
+                  ? "bg-white/10 text-white"
                   : "bg-transparent text-white/50 hover:text-white"
               )}
             >
@@ -242,14 +242,14 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
               type="button"
               onClick={() => setMessageTab("components")}
               className={cn(
-                "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5",
+                "px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5",
                 messageTab === "components"
-                  ? "bg-kgray-800 text-white ring-1 ring-white/10"
+                  ? "bg-white/10 text-white"
                   : "bg-transparent text-white/50 hover:text-white"
               )}
             >
               <span>Components</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300">
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white/10 text-white/80">
                 New
               </span>
             </button>
@@ -260,7 +260,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
             <button
               type="button"
               onClick={() => setShowVariables(!showVariables)}
-              className="dbtn dbtn-ghost dbtn-small flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-white/70 hover:text-white transition-colors border border-white/10"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
             >
               <Variable className="w-3.5 h-3.5" />
               <span>Variables</span>
@@ -282,7 +282,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                 });
                 toast.success("Preset layout applied!");
               }}
-              className="dbtn dbtn-ghost dbtn-small flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-white/70 hover:text-white transition-colors border border-white/10"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Auto Setup</span>
@@ -292,30 +292,30 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
 
         {/* Variables Reference Box */}
         {showVariables && (
-          <div className="bg-kgray-800 border border-white/10 rounded-xl p-4 animate-in fade-in duration-150">
+          <div className="bg-white/[0.04] rounded-2xl p-4 animate-in fade-in duration-150">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Available Variables</h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono text-white/70">
-              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{user.mention}'}</span> — @Username</div>
-              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{user.name}'}</span> — Plain Username</div>
-              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{server.name}'}</span> — Server Name</div>
-              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{server_membercount}'}</span> — Member Count</div>
-              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{user_avatar}'}</span> — User Avatar URL</div>
-              <div className="p-2 rounded bg-white/[0.03] border border-white/5"><span className="text-white font-bold">{'{server_icon}'}</span> — Server Icon URL</div>
+              <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">{'{user.mention}'}</span> — @Username</div>
+              <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">{'{user.name}'}</span> — Plain Username</div>
+              <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">{'{server.name}'}</span> — Server Name</div>
+              <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">{'{server_membercount}'}</span> — Member Count</div>
+              <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">{'{user_avatar}'}</span> — User Avatar URL</div>
+              <div className="p-2.5 rounded-xl bg-white/[0.03]"><span className="text-white font-bold">{'{server_icon}'}</span> — Server Icon URL</div>
             </div>
           </div>
         )}
 
-        {/* Side-by-Side Editor & Discord Live Preview (Koya Grid) */}
+        {/* Side-by-Side Editor & Discord Live Preview */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
           {/* Left: Editor Column */}
           <div className="xl:col-span-7 space-y-4">
-            {/* Raw Message Card */}
-            <div className="bg-kgray-800 ring-1 ring-white/10 rounded-xl p-4 sm:p-5 space-y-3">
+            {/* Raw Message Card (Clean seamless surface, no border) */}
+            <div className="bg-white/[0.03] rounded-2xl p-5 space-y-3">
               <div className="flex items-center gap-3">
                 <img
                   src="/utilities/avatar.png"
                   alt="Anya"
-                  className="w-10 h-10 rounded-full object-cover shrink-0 ring-1 ring-white/10"
+                  className="w-10 h-10 rounded-full object-cover shrink-0"
                   onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
                 />
                 <div className="flex items-baseline gap-2">
@@ -331,15 +331,15 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                   onChange={(e) => setConfig({ ...config, welcome_message: e.target.value })}
                   placeholder="Insert image message (e.g. Welcome {user.mention} to **{server.name}**!)"
                   maxLength={2000}
-                  className="ktextarea bg-kgray-850 ring-1 ring-white/10 rounded-lg p-3 text-sm text-white placeholder:text-white/30 focus:outline-none w-full min-h-[90px] resize-y"
+                  className="bg-white/5 rounded-xl p-3.5 text-sm text-white placeholder:text-white/30 focus:outline-none w-full min-h-[95px] resize-y"
                 />
-                <div className="maxLength text-right text-[11px] text-white/40 font-mono mt-1">
+                <div className="text-right text-[11px] text-white/40 font-mono mt-1">
                   {(config.welcome_message || "").length} / 2000
                 </div>
               </div>
 
               {/* Embed Toggle */}
-              <div className="flex items-center justify-between pt-2 border-t border-white/5">
+              <div className="flex items-center justify-between pt-2">
                 <span className="text-sm font-medium text-white/80 select-none">
                   Send an embed with this message
                 </span>
@@ -355,7 +355,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
             {/* Embed Configuration Card */}
             {isEmbed && (
               <div
-                className="bg-kgray-800 ring-1 ring-white/10 rounded-xl p-4 sm:p-5 space-y-4 relative"
+                className="bg-white/[0.03] rounded-2xl p-5 space-y-4 relative"
                 style={{ borderLeft: `4px solid ${config.embed_data?.color || "#5865F2"}` }}
               >
                 {/* Swatches */}
@@ -373,11 +373,11 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                           embed_data: { ...config.embed_data, color: e.target.value }
                         })
                       }
-                      className="w-24 bg-kgray-850 ring-1 ring-white/10 rounded px-2 py-0.5 text-xs text-white font-mono text-center focus:outline-none"
+                      className="w-24 bg-white/5 rounded-lg px-2.5 py-1 text-xs text-white font-mono text-center focus:outline-none"
                     />
                   </div>
 
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-2.5 flex-wrap">
                     {DISCORD_COLOR_PRESETS.map((color) => (
                       <button
                         key={color}
@@ -390,7 +390,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                         }
                         style={{ backgroundColor: color }}
                         className={cn(
-                          "w-6 h-6 rounded-full border border-white/20 transition-transform hover:scale-110",
+                          "w-6 h-6 rounded-full transition-transform hover:scale-110",
                           config.embed_data?.color?.toLowerCase() === color.toLowerCase() && "ring-2 ring-white scale-110"
                         )}
                         title={color}
@@ -400,7 +400,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                 </div>
 
                 {/* Author Name and Icon */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-white/5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                   <div>
                     <label className="text-xs font-medium text-white/50">Author Name</label>
                     <input
@@ -413,7 +413,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                         })
                       }
                       placeholder="Author text"
-                      className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                     />
                   </div>
                   <div>
@@ -428,7 +428,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                         })
                       }
                       placeholder="https://... or {server_icon}"
-                      className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                     />
                   </div>
                 </div>
@@ -446,7 +446,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                       })
                     }
                     placeholder="Welcome to the server!"
-                    className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                    className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                   />
                 </div>
 
@@ -463,7 +463,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                     }
                     placeholder="We're glad to have you here, {user.mention}!"
                     rows={3}
-                    className="ktextarea bg-kgray-850 ring-1 ring-white/10 rounded-lg p-3 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1 resize-y"
+                    className="bg-white/5 rounded-xl p-3.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1 resize-y"
                   />
                 </div>
 
@@ -481,7 +481,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                         })
                       }
                       placeholder="{user_avatar} or https://..."
-                      className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                     />
                   </div>
                   <div>
@@ -496,13 +496,13 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                         })
                       }
                       placeholder="https://..."
-                      className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                     />
                   </div>
                 </div>
 
                 {/* Footer & Timestamp */}
-                <div className="pt-2 border-t border-white/5 space-y-3">
+                <div className="pt-2 space-y-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="text-xs font-medium text-white/50">Footer Text</label>
@@ -516,7 +516,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                           })
                         }
                         placeholder="Footer text"
-                        className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                        className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                       />
                     </div>
                     <div>
@@ -531,12 +531,12 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                           })
                         }
                         placeholder="https://..."
-                        className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
+                        className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none w-full mt-1"
                       />
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between pt-1">
                     <span className="text-xs text-white/70">Enable Embed Timestamp</span>
                     <Switch
                       checked={config.embed_data?.timestamp_enabled !== false}
@@ -567,26 +567,26 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
         </div>
       </div>
 
-      <div className="border-b border-white/10 my-6" />
+      <div className="h-px bg-white/5 my-6" />
 
-      {/* ── STEP 3: IMAGE BETA (Exact Koya Canvas) ── */}
+      {/* ── STEP 3: IMAGE BETA (Canvas, borderless) ── */}
       <div id="setup-step-3" className="flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
               <div className="text-gray-300 text-sm font-bold tracking-wide uppercase">Image</div>
-              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300">
+              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/10 text-white/80">
                 Beta
               </span>
             </div>
-            <p className="text-gray-300 text-sm mt-1">Add a custom image to the message.</p>
+            <p className="text-white/50 text-sm mt-1">Add a custom image to the message.</p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={handleSurpriseMe}
-              className="dbtn dbtn-ghost dbtn-small flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 text-xs font-medium text-white/80 hover:text-white"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-medium text-white/80 hover:text-white transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Surprise Me</span>
@@ -610,9 +610,9 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
         {config.image_config?.enabled && (
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start pt-2">
             {/* Controls */}
-            <div className="xl:col-span-5 bg-kgray-800 ring-1 ring-white/10 rounded-xl p-5 space-y-4">
+            <div className="xl:col-span-5 bg-white/[0.03] rounded-2xl p-5 space-y-4">
               <div>
-                <label className="text-gray-300 text-sm font-semibold tracking-wide uppercase block mb-2">
+                <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">
                   Background Type
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -633,10 +633,10 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                         })
                       }
                       className={cn(
-                        "py-2 text-xs font-medium rounded-lg border transition-colors capitalize",
+                        "py-2 text-xs font-medium rounded-xl transition-colors capitalize",
                         config.image_config?.canvas?.background_type === type
-                          ? "bg-white/10 border-white/30 text-white font-bold"
-                          : "bg-kgray-850 border-white/5 text-white/40 hover:text-white"
+                          ? "bg-white/15 text-white font-bold"
+                          : "bg-white/5 text-white/40 hover:text-white"
                       )}
                     >
                       {type}
@@ -648,7 +648,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
               {/* Background Image URL */}
               {config.image_config?.canvas?.background_type === "image" && (
                 <div>
-                  <label className="text-gray-300 text-sm font-semibold tracking-wide uppercase block mb-2">
+                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">
                     Background Image
                   </label>
                   <input
@@ -667,7 +667,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                       })
                     }
                     placeholder="Insert image URL"
-                    className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none w-full"
+                    className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none w-full"
                   />
                   <div className="mt-2 flex gap-2">
                     <button
@@ -684,7 +684,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                           }
                         })
                       }
-                      className="text-[11px] text-white/50 hover:text-white px-2 py-1 rounded bg-white/5 border border-white/10"
+                      className="text-[11px] text-white/50 hover:text-white px-2.5 py-1 rounded-lg bg-white/5"
                     >
                       Use Gallery Default
                     </button>
@@ -712,7 +712,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                           }
                         })
                       }
-                      className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none w-full mt-1"
+                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none w-full mt-1"
                     />
                   </div>
                   <div>
@@ -732,7 +732,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                           }
                         })
                       }
-                      className="kinput bg-kgray-850 ring-1 ring-white/10 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none w-full mt-1"
+                      className="bg-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none w-full mt-1"
                     />
                   </div>
                 </div>
@@ -740,7 +740,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
 
               {/* Avatar Shape */}
               <div>
-                <label className="text-gray-300 text-sm font-semibold tracking-wide uppercase block mb-2">
+                <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">
                   Avatar Shape
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -761,10 +761,10 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                         })
                       }
                       className={cn(
-                        "py-2 text-xs font-medium rounded-lg border transition-colors capitalize",
+                        "py-2 text-xs font-medium rounded-xl transition-colors capitalize",
                         config.image_config?.avatar?.shape === shape
-                          ? "bg-white/10 border-white/30 text-white font-bold"
-                          : "bg-kgray-850 border-white/5 text-white/40 hover:text-white"
+                          ? "bg-white/15 text-white font-bold"
+                          : "bg-white/5 text-white/40 hover:text-white"
                       )}
                     >
                       {shape}
@@ -775,11 +775,11 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
             </div>
 
             {/* Right Live Canvas */}
-            <div className="xl:col-span-7 sticky top-4 bg-kgray-800 ring-1 ring-white/10 rounded-xl p-4 shadow-lg">
+            <div className="xl:col-span-7 sticky top-4 bg-white/[0.03] rounded-2xl p-4">
               <div className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-3">
                 Live Card Canvas
               </div>
-              <div className="rounded-xl overflow-hidden ring-1 ring-white/10 shadow-inner">
+              <div className="rounded-xl overflow-hidden shadow-lg">
                 <WelcomePreviewCanvas
                   imageConfig={config.image_config}
                   serverName={serverName}
@@ -790,20 +790,20 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
         )}
       </div>
 
-      {/* ── FLOATING SAVE BAR (Exact Koya form#join) ── */}
-      <div className="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 z-50 transition-all duration-200">
-        <div className="shadow-2xl rounded-xl py-2.5 px-4 select-none border border-white/10 bg-kgray-675 max-w-xl mx-auto sm:mx-0 backdrop-blur-md">
+      {/* ── FLOATING SAVE BAR (Clean flat shadow, borderless) ── */}
+      <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-8 z-50 transition-all duration-200">
+        <div className="shadow-2xl rounded-2xl py-3 px-5 select-none bg-[#2b2c32] max-w-xl mx-auto sm:mx-0">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="font-medium text-sm text-gray-200">
               {hasChanges ? "You have unsaved changes! Save or reset them." : "All changes are saved."}
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex items-center gap-2.5 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={handleReset}
                 disabled={!hasChanges || saving}
-                className="dbtn dbtn-ghost dbtn-small flex-1 sm:flex-none disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-1 sm:flex-none"
               >
                 Reset
               </button>
@@ -811,7 +811,7 @@ export function WelcomeForm({ initialConfig, channels, guildId, serverName = "Di
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className="dbtn dbtn-success dbtn-small flex-1 sm:flex-none flex items-center justify-center gap-1.5 disabled:opacity-50"
+                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 flex-1 sm:flex-none disabled:opacity-50"
               >
                 {saving ? <RotateCcw className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
                 <span>Save Changes</span>

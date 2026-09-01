@@ -60,10 +60,10 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#141B2D] border border-slate-800 rounded-3xl shadow-xl p-8 space-y-8">
+        <div className="bg-[#24252a]  rounded-3xl shadow-xl p-8 space-y-8">
           
           {/* Main Toggle */}
-          <div className="flex items-center justify-between p-6 bg-slate-900/40 rounded-2xl border border-slate-800">
+          <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
             <div>
               <h3 className="text-lg font-black text-white">Verification System</h3>
               <p className="text-sm text-slate-400 mt-1">Enable or disable server verification.</p>
@@ -88,10 +88,10 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
                   value={config.verification_channel_id || "none"}
                   onValueChange={(val) => setConfig({ ...config, verification_channel_id: val === "none" ? null : val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select a channel..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800">
+                  <SelectContent className="bg-white/[0.03] border-white/5">
                     <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                     {textChannels.map((c) => (
                       <SelectItem key={c.id} value={c.id.toString()} className="focus:bg-slate-800">
@@ -112,10 +112,10 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
                   value={config.log_channel_id || "none"}
                   onValueChange={(val) => setConfig({ ...config, log_channel_id: val === "none" ? null : val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select log channel..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800">
+                  <SelectContent className="bg-white/[0.03] border-white/5">
                     <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                     {textChannels.map((c) => (
                       <SelectItem key={c.id} value={c.id.toString()} className="focus:bg-slate-800">
@@ -141,10 +141,10 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
                   value={config.verified_role_id || "none"}
                   onValueChange={(val) => setConfig({ ...config, verified_role_id: val === "none" ? null : val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select verified role..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800">
+                  <SelectContent className="bg-white/[0.03] border-white/5">
                     <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">Not Set</SelectItem>
                     {roles.map((r) => (
                       <SelectItem key={r.id} value={r.id.toString()} className="focus:bg-slate-800">
@@ -168,10 +168,10 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
                   value={config.verification_method || "both"}
                   onValueChange={(val) => setConfig({ ...config, verification_method: val })}
                 >
-                  <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                  <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                     <SelectValue placeholder="Select method..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-slate-800">
+                  <SelectContent className="bg-white/[0.03] border-white/5">
                     <SelectItem value="captcha" className="focus:bg-slate-800">CAPTCHA Only</SelectItem>
                     <SelectItem value="button" className="focus:bg-slate-800">Button Click Only</SelectItem>
                     <SelectItem value="both" className="focus:bg-slate-800">Both Choices Setup</SelectItem>

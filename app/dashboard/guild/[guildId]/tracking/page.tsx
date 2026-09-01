@@ -114,7 +114,7 @@ export default function TrackingPage({ params }: { params: { guildId: string } }
             />
           </div>
 
-          <div className="space-y-4 border-t border-slate-800/60 pt-6 mt-4">
+          <div className="space-y-4 border-t border-white/5/60 pt-6 mt-4">
             <h3 className="text-sm font-semibold text-white">Custom Invite Logs</h3>
             
             <div className="space-y-2">
@@ -122,7 +122,7 @@ export default function TrackingPage({ params }: { params: { guildId: string } }
               <input 
                 type="text" 
                 placeholder="🎉 {user_mention} joined using an invite from {inviter_mention}!"
-                className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
                 value={config.join_message || ""}
                 onChange={(e) => setConfig({ ...config, join_message: e.target.value })}
               />
@@ -136,7 +136,7 @@ export default function TrackingPage({ params }: { params: { guildId: string } }
               <input 
                 type="text" 
                 placeholder="🎉 {user_mention} joined using an unknown/vanity invite!"
-                className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary"
                 value={config.vanity_message || ""}
                 onChange={(e) => setConfig({ ...config, vanity_message: e.target.value })}
               />

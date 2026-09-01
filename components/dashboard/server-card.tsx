@@ -40,7 +40,7 @@ export const ServerCard = ({
 }: ServerCardProps) => {
   return (
     <div className={cn(
-      "bg-[#141B2D] border border-slate-800 rounded-[40px] group hover:border-primary/50 transition-all duration-500 overflow-hidden shadow-2xl hover:shadow-primary/10 shadow-black/40 h-full flex flex-col",
+      "bg-white/[0.03] hover:bg-white/[0.05] rounded-3xl group transition-all duration-300 overflow-hidden shadow-xl h-full flex flex-col",
       className
     )}>
       <div className="p-8 flex-grow">
@@ -52,15 +52,15 @@ export const ServerCard = ({
                 alt={name}
                 width={80}
                 height={80}
-                className="rounded-3xl border-4 border-slate-800 shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                className="rounded-2xl shadow-xl group-hover:scale-105 transition-transform duration-300"
               />
             ) : (
-              <div className="h-20 w-20 bg-primary/20 rounded-3xl flex items-center justify-center border-4 border-slate-800 text-primary font-black text-3xl shadow-2xl group-hover:scale-105 transition-transform duration-500">
+              <div className="h-20 w-20 bg-white/10 rounded-2xl flex items-center justify-center text-white font-black text-3xl shadow-xl group-hover:scale-105 transition-transform duration-300">
                 {name.charAt(0)}
               </div>
             )}
             {isActive && (
-              <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-emerald-500 border-4 border-[#141B2D] shadow-lg animate-pulse" title="Online" />
+              <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-2 border-[#202225] shadow-lg" title="Online" />
             )}
           </div>
           
@@ -77,15 +77,15 @@ export const ServerCard = ({
             {name}
           </h3>
           <div className="flex items-center gap-4 mt-6">
-            <div className="flex items-center gap-2 bg-slate-800/50 px-4 py-2 rounded-2xl border border-white/5 shadow-inner">
-              <Users className="h-4 w-4 text-primary" />
-              <span className="text-xs font-black text-slate-200 tabular-nums">
+            <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-2xl">
+              <Users className="h-4 w-4 text-white" />
+              <span className="text-xs font-bold text-slate-200 tabular-nums">
                 {memberCount.toLocaleString()}
               </span>
             </div>
-            <div className="flex items-center gap-2 bg-slate-800/50 px-4 py-2 rounded-2xl border border-white/5">
+            <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-2xl">
               <Hash className="h-4 w-4 text-slate-500" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Managed
               </span>
             </div>
@@ -93,9 +93,9 @@ export const ServerCard = ({
         </div>
       </div>
 
-      <div className="px-8 py-6 bg-slate-900/40 border-t border-slate-800/50 group-hover:bg-primary/5 transition-all">
+      <div className="px-8 py-6 bg-white/[0.02]">
         <Link href={`/dashboard/guild/${id}`} className="block">
-          <Button className="w-full justify-between group/btn py-7 rounded-2xl border-slate-700 font-black uppercase tracking-tighter text-xs" variant="secondary">
+          <Button className="w-full justify-between group/btn py-6 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-bold uppercase tracking-tighter text-xs" variant="secondary">
             <span>Access Dashboard</span>
             <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>

@@ -93,10 +93,10 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#141B2D] border border-slate-800 rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
+          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
             
             {/* Status & Toggle */}
-            <div className="flex items-center justify-between p-6 bg-slate-900/40 rounded-2xl border border-slate-800">
+            <div className="flex items-center justify-between p-6 bg-white/[0.03]/40 rounded-2xl ">
               <div className="flex items-center gap-4">
                 <div className={cn("p-3 rounded-xl transition-colors", config.enabled ? "bg-emerald-500/20 text-emerald-500" : "bg-red-500/20 text-red-500")}>
                   <Power className="w-5 h-5" />
@@ -107,7 +107,7 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 flex items-center gap-2">
+                <div className="px-3 py-1 rounded-full bg-white/[0.03]  flex items-center gap-2">
                   <div className={cn("w-2 h-2 rounded-full", config.enabled ? 'bg-emerald-500 animate-pulse' : 'bg-red-500')} />
                   <span className="text-[10px] font-bold uppercase text-slate-400">
                     {config.enabled ? 'Live' : 'Off'}
@@ -123,7 +123,7 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
 
             {/* Role Selector */}
             <div className={cn("p-6 border rounded-2xl space-y-4 transition-all duration-300", 
-              config.enabled ? "bg-slate-900/40 border-slate-800 opacity-100" : "bg-slate-900/10 border-slate-900 opacity-50 pointer-events-none grayscale")}>
+              config.enabled ? "bg-white/[0.03]/40 border-white/5 opacity-100" : "bg-white/[0.03]/10 border-slate-900 opacity-50 pointer-events-none grayscale")}>
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-primary/20 text-primary rounded-xl">
                   <ShieldCheck className="w-5 h-5" />
@@ -138,10 +138,10 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
                 onValueChange={(val) => setConfig({ ...config, role_id: val === "none" ? null : val })}
                 disabled={!config.enabled}
               >
-                <SelectTrigger className="w-full h-12 bg-slate-900 border-slate-800 font-medium">
+                <SelectTrigger className="w-full h-12 bg-white/[0.03] border-white/5 font-medium">
                   <SelectValue placeholder="Select a role..." />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                   <SelectItem value="none" className="text-slate-400 focus:bg-slate-800">No Role Selected</SelectItem>
                   {filteredRoles.map((r) => (
                     <SelectItem key={r.id} value={r.id} className="focus:bg-slate-800">

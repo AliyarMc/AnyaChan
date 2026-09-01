@@ -176,7 +176,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Editor Form */}
         <div className="lg:col-span-7 space-y-6">
-          <Card className="border-primary/20 bg-[#141B2D]/50 backdrop-blur-xl rounded-3xl">
+          <Card className="border-primary/20 bg-[#24252a]/50 backdrop-blur-xl rounded-3xl">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Settings className="w-5 h-5 text-primary" />
@@ -200,7 +200,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                 <input 
                   type="text" 
                   placeholder="Check out our new update!"
-                  className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+                  className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
                   value={form.message}
                   onChange={(e) => updateField("message", e.target.value)}
                 />
@@ -208,7 +208,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
             </CardContent>
           </Card>
 
-          <Card className="border-primary/20 bg-[#141B2D]/50 backdrop-blur-xl rounded-3xl">
+          <Card className="border-primary/20 bg-[#24252a]/50 backdrop-blur-xl rounded-3xl">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Palette className="w-5 h-5 text-primary" />
@@ -223,7 +223,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                   <input 
                     type="text" 
                     placeholder="🎉 Mojo Launcher Download"
-                    className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+                    className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
                     value={form.title}
                     onChange={(e) => updateField("title", e.target.value)}
                   />
@@ -240,7 +240,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                     <input 
                       type="text" 
                       placeholder="#FF6B00"
-                      className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
+                      className="flex-1 bg-[#131926]  rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
                       value={form.color}
                       onChange={(e) => updateField("color", e.target.value)}
                     />
@@ -255,7 +255,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                 </div>
                 <Textarea
                   placeholder="Play Minecraft Java Edition on Android with support for multiple versions..."
-                  className="min-h-[160px] bg-[#131926] border border-slate-800 text-sm font-sans"
+                  className="min-h-[160px] bg-[#131926]  text-sm font-sans"
                   value={form.description}
                   onChange={(e) => updateField("description", e.target.value)}
                 />
@@ -268,7 +268,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                   <input 
                     type="text" 
                     placeholder="Rebirth Links"
-                    className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                    className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                     value={form.author_name}
                     onChange={(e) => updateField("author_name", e.target.value)}
                   />
@@ -279,7 +279,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                     <input 
                       type="text" 
                       placeholder="https://example.com/icon.png"
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl pl-3 pr-24 py-2 text-sm text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl pl-3 pr-24 py-2 text-sm text-white focus:outline-none"
                       value={form.author_icon}
                       onChange={(e) => updateField("author_icon", e.target.value)}
                     />
@@ -301,7 +301,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                   <input 
                     type="text" 
                     placeholder="https://example.com/banner.png"
-                    className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                    className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                     value={form.image_url}
                     onChange={(e) => updateField("image_url", e.target.value)}
                   />
@@ -312,7 +312,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                     <input 
                       type="text" 
                       placeholder="https://example.com/thumbnail.png"
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl pl-3 pr-24 py-2 text-sm text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl pl-3 pr-24 py-2 text-sm text-white focus:outline-none"
                       value={form.thumbnail_url}
                       onChange={(e) => updateField("thumbnail_url", e.target.value)}
                     />
@@ -334,7 +334,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                   <input 
                     type="text" 
                     placeholder="Only download from official sources."
-                    className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                    className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                     value={form.footer_text}
                     onChange={(e) => updateField("footer_text", e.target.value)}
                   />
@@ -344,7 +344,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                   <input 
                     type="text" 
                     placeholder="https://example.com/footer_icon.png"
-                    className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                    className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                     value={form.footer_icon}
                     onChange={(e) => updateField("footer_icon", e.target.value)}
                   />
@@ -352,7 +352,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
               </div>
 
               {/* Timestamp Toggle */}
-              <div className="flex items-center justify-between bg-slate-900/30 border border-slate-800/60 p-4 rounded-2xl">
+              <div className="flex items-center justify-between bg-white/[0.03]/30 /60 p-4 rounded-2xl">
                 <div>
                   <span className="text-sm font-bold text-white">Append Embed Timestamp</span>
                   <p className="text-xs text-slate-500 mt-1">Show current date and time in the bottom right of the embed.</p>
@@ -366,7 +366,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
           </Card>
 
           {/* Link Buttons Configurator */}
-          <Card className="border-primary/20 bg-[#141B2D]/50 backdrop-blur-xl rounded-3xl">
+          <Card className="border-primary/20 bg-[#24252a]/50 backdrop-blur-xl rounded-3xl">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Link2 className="w-5 h-5 text-primary" />
@@ -378,14 +378,14 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
               {form.buttons.map((btn: LinkButton, idx: number) => (
                 <div 
                   key={idx} 
-                  className="flex flex-col md:flex-row gap-3 items-end bg-slate-900/40 p-4 rounded-2xl border border-slate-800 animate-in zoom-in-95 duration-150"
+                  className="flex flex-col md:flex-row gap-3 items-end bg-white/[0.03]/40 p-4 rounded-2xl  animate-in zoom-in-95 duration-150"
                 >
                   <div className="flex-1 space-y-1">
                     <Label className="text-xs text-slate-400">Button Label</Label>
                     <input
                       type="text"
                       placeholder="e.g. Download"
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
                       value={btn.label}
                       onChange={(e) => handleUpdateButton(idx, "label", e.target.value)}
                     />
@@ -395,7 +395,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                     <input
                       type="text"
                       placeholder="https://..."
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
                       value={btn.url}
                       onChange={(e) => handleUpdateButton(idx, "url", e.target.value)}
                     />
@@ -405,7 +405,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                     <input
                       type="text"
                       placeholder="e.g. 🔗"
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
                       value={btn.emoji || ""}
                       onChange={(e) => handleUpdateButton(idx, "emoji", e.target.value)}
                     />
@@ -424,7 +424,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                 <Button
                   type="button"
                   onClick={handleAddButton}
-                  className="w-full bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:border-slate-700 text-slate-300 text-xs font-semibold h-10 rounded-xl flex items-center justify-center gap-2 transition-all"
+                  className="w-full bg-white/[0.03]  hover:bg-slate-800 hover:border-slate-700 text-slate-300 text-xs font-semibold h-10 rounded-xl flex items-center justify-center gap-2 transition-all"
                 >
                   <Plus className="w-4 h-4" /> Add Link Button ({form.buttons.length}/5)
                 </Button>
@@ -447,7 +447,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
 
         {/* Live Preview Column */}
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-4">
-          <div className="bg-[#0b0e14] border border-slate-800/80 rounded-3xl overflow-hidden shadow-2xl p-6 relative animate-in fade-in duration-300">
+          <div className="bg-[#0b0e14] /80 rounded-3xl overflow-hidden shadow-2xl p-6 relative animate-in fade-in duration-300">
             <div className="absolute top-4 right-4 text-[9px] uppercase font-black text-slate-500 tracking-wider">
               Live Preview
             </div>
@@ -478,7 +478,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                     {form.author_name && (
                       <div className="flex items-center gap-2">
                         {form.author_icon && (
-                          <div className="w-5 h-5 rounded-full overflow-hidden bg-slate-900 border border-slate-800">
+                          <div className="w-5 h-5 rounded-full overflow-hidden bg-white/[0.03] ">
                             <img src={form.author_icon === "{server_icon}" ? "https://cdn.discordapp.com/embed/avatars/0.png" : form.author_icon} className="w-full h-full object-cover" alt="" />
                           </div>
                         )}
@@ -504,7 +504,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
                       </div>
 
                       {form.thumbnail_url && (
-                        <div className="w-16 h-16 rounded overflow-hidden bg-slate-950 border border-slate-800 flex-shrink-0">
+                        <div className="w-16 h-16 rounded overflow-hidden bg-slate-950  flex-shrink-0">
                           <img 
                             src={form.thumbnail_url === "{server_icon}" ? "https://cdn.discordapp.com/embed/avatars/0.png" : form.thumbnail_url} 
                             className="w-full h-full object-cover" 
@@ -516,7 +516,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
 
                     {/* Image */}
                     {form.image_url && (
-                      <div className="rounded-lg overflow-hidden border border-slate-800/50 max-h-48 bg-slate-950">
+                      <div className="rounded-lg overflow-hidden /50 max-h-48 bg-slate-950">
                         <img 
                           src={form.image_url} 
                           className="w-full h-full object-cover" 
@@ -528,7 +528,7 @@ export default function EmbedSenderPage({ params }: { params: { guildId: string 
 
                     {/* Footer */}
                     {(form.footer_text || form.timestamp_enabled) && (
-                      <div className="flex items-center gap-2 pt-1 border-t border-slate-800/30 text-[9px] text-slate-500 font-medium">
+                      <div className="flex items-center gap-2 pt-1 border-t border-white/5/30 text-[9px] text-slate-500 font-medium">
                         {form.footer_icon && (
                           <img src={form.footer_icon} className="w-3.5 h-3.5 rounded-full object-cover" alt="" />
                         )}

@@ -46,7 +46,7 @@ export default async function LoggingPage({ params }: { params: { guildId: strin
           <p className="text-slate-400 mt-1 font-medium italic">Configure events and dispatch routes for your server.</p>
         </div>
         <div className="flex items-center gap-4">
-           <Button variant="outline" className="gap-2 border-slate-800 bg-slate-900/50 rounded-2xl">
+           <Button variant="outline" className="gap-2 border-white/5 bg-white/[0.03]/50 rounded-2xl">
              Audit History
              <ChevronRight className="h-4 w-4" />
            </Button>

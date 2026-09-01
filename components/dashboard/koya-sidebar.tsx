@@ -49,12 +49,7 @@ import {
   Users,
   Activity,
   Server,
-  X,
-  FileCode,
-  Calendar,
-  Gift,
-  Heart,
-  HelpCircle
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
@@ -108,14 +103,12 @@ export function KoyaSidebar({
   const [searchQuery, setSearchQuery] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Collapsible categories state
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
     general: true,
     messaging: true,
-    commands: true,
-    engagement: true,
     roles: true,
     moderation: true,
+    engagement: true,
   });
 
   const isAnnouncementsActive = pathname.includes("/welcome") || pathname.includes("/leave");
@@ -124,7 +117,7 @@ export function KoyaSidebar({
   const serverDropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Close dropdown on outside click
+  // Close dropdown on click outside
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (serverDropdownRef.current && !serverDropdownRef.current.contains(e.target as Node)) {
@@ -227,7 +220,6 @@ export function KoyaSidebar({
     }));
   };
 
-  // Exact Koya Navigation Architecture
   const navigationCategories: NavCategory[] = useMemo(() => {
     if (!currentGuildId) {
       return [
@@ -342,83 +334,79 @@ export function KoyaSidebar({
         />
       )}
 
-      {/* Main Sidebar Container (Matching Koya: w-full sm:w-75 lg:w-75 lg:min-w-75 bg-kgray-680) */}
+      {/* Main Sidebar Container (Spacious ~320px, seamless borderless dark background) */}
       <aside
         className={cn(
-          "bg-kgray-680 border-r border-white/10 fixed lg:static top-0 bottom-0 left-0 z-50 transition-all duration-200 ease-in-out flex flex-col shrink-0 select-none",
-          isCollapsed ? "lg:w-20" : "w-full sm:w-[300px] lg:w-[300px] lg:min-w-[300px]",
+          "bg-[#202225] fixed lg:static top-0 bottom-0 left-0 z-50 transition-all duration-200 ease-in-out flex flex-col shrink-0 select-none",
+          isCollapsed ? "lg:w-20" : "w-full sm:w-[320px] lg:w-[320px] lg:min-w-[320px]",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         <div className="w-full h-full flex flex-col overflow-hidden">
-          {/* Top Brand Header matching Koya */}
-          <div className="p-5 pb-0 flex items-center justify-between shrink-0">
-            <Link href="/dashboard" className="flex items-center gap-3 group">
+          {/* Top Brand Header */}
+          <div className="p-5 pb-2 flex items-center justify-between shrink-0">
+            <Link href="/dashboard" className="flex items-center gap-3.5 group">
               <img
                 src="/utilities/avatar.png"
                 alt="Anya"
-                className="w-10 h-10 rounded-full object-cover shrink-0 ring-1 ring-white/10"
+                className="w-10 h-10 rounded-full object-cover shrink-0"
                 onError={(e) => {
-                  // Fallback to text avatar if image fails
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />
               {!isCollapsed && (
-                <span className="self-center whitespace-nowrap text-3xl font-mono font-bold tracking-tight heading-gradient-neutral text-white">
+                <span className="self-center whitespace-nowrap text-3xl font-mono font-bold tracking-tight text-white">
                   Anya
                 </span>
               )}
             </Link>
 
             <div className="flex items-center gap-2">
-              {/* Refresh Server Data */}
               <button
                 onClick={handleRefresh}
                 title="Refresh server data"
-                className="flex items-center justify-center w-8 h-8 rounded-full ring-1 ring-white/10 hover:shadow-lg transition-colors duration-200 text-white/60 hover:text-white"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 transition-colors duration-150 text-white/60 hover:text-white"
               >
-                <RotateCcw className={cn("w-3.5 h-3.5", isRefreshing && "animate-spin text-white")} />
+                <RotateCcw className={cn("w-4 h-4", isRefreshing && "animate-spin text-white")} />
               </button>
 
-              {/* Desktop Collapse Toggle */}
               <button
                 onClick={onToggleCollapse}
                 title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-                className="hidden lg:flex items-center justify-center w-8 h-8 rounded-full ring-1 ring-white/10 hover:shadow-lg transition-colors duration-200 text-white/60 hover:text-white"
+                className="hidden lg:flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 transition-colors duration-150 text-white/60 hover:text-white"
               >
-                {isCollapsed ? <PanelLeftOpen className="w-3.5 h-3.5" /> : <PanelLeftClose className="w-3.5 h-3.5" />}
+                {isCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
               </button>
 
-              {/* Mobile Close Button */}
               <button
                 onClick={onClose}
-                className="lg:hidden flex items-center justify-center w-8 h-8 rounded-full ring-1 ring-white/10 text-white/60 hover:text-white"
+                className="lg:hidden flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-white/60 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {/* Server Selector Combobox (Matching Koya #dashboard-menu-guilds) */}
+          {/* Server Selector Combobox (Clean borderless surface) */}
           {!isCollapsed && currentGuildId && (
-            <div className="p-5 pb-0 relative shrink-0" ref={serverDropdownRef}>
+            <div className="px-5 pt-4 pb-1 relative shrink-0" ref={serverDropdownRef}>
               <div
                 onClick={() => setIsServerDropdownOpen(!isServerDropdownOpen)}
-                className="kinput bg-kgray-800 ring-1 ring-white/10 hover:ring-white/20 rounded-lg p-2.5 flex items-center justify-between cursor-pointer transition-all duration-150"
+                className="bg-white/5 hover:bg-white/10 rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-150"
               >
-                <div className="flex items-center gap-2.5 min-w-0">
+                <div className="flex items-center gap-3 min-w-0">
                   {currentGuild?.icon ? (
                     <img
                       src={currentGuild.icon}
                       alt={currentGuild.name}
-                      className="w-6 h-6 rounded-full object-cover shrink-0 ring-1 ring-white/10"
+                      className="w-7 h-7 rounded-full object-cover shrink-0"
                     />
                   ) : (
-                    <div className="w-6 h-6 rounded-full bg-kgray-700 ring-1 ring-white/10 flex items-center justify-center text-xs font-bold text-white shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-white shrink-0">
                       {currentGuild?.name?.charAt(0)?.toUpperCase() || "S"}
                     </div>
                   )}
-                  <span className="text-[13px] font-medium text-white truncate">
+                  <span className="text-sm font-semibold text-white truncate">
                     {currentGuild?.name || "Select Server"}
                   </span>
                 </div>
@@ -432,20 +420,20 @@ export function KoyaSidebar({
 
               {/* Server Dropdown Popover */}
               {isServerDropdownOpen && (
-                <div className="absolute left-5 right-5 top-[calc(100%+4px)] z-50 bg-kgray-800 border border-white/10 rounded-xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute left-5 right-5 top-[calc(100%+4px)] z-50 bg-[#2b2c32] rounded-xl shadow-2xl p-2.5 animate-in fade-in zoom-in-95 duration-150">
                   <div className="relative mb-2">
-                    <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-white/40" />
+                    <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
                     <input
                       type="text"
                       value={serverSearchQuery}
                       onChange={(e) => setServerSearchQuery(e.target.value)}
                       placeholder="Search for a server..."
-                      className="w-full bg-kgray-850 border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-white/30"
+                      className="w-full bg-white/5 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none"
                       autoFocus
                     />
                   </div>
 
-                  <div className="max-h-48 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+                  <div className="max-h-52 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
                     {filteredGuilds.length > 0 ? (
                       filteredGuilds.map((g) => {
                         const isSelected = g.id.toString() === currentGuildId;
@@ -457,40 +445,40 @@ export function KoyaSidebar({
                               router.push(`/dashboard/guild/${g.id}`);
                             }}
                             className={cn(
-                              "w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-colors",
+                              "w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors",
                               isSelected
                                 ? "bg-white/10 text-white font-semibold"
-                                : "text-white/60 hover:bg-white/4 hover:text-white"
+                                : "text-white/60 hover:bg-white/5 hover:text-white"
                             )}
                           >
-                            <div className="flex items-center gap-2 truncate">
+                            <div className="flex items-center gap-2.5 truncate">
                               {g.icon_url ? (
                                 <img
                                   src={g.icon_url}
                                   alt={g.name}
-                                  className="w-5 h-5 rounded-full object-cover shrink-0"
+                                  className="w-6 h-6 rounded-full object-cover shrink-0"
                                 />
                               ) : (
-                                <div className="w-5 h-5 rounded-full bg-kgray-700 flex items-center justify-center text-[10px] font-bold shrink-0">
+                                <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold shrink-0">
                                   {g.name.charAt(0).toUpperCase()}
                                 </div>
                               )}
                               <span className="truncate">{g.name}</span>
                             </div>
-                            {isSelected && <Check className="w-3.5 h-3.5 text-white shrink-0" />}
+                            {isSelected && <Check className="w-4 h-4 text-white shrink-0" />}
                           </button>
                         );
                       })
                     ) : (
-                      <div className="py-3 text-center text-xs text-white/40">No servers found</div>
+                      <div className="py-3 text-center text-sm text-white/40">No servers found</div>
                     )}
                   </div>
 
-                  <div className="pt-2 mt-2 border-t border-white/10">
+                  <div className="pt-2 mt-2 border-t border-white/5">
                     <Link
                       href="/dashboard/guilds"
                       onClick={() => setIsServerDropdownOpen(false)}
-                      className="block text-center text-[11px] font-medium text-white/50 hover:text-white py-1 transition-colors"
+                      className="block text-center text-xs font-medium text-white/50 hover:text-white py-1 transition-colors"
                     >
                       View All Servers →
                     </Link>
@@ -500,14 +488,10 @@ export function KoyaSidebar({
             </div>
           )}
 
-          {/* Module Search Button (Matching Koya exact search modules button) */}
+          {/* Module Search Button (Bigger font, borderless surface) */}
           {!isCollapsed && (
-            <div className="px-5 pt-3 pb-1 shrink-0">
-              <button
-                type="button"
-                onClick={() => searchInputRef.current?.focus()}
-                className="flex items-center gap-2.5 w-full px-2.5 py-1.75 rounded-lg border border-white/10 text-white/40 hover:text-white/60 hover:bg-white/4 transition-colors duration-150 cursor-pointer"
-              >
+            <div className="px-5 pt-3 pb-2 shrink-0">
+              <div className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl bg-white/5 text-white/50 focus-within:text-white focus-within:bg-white/10 transition-colors duration-150">
                 <Search className="w-4 h-4 shrink-0 opacity-80" />
                 <input
                   ref={searchInputRef}
@@ -515,43 +499,43 @@ export function KoyaSidebar({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search modules..."
-                  className="bg-transparent text-[13px] font-medium flex-1 text-left truncate text-white placeholder:text-white/40 focus:outline-none"
+                  className="bg-transparent text-sm font-medium flex-1 text-left truncate text-white placeholder:text-white/40 focus:outline-none"
                 />
-                <kbd className="inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded bg-kgray-800 text-[10px] font-mono text-white/50 ring-1 ring-white/10">
-                  K
+                <kbd className="inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded bg-white/10 text-[10px] font-mono text-white/60">
+                  Ctrl+K
                 </kbd>
-              </button>
+              </div>
             </div>
           )}
 
-          {/* Navigation Category & Item Tree (Matching Koya structure) */}
-          <nav className="flex-1 overflow-y-auto px-5 py-3 space-y-4 custom-scrollbar">
+          {/* Navigation Category & Item Tree (Bigger items & icons, seamless) */}
+          <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-4 custom-scrollbar">
             {filteredCategories.map((category) => {
               const isCatExpanded = expandedCategories[category.key] !== false;
 
               return (
-                <div key={category.key} className="mb-3">
+                <div key={category.key} className="mb-2">
                   {/* Category Header */}
                   {!isCollapsed && (
                     <button
                       onClick={() => toggleCategory(category.key)}
-                      className="mb-1 px-2 w-full flex items-center justify-between group cursor-pointer"
+                      className="mb-1.5 px-3 py-1.5 w-full flex items-center justify-between group cursor-pointer"
                     >
-                      <span className="text-white/40 text-[11px] font-medium truncate tracking-wide group-hover:text-white/60 transition-colors">
+                      <span className="text-white/40 text-xs font-semibold uppercase tracking-wider group-hover:text-white/70 transition-colors">
                         {category.name}
                       </span>
                       <ChevronDown
                         className={cn(
-                          "w-3 h-3 text-white/30 group-hover:text-white/50 transition-all duration-200",
+                          "w-3.5 h-3.5 text-white/30 group-hover:text-white/60 transition-all duration-200",
                           !isCatExpanded && "-rotate-90"
                         )}
                       />
                     </button>
                   )}
 
-                  {/* Category Items */}
+                  {/* Category Items (Bigger padding & font) */}
                   {(isCollapsed || isCatExpanded) && (
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-1">
                       {category.items.map((item) => {
                         const Icon = item.icon;
                         const isMainActive = pathname === item.href;
@@ -565,44 +549,43 @@ export function KoyaSidebar({
                               <div
                                 onClick={item.onToggle}
                                 className={cn(
-                                  "flex items-center relative py-1.75 rounded-lg mb-px w-full text-left transition-colors duration-150 gap-2.5 px-2.5 cursor-pointer",
+                                  "flex items-center relative py-2.5 px-3 rounded-xl text-left transition-colors duration-150 gap-3 cursor-pointer select-none",
                                   isActive
-                                    ? "text-white bg-white/8"
-                                    : "text-white/60 hover:text-white/90 hover:bg-white/4"
+                                    ? "text-white bg-white/10 font-semibold"
+                                    : "text-white/60 hover:text-white hover:bg-white/5"
                                 )}
                               >
-                                <Icon className="w-4 h-4 shrink-0 opacity-80" />
+                                <Icon className="w-5 h-5 shrink-0 opacity-80" />
                                 <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
-                                  <span className="text-[13px] font-medium truncate flex-1 min-w-0">
+                                  <span className="text-sm font-medium truncate flex-1 min-w-0">
                                     {item.name}
                                   </span>
                                   <ChevronRight
                                     className={cn(
-                                      "w-3.5 h-3.5 text-white/40 transition-transform duration-200",
+                                      "w-4 h-4 text-white/40 transition-transform duration-200",
                                       item.expanded && "rotate-90"
                                     )}
                                   />
                                 </div>
                               </div>
 
-                              {/* Nested Sub-items with Tree Line Guide */}
+                              {/* Nested Sub-items (Bigger font, comfortable spacing) */}
                               {item.expanded && item.subItems && (
-                                <div className="ml-4.5 my-0.5 pl-2.5 relative">
-                                  <div className="absolute left-0 top-1 bottom-1 w-px bg-white/10 rounded-full" />
+                                <div className="ml-5 my-1 pl-3 relative border-l border-white/10 space-y-1">
                                   {item.subItems.map((sub) => {
                                     const isSubActive = pathname === sub.href;
                                     return (
                                       <div key={sub.name} className="relative">
                                         {isSubActive && (
-                                          <div className="absolute -left-[11px] top-1.5 bottom-1.5 w-0.5 bg-white/70 rounded-full" />
+                                          <div className="absolute -left-[13px] top-2 bottom-2 w-0.5 bg-white rounded-full" />
                                         )}
                                         <Link
                                           href={sub.href}
                                           className={cn(
-                                            "block py-1.25 text-[13px] w-full text-left rounded-md px-2 transition-colors duration-150",
+                                            "block py-2 px-3 text-sm rounded-lg transition-colors duration-150",
                                             isSubActive
-                                              ? "text-white font-medium bg-white/4"
-                                              : "text-white/40 hover:text-white/70"
+                                              ? "text-white font-semibold bg-white/5"
+                                              : "text-white/50 hover:text-white hover:bg-white/5"
                                           )}
                                         >
                                           {sub.name}
@@ -616,27 +599,27 @@ export function KoyaSidebar({
                           );
                         }
 
-                        // Regular Link
+                        // Regular Link (Bigger sizing)
                         return (
                           <Link
                             key={item.name}
                             href={item.href}
                             title={isCollapsed ? item.name : undefined}
                             className={cn(
-                              "flex items-center relative py-1.75 rounded-lg mb-px w-full text-left transition-colors duration-150 gap-2.5 px-2.5",
+                              "flex items-center relative py-2.5 px-3 rounded-xl text-left transition-colors duration-150 gap-3",
                               isActive
-                                ? "text-white bg-white/8"
-                                : "text-white/60 hover:text-white/90 hover:bg-white/4"
+                                ? "text-white bg-white/10 font-semibold"
+                                : "text-white/60 hover:text-white hover:bg-white/5"
                             )}
                           >
-                            <Icon className="w-4 h-4 shrink-0 opacity-80" />
+                            <Icon className="w-5 h-5 shrink-0 opacity-80" />
                             {!isCollapsed && (
                               <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
-                                <span className="text-[13px] font-medium truncate flex-1 min-w-0">
+                                <span className="text-sm font-medium truncate flex-1 min-w-0">
                                   {item.name}
                                 </span>
                                 {item.badge && (
-                                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap bg-sky-500/15 text-sky-300">
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap bg-white/10 text-white/80">
                                     {item.badge}
                                   </span>
                                 )}

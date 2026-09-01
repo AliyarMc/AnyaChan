@@ -7,8 +7,6 @@
   --foreground: #f8fafc;
   --primary: #ffffff;
   --primary-glow: rgba(255, 255, 255, 0.05);
-  --glass-bg: rgba(43, 44, 50, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,37 +16,23 @@
   }
 }
 
-body {
+html, body {
   color: var(--foreground);
-  background: var(--background);
+  background: #202225;
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar Styles matching Koya */
+/* Globally hide all scrollbars across all browsers */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
 }
 
-::-webkit-scrollbar-track {
-  background: #202225;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2b2c32;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #46474e;
-}
-
-/* Firefox */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #2b2c32 #202225;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 @layer utilities {
@@ -56,33 +40,28 @@ body {
     text-wrap: balance;
   }
   .no-scrollbar::-webkit-scrollbar {
-    display: none;
+    display: none !important;
   }
   .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
   }
   .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    display: none !important;
   }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+  .custom-scrollbar {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
+
+  /* Seamless Koya utility elements */
   .kinput {
     background-color: #2b2c32;
     border-radius: 8px;
     transition: all 0.15s ease-in-out;
   }
   .ktextarea {
-    background-color: #242429;
+    background-color: #2b2c32;
     border-radius: 8px;
     transition: all 0.15s ease-in-out;
   }
@@ -107,10 +86,9 @@ body {
   .dbtn-ghost {
     background-color: transparent;
     color: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   .dbtn-ghost:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.08);
     color: #fff;
   }
   .dbtn-success {
@@ -122,8 +100,7 @@ body {
     background-color: #388e3c;
   }
   .heading-gradient-neutral {
-    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff;
+    font-weight: 700;
   }
 }

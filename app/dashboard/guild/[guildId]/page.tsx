@@ -50,17 +50,17 @@ export default function GuildOverviewPage({ params }: { params: { guildId: strin
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {modules.map((mod) => (
-              <div key={mod.title} className="bg-[#141B2D] border border-slate-800 p-5 rounded-2xl group hover:border-slate-600 transition-all shadow-sm">
+              <div key={mod.title} className="bg-white/[0.03] p-5 rounded-2xl group hover:bg-white/[0.05] transition-all shadow-sm">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="h-10 w-10 bg-slate-800 rounded-xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                  <div className="h-10 w-10 bg-white/10 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                     <mod.icon className="h-5 w-5" />
                   </div>
-                  <span className="text-[10px] font-black uppercase text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                  <span className="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
                     {mod.status}
                   </span>
                 </div>
                 <h3 className="font-bold text-white mb-1">{mod.title}</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">{mod.desc}</p>
+                <p className="text-xs text-slate-400 leading-relaxed">{mod.desc}</p>
               </div>
             ))}
           </div>
@@ -69,16 +69,16 @@ export default function GuildOverviewPage({ params }: { params: { guildId: strin
         <section>
           <div className="flex items-center gap-2 mb-6">
             <h2 className="text-xl font-bold text-white tracking-tight">System Console</h2>
-            <div className="h-[2px] flex-1 bg-slate-800" />
+            <div className="h-px flex-1 bg-white/10" />
           </div>
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 font-mono text-xs overflow-hidden shadow-2xl">
-            <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-2">
-              <Terminal className="h-4 w-4 text-primary" />
+          <div className="bg-white/[0.02] rounded-2xl p-4 font-mono text-xs overflow-hidden shadow-xl">
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/5">
+              <Terminal className="h-4 w-4 text-white" />
               <span className="text-slate-400">guild_event_stream_{params.guildId}</span>
             </div>
             <div className="space-y-1.5 opacity-80">
               <p className="text-slate-500">[{new Date().toLocaleTimeString()}] <span className="text-emerald-500">INIT</span> Dashboard connected to WebSocket pool...</p>
-              <p className="text-slate-500">[{new Date().toLocaleTimeString()}] <span className="text-primary">INFO</span> Fetching guild_config from primary database...</p>
+              <p className="text-slate-500">[{new Date().toLocaleTimeString()}] <span className="text-white">INFO</span> Fetching guild_config from primary database...</p>
               <p className="text-slate-500">[{new Date().toLocaleTimeString()}] <span className="text-emerald-500">DONE</span> Cache synchronized successfully.</p>
               <p className="text-slate-400 animate-pulse">_</p>
             </div>
@@ -114,7 +114,7 @@ export default function GuildOverviewPage({ params }: { params: { guildId: strin
           </div>
         </section>
 
-        <section className="bg-[#141B2D] border border-slate-800 rounded-3xl p-8">
+        <section className="bg-white/[0.03] rounded-3xl p-8">
            <h2 className="text-xl font-bold text-white mb-6">Security Context</h2>
            <div className="flex items-center gap-6">
               <div className="h-20 w-20 rounded-full border-4 border-emerald-500/20 flex items-center justify-center relative shadow-[0_0_20px_rgba(16,185,129,0.1)]">

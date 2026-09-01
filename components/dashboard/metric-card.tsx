@@ -40,7 +40,7 @@ export const MetricCard = ({
 }: MetricCardProps) => {
   return (
     <div className={cn(
-      "bg-[#141B2D] border border-slate-800 p-6 rounded-3xl relative overflow-hidden group hover:border-primary/50 transition-all shadow-xl hover:shadow-primary/5 shadow-black/20",
+      "bg-white/[0.03] p-6 rounded-2xl relative overflow-hidden group hover:bg-white/[0.05] transition-all shadow-xl",
       className
     )}>
       <div className="flex items-center justify-between relative z-10">

@@ -116,7 +116,7 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-[#141B2D] border border-slate-800 rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
+          <div className="bg-[#24252a]  rounded-3xl overflow-hidden shadow-xl p-8 space-y-8">
             
             {/* Add New Setup */}
             <div className="space-y-4">
@@ -132,16 +132,16 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
                     placeholder="e.g. .gg/my-server"
                     value={newSetup.vanity}
                     onChange={(e) => setNewSetup({ ...newSetup, vanity: e.target.value })}
-                    className="bg-slate-900/50 border-slate-800 h-12"
+                    className="bg-white/[0.03]/50 border-white/5 h-12"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-400">Role to Give</label>
                   <Select value={newSetup.role_id} onValueChange={(val) => setNewSetup({ ...newSetup, role_id: val })}>
-                    <SelectTrigger className="w-full h-12 bg-slate-900/50 border-slate-800">
+                    <SelectTrigger className="w-full h-12 bg-white/[0.03]/50 border-white/5">
                       <SelectValue placeholder="Select a role..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                    <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                       {filteredRoles.map((r) => (
                         <SelectItem key={r.id} value={r.id} className="focus:bg-slate-800">
                           <div className="flex items-center gap-2">
@@ -156,10 +156,10 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-400">Log Channel</label>
                   <Select value={newSetup.log_channel_id} onValueChange={(val) => setNewSetup({ ...newSetup, log_channel_id: val })}>
-                    <SelectTrigger className="w-full h-12 bg-slate-900/50 border-slate-800">
+                    <SelectTrigger className="w-full h-12 bg-white/[0.03]/50 border-white/5">
                       <SelectValue placeholder="Select a channel..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                    <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
                       {textChannels.map((c) => (
                         <SelectItem key={c.id} value={c.id} className="focus:bg-slate-800">#{c.name}</SelectItem>
                       ))}
@@ -175,12 +175,12 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
             </div>
 
             {/* Active Setups */}
-            <div className="pt-6 border-t border-slate-800 space-y-4">
+            <div className="pt-6 border-t border-white/5 space-y-4">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <Link2 className="h-5 w-5 text-primary" /> Active Setups
               </h4>
               {setups.length === 0 ? (
-                <div className="text-center p-8 bg-slate-900/20 rounded-2xl border border-dashed border-slate-700">
+                <div className="text-center p-8 bg-white/[0.03]/20 rounded-2xl border border-dashed border-slate-700">
                   <Link2 className="w-10 h-10 text-slate-600 mx-auto mb-3" />
                   <p className="text-sm text-slate-500">No vanity role setups configured yet.</p>
                 </div>
@@ -189,7 +189,7 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
                   const role = filteredRoles.find(r => r.id === String(setup.role_id));
                   const channel = channels.find(c => c.id === String(setup.log_channel_id));
                   return (
-                    <div key={index} className="flex items-center justify-between p-4 bg-slate-900/40 rounded-xl border border-slate-800 animate-in zoom-in-95 duration-200">
+                    <div key={index} className="flex items-center justify-between p-4 bg-white/[0.03]/40 rounded-xl  animate-in zoom-in-95 duration-200">
                       <div className="flex items-center gap-8">
                         <div className="flex flex-col">
                           <span className="text-[10px] uppercase font-bold text-slate-500">Vanity Text</span>

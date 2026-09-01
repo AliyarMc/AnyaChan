@@ -96,10 +96,10 @@ export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProp
         </div>
         
         <Select value="" onValueChange={(val) => addRole(type, val)}>
-          <SelectTrigger className="w-full h-12 bg-slate-900/50 border-slate-800 hover:border-slate-700 transition-all">
+          <SelectTrigger className="w-full h-12 bg-white/[0.03]/50 border-white/5 hover:border-slate-700 transition-all">
             <SelectValue placeholder={`Add a ${type === "humans" ? "member" : "bot"} role...`} />
           </SelectTrigger>
-          <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+          <SelectContent className="bg-white/[0.03] border-white/5 max-h-[300px]">
             {roles
               .filter(r => !config[type].includes(r.id))
               .sort((a, b) => (b.position || 0) - (a.position || 0))
@@ -117,7 +117,7 @@ export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProp
           </SelectContent>
         </Select>
 
-        <div className="grid grid-cols-1 gap-2 min-h-[100px] p-4 bg-slate-900/40 rounded-2xl border border-slate-800/50 relative overflow-hidden">
+        <div className="grid grid-cols-1 gap-2 min-h-[100px] p-4 bg-white/[0.03]/40 rounded-2xl /50 relative overflow-hidden">
           {config[type].length === 0 ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center opacity-20">
               <ShieldCheck className="h-8 w-8 mb-2" />
@@ -157,14 +157,14 @@ export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProp
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-[#141B2D] border border-slate-800 rounded-[32px] shadow-2xl p-8 space-y-10 relative">
+        <div className="bg-[#24252a]  rounded-[32px] shadow-2xl p-8 space-y-10 relative">
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {renderRoleList("humans")}
             {renderRoleList("bots")}
           </div>
 
-          <div className="pt-6 border-t border-slate-800">
+          <div className="pt-6 border-t border-white/5">
             <Button 
               onClick={handleSave}
               disabled={saving}
@@ -179,7 +179,7 @@ export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProp
       </div>
 
       <div className="space-y-6">
-        <div className="bg-gradient-to-br from-[#141B2D] to-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden group">
+        <div className="bg-gradient-to-br from-[#24252a] to-slate-900  rounded-3xl p-6 relative overflow-hidden group">
           <div className="absolute -right-6 -top-6 opacity-[0.05] group-hover:scale-110 transition-transform duration-500">
             <UserPlus className="h-40 w-40 text-primary" />
           </div>

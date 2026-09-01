@@ -113,7 +113,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
             Send a private message or embed to new members when they join your server.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-[#1e293b]/50 border border-slate-800 rounded-2xl px-4 py-2">
+        <div className="flex items-center gap-2 bg-[#1e293b]/50  rounded-2xl px-4 py-2">
           <span className="text-sm font-semibold text-slate-200">Module Status</span>
           <Switch 
             checked={config.enabled}
@@ -126,7 +126,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
         <div className="lg:col-span-7 space-y-6">
           <Card className="border-primary/20 bg-background/50 backdrop-blur-xl">
             <CardHeader>
-              <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+              <div className="flex items-center justify-between border-b border-white/5/80 pb-4">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-5 h-5 text-primary" />
                   <div>
@@ -137,7 +137,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
               </div>
             </CardHeader>
             <CardContent className="space-y-4 pt-4">
-              <div className="flex items-center justify-between bg-slate-900/30 border border-slate-800/60 p-4 rounded-2xl">
+              <div className="flex items-center justify-between bg-white/[0.03]/30 /60 p-4 rounded-2xl">
                 <div>
                   <span className="text-sm font-bold text-white">Enable Direct Embed Message</span>
                   <p className="text-xs text-slate-500 mt-1">Check this to format direct messages inside a rich Discord Embed instead of plain text.</p>
@@ -152,7 +152,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                 <Label>Text Message Content</Label>
                 <Textarea
                   placeholder="Welcome to the server! Make sure to read the rules..."
-                  className="min-h-[140px] bg-[#131926] border border-slate-800"
+                  className="min-h-[140px] bg-[#131926] "
                   value={config.message || ""}
                   onChange={(e) => setConfig({ ...config, message: e.target.value })}
                 />
@@ -179,7 +179,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                     <input 
                       type="text" 
                       placeholder="Welcome to {server_name}!"
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                       value={config.embed_data?.title || ""}
                       onChange={(e) => updateEmbedField("title", e.target.value)}
                     />
@@ -196,7 +196,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                       <input 
                         type="text" 
                         placeholder="#FF6B00"
-                        className="flex-1 bg-[#131926] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
+                        className="flex-1 bg-[#131926]  rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
                         value={config.embed_data?.color || ""}
                         onChange={(e) => updateEmbedField("color", e.target.value)}
                       />
@@ -208,7 +208,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                   <Label>Embed Description (Supports Markdown / Bold / Italics)</Label>
                   <Textarea
                     placeholder="Enter welcome card descriptions... Use **bold** or *italics* formats."
-                    className="min-h-[140px] bg-[#131926] border border-slate-800"
+                    className="min-h-[140px] bg-[#131926] "
                     value={config.embed_data?.description || ""}
                     onChange={(e) => updateEmbedField("description", e.target.value)}
                   />
@@ -220,7 +220,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                     <input 
                       type="text" 
                       placeholder="https://example.com/banner.png"
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                       value={config.embed_data?.image_url || ""}
                       onChange={(e) => updateEmbedField("image_url", e.target.value)}
                     />
@@ -230,7 +230,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                     <input 
                       type="text" 
                       placeholder="https://example.com/icon.png"
-                      className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                      className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                       value={config.embed_data?.thumbnail_url || ""}
                       onChange={(e) => updateEmbedField("thumbnail_url", e.target.value)}
                     />
@@ -242,7 +242,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
                   <input 
                     type="text" 
                     placeholder="{server_name} • Direct Message"
-                    className="w-full bg-[#131926] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
+                    className="w-full bg-[#131926]  rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                     value={config.embed_data?.footer_text || ""}
                     onChange={(e) => updateEmbedField("footer_text", e.target.value)}
                   />

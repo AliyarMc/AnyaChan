@@ -68,7 +68,7 @@ const Select = ({ children, value, onValueChange, options, placeholder, classNam
           disabled={disabled}
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
-            "flex h-10 w-full items-center justify-between rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex h-10 w-full items-center justify-between rounded-xl  bg-white/[0.03]/50 px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
             isOpen && "ring-2 ring-primary/50 border-slate-700"
           )}
         >
@@ -79,7 +79,7 @@ const Select = ({ children, value, onValueChange, options, placeholder, classNam
         </button>
 
         {isOpen && (
-          <div className="absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-slate-800 bg-[#141B2D] p-1 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl bg-[#2b2c32] p-1 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div className="max-h-60 overflow-y-auto overflow-x-hidden no-scrollbar">
               {options.map((option) => (
                 <button
@@ -128,7 +128,7 @@ const SelectTrigger = React.forwardRef<
       type="button"
       onClick={() => context.setIsOpen(!context.isOpen)}
       className={cn(
-        "flex h-10 w-full items-center justify-between rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
+        "flex h-10 w-full items-center justify-between rounded-xl  bg-white/[0.03]/50 px-4 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50",
         context.isOpen && "ring-2 ring-primary/50 border-slate-700",
         className
       )}
@@ -152,7 +152,7 @@ const SelectContent = ({ children, className }: { children: React.ReactNode, cla
   if (!context || !context.isOpen) return null
 
   return (
-    <div className={cn("absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-slate-800 bg-[#141B2D] p-1 shadow-2xl animate-in fade-in zoom-in-95 duration-200", className)}>
+    <div className={cn("absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl bg-[#2b2c32] p-1 shadow-2xl animate-in fade-in zoom-in-95 duration-200", className)}>
       <div className="max-h-60 overflow-y-auto overflow-x-hidden no-scrollbar">
         {children}
       </div>

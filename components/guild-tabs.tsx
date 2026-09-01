@@ -105,7 +105,7 @@ export function GuildTabs({ guildId }: { guildId: string }) {
       
       <div 
         ref={scrollContainerRef}
-        className="flex gap-2 p-1.5 bg-[#141B2D]/40 border border-slate-800/40 rounded-[20px] overflow-x-auto no-scrollbar w-full scroll-smooth shadow-2xl shadow-black/20"
+        className="flex gap-2 p-1.5 bg-[#24252a]/40 /40 rounded-[20px] overflow-x-auto no-scrollbar w-full scroll-smooth shadow-2xl shadow-black/20"
       >
         {tabs.map((tab) => {
           const isActive = pathname === tab.href;
@@ -120,7 +120,7 @@ export function GuildTabs({ guildId }: { guildId: string }) {
                 "hover:bg-slate-800/60 hover:text-white",
                 isActive 
                   ? "bg-primary text-white shadow-lg shadow-primary/30 ring-1 ring-white/10" 
-                  : "text-slate-400 bg-slate-900/40 border border-slate-800/30 hover:border-slate-700/50"
+                  : "text-slate-400 bg-white/[0.03]/40 /30 hover:border-slate-700/50"
               )}>
                 <tab.icon className={cn("h-3.5 w-3.5", isActive ? "animate-pulse" : "opacity-50")} />
                 {tab.name}

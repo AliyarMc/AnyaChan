@@ -97,10 +97,10 @@ export function DiscordMessagePreview({
   const embedColor = getEmbedColor(safeEmbedData.color);
 
   return (
-    <div className="bg-[#2b2c32] border border-white/10 rounded-xl p-4 sm:p-5 shadow-lg space-y-3 font-sans">
-      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+    <div className="bg-white/[0.03] rounded-2xl p-5 shadow-xl space-y-3 font-sans">
+      <div className="flex items-center justify-between pb-2">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-white/40">Preview</span>
-        <span className="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-white/50 font-mono">
+        <span className="text-[10px] bg-white/5 px-2.5 py-0.5 rounded-full text-white/50 font-mono">
           Discord Look
         </span>
       </div>
@@ -109,8 +109,14 @@ export function DiscordMessagePreview({
       <div className="pt-2">
         <div className="relative pl-12 sm:pl-14 select-text">
           {/* Bot Avatar */}
-          <div className="absolute left-0 top-0.5 w-10 h-10 rounded-full overflow-hidden select-none shrink-0 bg-[#5865F2] flex items-center justify-center text-white font-bold text-sm">
-            A
+          <div className="absolute left-0 top-0.5 w-10 h-10 rounded-full overflow-hidden select-none shrink-0 bg-white/10 flex items-center justify-center text-white font-bold text-sm">
+            <img
+              src="/utilities/avatar.png"
+              alt="Anya"
+              className="w-full h-full object-cover"
+              onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+            />
+            <span>A</span>
           </div>
 
           {/* Bot Name & Header */}
