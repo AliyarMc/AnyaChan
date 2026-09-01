@@ -30,13 +30,13 @@ interface ServerCardProps {
   className?: string;
 }
 
-export const ServerCard = ({ 
-  id, 
-  name, 
-  iconUrl, 
-  memberCount, 
+export const ServerCard = ({
+  id,
+  name,
+  iconUrl,
+  memberCount,
   isActive = true,
-  className 
+  className
 }: ServerCardProps) => {
   return (
     <div className={cn(
@@ -47,8 +47,8 @@ export const ServerCard = ({
         <div className="flex items-start justify-between mb-8">
           <div className="relative">
             {iconUrl ? (
-              <Image 
-                src={iconUrl} 
+              <Image
+                src={iconUrl}
                 alt={name}
                 width={80}
                 height={80}
@@ -60,10 +60,10 @@ export const ServerCard = ({
               </div>
             )}
             {isActive && (
-              <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-2 border-[#202225] shadow-lg" title="Online" />
+              <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-2 border-[#323339] shadow-lg" title="Online" />
             )}
           </div>
-          
+
           <div className="flex flex-col items-end text-right">
             <span className="text-[10px] uppercase font-black text-slate-500 tracking-[0.2em] mb-1 opacity-50">ID Reference</span>
             <span className="text-[11px] font-mono font-bold text-slate-400 bg-black/20 px-3 py-1.5 rounded-xl border border-white/5 truncate max-w-[140px]">

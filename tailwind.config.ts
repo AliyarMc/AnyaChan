@@ -55,7 +55,7 @@ const config: Config = {
           700: '#2c2d32',
           800: '#2b2c32',
           850: '#242429',
-          900: '#202225',
+          900: '#323339',
         },
         primary: {
           DEFAULT: "#ffffff",
@@ -63,7 +63,7 @@ const config: Config = {
           glow: "rgba(255, 255, 255, 0.15)",
         },
         secondary: {
-          DEFAULT: "#202225",
+          DEFAULT: "#323339",
           light: "#2b2c32",
         },
         accent: {

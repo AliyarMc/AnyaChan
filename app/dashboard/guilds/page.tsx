@@ -31,7 +31,7 @@ export const revalidate = 0;
 
 export default async function GuildsPage() {
   const session = await getServerSession(authOptions);
-  
+
   if (!session || !session.accessToken) {
     redirect("/");
   }
@@ -55,7 +55,7 @@ export default async function GuildsPage() {
       },
       next: { revalidate: 300 } // Cache for 5 mins
     });
-    
+
     if (res.ok) {
       userGuilds = await res.json();
     } else {
@@ -73,16 +73,16 @@ export default async function GuildsPage() {
   const adminUserGuilds = userGuilds.filter(g => {
     try {
       const perms = BigInt(g.permissions);
-      return (perms & ADMINISTRATOR) === ADMINISTRATOR || 
-             (perms & MANAGE_GUILD) === MANAGE_GUILD || 
-             g.owner === true;
+      return (perms & ADMINISTRATOR) === ADMINISTRATOR ||
+        (perms & MANAGE_GUILD) === MANAGE_GUILD ||
+        g.owner === true;
     } catch {
       return g.owner === true;
     }
   });
 
   const adminGuildIds = new Set(adminUserGuilds.map(g => String(g.id)));
-  
+
   // The intersecting guilds we can manage
   const guilds = botGuilds.filter(g => adminGuildIds.has(String(g.id)));
   const error = botError || userDiscordError;
@@ -124,10 +124,10 @@ export default async function GuildsPage() {
             <p>2. Your Discord Profile Total Servers: {userGuilds.length}</p>
             <p>3. Your Discord Profile Admin/Manage Servers: {adminUserGuilds.length}</p>
             {botGuilds.length > 0 && adminUserGuilds.length > 0 && (
-               <div className="mt-4 pt-4 border-t border-white/10">
-                 <p className="text-emerald-400 mb-1">Bot First Server ID: {botGuilds[0].id} (Type: {typeof botGuilds[0].id})</p>
-                 <p className="text-blue-400">Your First Admin Server ID: {adminUserGuilds[0].id} (Type: {typeof adminUserGuilds[0].id})</p>
-               </div>
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <p className="text-emerald-400 mb-1">Bot First Server ID: {botGuilds[0].id} (Type: {typeof botGuilds[0].id})</p>
+                <p className="text-blue-400">Your First Admin Server ID: {adminUserGuilds[0].id} (Type: {typeof adminUserGuilds[0].id})</p>
+              </div>
             )}
             <hr className="my-2 border-white/10" />
             <p>Intersection Mappings found: {guilds.length}</p>
@@ -139,16 +139,16 @@ export default async function GuildsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {guilds.map((guild) => (
-            <div 
-              key={guild.id} 
+            <div
+              key={guild.id}
               className="bg-white/[0.03] rounded-3xl group hover:bg-white/[0.06] transition-all duration-300 overflow-hidden shadow-sm"
             >
               <div className="p-6">
                 <div className="flex items-start justify-between mb-6">
                   <div className="relative">
                     {guild.icon_url ? (
-                      <Image 
-                        src={guild.icon_url} 
+                      <Image
+                        src={guild.icon_url}
                         alt={guild.name}
                         width={64}
                         height={64}
@@ -159,9 +159,9 @@ export default async function GuildsPage() {
                         {guild.name.charAt(0)}
                       </div>
                     )}
-                    <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-2 border-[#202225]" title="Bot Online" />
+                    <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-2 border-[#323339]" title="Bot Online" />
                   </div>
-                  
+
                   <div className="flex flex-col items-end text-right">
                     <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mb-1">Guild ID</span>
                     <span className="text-xs font-mono text-slate-400 bg-white/5 px-2 py-1 rounded-lg truncate max-w-[120px]">

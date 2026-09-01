@@ -91,7 +91,7 @@ export default function DashboardLayout({
 
   if (status === "loading" || status === "unauthenticated") {
     return (
-      <div className="h-screen w-screen bg-[#202225] flex items-center justify-center">
+      <div className="h-screen w-screen bg-[#323339] flex items-center justify-center">
         <div className="animate-spin text-gray-400">
           <svg viewBox="0 0 24 24" style={{ width: "2.5rem", height: "2.5rem" }} role="presentation">
             <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" style={{ fill: "currentColor" }} />
@@ -102,7 +102,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="h-dvh flex flex-col lg:flex-row overflow-hidden bg-[#202225] text-white">
+    <div className="h-dvh flex flex-col lg:flex-row overflow-hidden bg-[#323339] text-white">
       {/* Koya Unified Sidebar */}
       <KoyaSidebar
         currentGuildId={currentGuildId}
@@ -113,9 +113,9 @@ export default function DashboardLayout({
       />
 
       {/* Main Content Viewport: Unified seamless dark background */}
-      <div className="overflow-hidden bg-[#202225] max-w-screen flex flex-col grow relative lg:max-w-[calc(100vw-320px)]">
+      <div className="overflow-hidden bg-[#323339] max-w-screen flex flex-col grow relative lg:max-w-[calc(100vw-320px)]">
         {/* Top Navbar: borderless seamless blend */}
-        <nav className="bg-[#202225] z-20">
+        <nav className="bg-[#323339] z-20">
           <div className="flex flex-wrap items-center justify-between lg:justify-start mx-auto gap-4 px-6 py-4">
             {/* Mobile Trigger */}
             <div className="flex items-center lg:hidden">
@@ -166,7 +166,7 @@ export default function DashboardLayout({
                 >
                   <Bell className="w-4 h-4" />
                   {globalNotification && (
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-white ring-2 ring-[#202225]" />
+                    <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-white ring-2 ring-[#323339]" />
                   )}
                 </button>
 
@@ -273,7 +273,7 @@ export default function DashboardLayout({
         </nav>
 
         {/* Scrollable Content Viewport: Unified seamless dark background */}
-        <div className="overflow-y-scroll overflow-x-hidden bg-[#202225] p-4 pb-14 lg:p-8 flex-1 min-h-0 custom-scrollbar">
+        <div className="overflow-y-scroll overflow-x-hidden bg-[#323339] p-4 pb-14 lg:p-8 flex-1 min-h-0 custom-scrollbar">
           <div className="w-full max-w-[1400px] mx-auto min-w-0">
             {children}
           </div>
