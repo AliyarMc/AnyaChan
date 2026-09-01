@@ -23,6 +23,7 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AutoRoleConfig, DiscordRole } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 import { cn } from "@/lib/utils";
 
 interface AutoRoleFormProps {
@@ -32,8 +33,16 @@ interface AutoRoleFormProps {
 }
 
 export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProps) {
+  const [baseConfig, setBaseConfig] = useState<AutoRoleConfig>(initialConfig);
   const [config, setConfig] = useState<AutoRoleConfig>(initialConfig);
   const [saving, setSaving] = useState(false);
+
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -52,6 +61,7 @@ export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProp
 
     try {
       await promise;
+      setBaseConfig(config);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -163,18 +173,6 @@ export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProp
             {renderRoleList("humans")}
             {renderRoleList("bots")}
           </div>
-
-          <div className="pt-6 border-t border-white/5">
-            <Button 
-              onClick={handleSave}
-              disabled={saving}
-              className="w-full h-14 text-base font-bold gap-3 shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-[0.98] transition-all"
-            >
-              {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-              Save AutoRole Settings
-            </Button>
-          </div>
-
         </div>
       </div>
 
@@ -215,6 +213,13 @@ export function AutoRoleForm({ initialConfig, roles, guildId }: AutoRoleFormProp
           </div>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

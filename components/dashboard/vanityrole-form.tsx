@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VanityRoleSetup, DiscordChannel } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 interface VanityRoleFormProps {
   initialSetups: VanityRoleSetup[];
@@ -41,6 +42,15 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
   const [newVanity, setNewVanity] = useState("");
   const [newRole, setNewRole] = useState<string | null>(null);
   const [newChannel, setNewChannel] = useState<string | null>(null);
+
+  const hasChanges = Boolean(newVanity || newRole || newChannel);
+
+  const handleReset = () => {
+    setNewVanity("");
+    setNewRole(null);
+    setNewChannel(null);
+    toast.info("Input cleared");
+  };
 
   const handleCreate = async () => {
     if (!newVanity || !newRole || !newChannel) {
@@ -184,17 +194,15 @@ export function VanityRoleForm({ initialSetups, channels, roles, guildId }: Vani
             </Select>
           </div>
         </div>
-
-        <Button 
-          onClick={handleCreate}
-          disabled={saving}
-          className="w-full h-14 mt-8 font-bold gap-2 text-base"
-        >
-          {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
-          Add Vanity Configuration
-        </Button>
       </div>
 
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleCreate}
+        saveText="Add Vanity Configuration"
+      />
     </div>
   );
 }

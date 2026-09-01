@@ -23,6 +23,7 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 import { cn } from "@/lib/utils";
 
 export default function VanityRolesPage({ params }: { params: { guildId: string } }) {
@@ -32,6 +33,13 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
   const [channels, setChannels] = useState<any[]>([]);
   const [setups, setSetups] = useState<any[]>([]);
   const [newSetup, setNewSetup] = useState({ vanity: "", role_id: "", log_channel_id: "" });
+
+  const hasChanges = Boolean(newSetup.vanity || newSetup.role_id || newSetup.log_channel_id);
+
+  const handleReset = () => {
+    setNewSetup({ vanity: "", role_id: "", log_channel_id: "" });
+    toast.info("Input cleared");
+  };
 
   const fetchData = async () => {
     try {
@@ -167,11 +175,6 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
                   </Select>
                 </div>
               </div>
-
-              <Button onClick={handleAdd} disabled={saving} className="w-full gap-2" variant="secondary">
-                {saving ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-                Add Vanity Setup
-              </Button>
             </div>
 
             {/* Active Setups */}
@@ -234,6 +237,14 @@ export default function VanityRolesPage({ params }: { params: { guildId: string 
           </div>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleAdd}
+        saveText="Add Vanity Setup"
+      />
     </div>
   );
 }

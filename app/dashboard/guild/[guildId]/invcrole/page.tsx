@@ -23,13 +23,22 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 import { cn } from "@/lib/utils";
 
 export default function InvcRolePage({ params }: { params: { guildId: string } }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [roles, setRoles] = useState<any[]>([]);
+  const [baseConfig, setBaseConfig] = useState<any>(null);
   const [config, setConfig] = useState<any>({ role_id: null, enabled: false });
+
+  const hasChanges = Boolean(baseConfig && JSON.stringify(config) !== JSON.stringify(baseConfig));
+
+  const handleReset = () => {
+    if (baseConfig) setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
 
   const fetchData = async () => {
     try {
@@ -39,6 +48,7 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
         api.getRoles(params.guildId),
       ]);
       setConfig(configData);
+      setBaseConfig(configData);
       setRoles(rolesData);
     } catch (error) {
       console.error("Failed to fetch InvcRole data:", error);
@@ -61,7 +71,10 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
       success: 'Voice Role settings saved!',
       error: 'Failed to save Voice Role config',
     });
-    try { await promise; } catch {} finally { setSaving(false); }
+    try { 
+      await promise; 
+      setBaseConfig(config);
+    } catch {} finally { setSaving(false); }
   };
 
   const filteredRoles = roles.filter(r => r.name !== "@everyone");
@@ -154,11 +167,6 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
                 </SelectContent>
               </Select>
             </div>
-
-            <Button onClick={handleSave} disabled={saving} className="w-full h-14 text-base font-bold gap-2 shadow-lg shadow-primary/20 transition-all hover:scale-[1.01] active:scale-[0.99]">
-              {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-              Save All Changes
-            </Button>
           </div>
         </div>
 
@@ -189,6 +197,13 @@ export default function InvcRolePage({ params }: { params: { guildId: string } }
           </div>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

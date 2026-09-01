@@ -35,6 +35,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { AutomodConfig } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 const PUNISHMENT_OPTIONS = [
   { value: "delete", label: "Delete Message" },
@@ -58,8 +59,16 @@ interface AutomodFormProps {
 }
 
 export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
+  const [baseConfig, setBaseConfig] = useState<AutomodConfig>(initialConfig);
   const [config, setConfig] = useState<AutomodConfig>(initialConfig);
   const [saving, setSaving] = useState(false);
+
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
 
   const handleToggle = (key: string) => {
     setConfig({
@@ -90,6 +99,7 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
 
     try {
       await promise;
+      setBaseConfig(config);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -168,14 +178,6 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
               })}
             </div>
 
-            <Button 
-              onClick={handleSave}
-              disabled={saving}
-              className="w-full h-14 text-base font-bold gap-2"
-            >
-              {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-              Save Moderation Rules
-            </Button>
           </div>
         </div>
       </div>
@@ -204,6 +206,13 @@ export function AutomodForm({ initialConfig, guildId }: AutomodFormProps) {
             </div>
          </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

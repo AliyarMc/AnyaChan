@@ -33,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { LevelingConfig } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 interface LevelingFormProps {
   initialConfig: LevelingConfig;
@@ -40,11 +41,19 @@ interface LevelingFormProps {
 }
 
 export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
+  const [baseConfig, setBaseConfig] = useState<LevelingConfig>(initialConfig);
   const [config, setConfig] = useState<LevelingConfig>(initialConfig);
   const [saving, setSaving] = useState(false);
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
+
+  const handleSave = async (e?: React.FormEvent) => {
+    if (e?.preventDefault) e.preventDefault();
     setSaving(true);
 
     const promise = api.updateLeveling(guildId, {
@@ -63,6 +72,7 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
 
     try {
       await promise;
+      setBaseConfig(config);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -131,15 +141,6 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
                 className="py-6 font-mono"
               />
             </div>
-
-            <Button 
-              type="submit"
-              disabled={saving}
-              className="w-full h-14 text-base font-bold gap-2"
-            >
-              {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-              {saving ? "Updating System..." : "Update Leveling Engine"}
-            </Button>
           </div>
         </div>
 
@@ -191,6 +192,13 @@ export function LevelingForm({ initialConfig, guildId }: LevelingFormProps) {
            </div>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={() => handleSave()}
+      />
     </form>
   );
 }

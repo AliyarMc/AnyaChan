@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VerificationConfig, DiscordChannel } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 interface VerificationFormProps {
   initialConfig: VerificationConfig;
@@ -33,8 +34,16 @@ interface VerificationFormProps {
 }
 
 export function VerificationForm({ initialConfig, channels, roles, guildId }: VerificationFormProps) {
+  const [baseConfig, setBaseConfig] = useState<VerificationConfig>(initialConfig);
   const [config, setConfig] = useState<VerificationConfig>(initialConfig);
   const [saving, setSaving] = useState(false);
+
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
 
   const textChannels = channels.filter((c) => c.type === "0");
 
@@ -50,6 +59,7 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
 
     try {
       await promise;
+      setBaseConfig(config);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -183,15 +193,6 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
             </div>
 
           </div>
-
-          <Button 
-            onClick={handleSave}
-            disabled={saving}
-            className="w-full h-14 text-base font-bold gap-2"
-          >
-            {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-            Save Configuration
-          </Button>
         </div>
       </div>
 
@@ -212,6 +213,13 @@ export function VerificationForm({ initialConfig, channels, roles, guildId }: Ve
           </ul>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

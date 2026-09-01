@@ -23,6 +23,7 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 import { cn } from "@/lib/utils";
 
 interface J2CFormProps {
@@ -32,9 +33,19 @@ interface J2CFormProps {
 }
 
 export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
+  const [baseConfig, setBaseConfig] = useState<any>(initialConfig);
+  const [baseEnabled, setBaseEnabled] = useState<boolean>(initialConfig.join_channel_id !== null);
   const [config, setConfig] = useState<any>(initialConfig);
   const [isEnabled, setIsEnabled] = useState<boolean>(initialConfig.join_channel_id !== null);
   const [saving, setSaving] = useState(false);
+
+  const hasChanges = isEnabled !== baseEnabled || JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    setIsEnabled(baseEnabled);
+    toast.info("Changes reverted");
+  };
 
   // Handle various Discord channel types:
   // 0: Text, 2: Voice, 4: Category, 5: Announcement, 13: Stage
@@ -66,6 +77,8 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
 
     try {
       await promise;
+      setBaseConfig(config);
+      setBaseEnabled(isEnabled);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -191,15 +204,6 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
               </Select>
             </div>
           </div>
-
-          <Button 
-            onClick={handleSave}
-            disabled={saving || (isEnabled && !config.join_channel_id)}
-            className="w-full h-14 text-base font-bold gap-2"
-          >
-            {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-            {isEnabled && !config.join_channel_id ? 'Select a channel to save' : 'Save Configuration'}
-          </Button>
         </div>
       </div>
 
@@ -219,6 +223,13 @@ export function J2CForm({ initialConfig, channels, guildId }: J2CFormProps) {
           </ul>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

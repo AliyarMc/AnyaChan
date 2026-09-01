@@ -36,6 +36,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { AntiNukeConfig } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 const FEATURES = [
   { id: 'anti_ban_kick', name: 'Anti Ban & Kick', desc: 'Auto bans rogue admins', icon: User },
@@ -50,10 +51,19 @@ interface AntiNukeFormProps {
 }
 
 export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
+  const [baseConfig, setBaseConfig] = useState<AntiNukeConfig>(initialConfig);
   const [config, setConfig] = useState<AntiNukeConfig>(initialConfig);
   const [saving, setSaving] = useState(false);
   const [wlInput, setWlInput] = useState("");
   const [whitelistedUsers, setWhitelistedUsers] = useState<string[]>(initialConfig.whitelisted_users || []);
+
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    setWhitelistedUsers(baseConfig.whitelisted_users || []);
+    toast.info("Changes reverted");
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -67,6 +77,7 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
 
     try {
       await promise;
+      setBaseConfig(config);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -206,14 +217,6 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
               </div>
             </div>
 
-            <Button 
-              onClick={handleSave}
-              disabled={saving}
-              className="w-full h-14 text-base font-bold gap-2"
-            >
-              {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-              Save Configuration
-            </Button>
           </div>
         </div>
       </div>
@@ -231,6 +234,13 @@ export function AntiNukeForm({ initialConfig, guildId }: AntiNukeFormProps) {
             </div>
          </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

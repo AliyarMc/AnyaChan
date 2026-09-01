@@ -40,6 +40,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TicketConfig, TicketCategory, TicketEmbed } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 import { DiscordMessagePreview } from "./discord-message-preview";
 
 interface TicketsFormProps {
@@ -48,8 +49,16 @@ interface TicketsFormProps {
 }
 
 export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
+  const [baseConfig, setBaseConfig] = useState<TicketConfig>(initialConfig);
   const [config, setConfig] = useState<TicketConfig>(initialConfig);
   const [saving, setSaving] = useState(false);
+
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
   const [editingCategory, setEditingCategory] = useState<{index: number, data: TicketCategory} | null>(null);
   const [editingEmbed, setEditingEmbed] = useState<TicketEmbed | null>(null);
   const [isAdding, setIsAdding] = useState(false);
@@ -76,6 +85,7 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
     try {
       await promise;
       await fetchUpdatedConfig();
+      setBaseConfig(config);
       setIsAdding(false);
       setEditingCategory(null);
       setEditingEmbed(null);
@@ -215,13 +225,13 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
                   </div>
                 </div>
                 
-                <div className="pt-4 flex gap-3">
-                   <Button variant="outline" className="flex-1" onClick={() => setEditingCategory(null)}>Cancel</Button>
-                   <Button className="flex-1 gap-2" onClick={handleSaveCategory} disabled={saving || !editingCategory.data.name}>
-                     {saving ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                     Save Category
-                   </Button>
-                </div>
+                 <div className="pt-4 flex gap-3">
+                    <Button variant="outline" className="flex-1" onClick={() => setEditingCategory(null)}>Cancel</Button>
+                    <Button className="flex-1 gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold" onClick={handleSaveCategory} disabled={saving || !editingCategory.data.name}>
+                      {saving ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                      Save Category
+                    </Button>
+                 </div>
               </div>
            </div>
         </div>
@@ -285,13 +295,13 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
                    />
                 </div>
                 
-                <div className="pt-4 flex gap-3">
-                   <Button variant="outline" className="flex-1" onClick={() => setEditingEmbed(null)}>Cancel</Button>
-                   <Button className="flex-1 gap-2" onClick={handleSaveEmbed} disabled={saving}>
-                     {saving ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                     Save Appearance
-                   </Button>
-                </div>
+                 <div className="pt-4 flex gap-3">
+                    <Button variant="outline" className="flex-1" onClick={() => setEditingEmbed(null)}>Cancel</Button>
+                    <Button className="flex-1 gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold" onClick={handleSaveEmbed} disabled={saving}>
+                      {saving ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                      Save Embed Appearance
+                    </Button>
+                 </div>
               </div>
            </div>
         </div>
@@ -359,11 +369,6 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
                 />
               </div>
             </div>
-
-            <Button onClick={handleSaveGlobal} disabled={saving} className="w-full gap-2" variant="secondary">
-              {saving ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-              Save Core Settings
-            </Button>
           </div>
 
           {/* Categories Section */}
@@ -452,6 +457,13 @@ export function TicketsForm({ initialConfig, guildId }: TicketsFormProps) {
           </div>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSaveGlobal}
+      />
     </>
   );
 }

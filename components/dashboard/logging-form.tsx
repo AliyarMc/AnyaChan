@@ -35,6 +35,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { LoggingConfig, DiscordChannel } from "@/types/api";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 const LOG_CATEGORIES = [
   { id: "message_events", name: "Message Events", icon: MessageSquare, description: "Log message deletions, edits, and bulk removals." },
@@ -52,8 +53,29 @@ interface LoggingFormProps {
 }
 
 export function LoggingForm({ initialConfig, channels, guildId }: LoggingFormProps) {
+  const [baseConfig, setBaseConfig] = useState<LoggingConfig>(initialConfig);
   const [config, setConfig] = useState<LoggingConfig>(initialConfig);
   const [saving, setSaving] = useState(false);
+
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
+
+  const handleSaveGlobal = async () => {
+    setSaving(true);
+    try {
+      await api.updateLogging(guildId, config);
+      setBaseConfig(config);
+      toast.success("Logging settings saved successfully!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to save logging settings.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleToggle = async (categoryId: string, enabled: boolean) => {
     // Optimistic update
@@ -170,9 +192,6 @@ export function LoggingForm({ initialConfig, channels, guildId }: LoggingFormPro
                   <p className="text-xs text-slate-300 leading-relaxed font-medium">Coming soon: Export audit logs to external webhooks and elastic systems.</p>
                </div>
             </div>
-            <Button variant="secondary" className="w-full mt-8 py-6 rounded-[24px] font-black uppercase tracking-tighter text-xs">
-               Save Global Config
-            </Button>
          </section>
 
          <div className="bg-[#24252a]  rounded-[40px] p-8 shadow-xl">
@@ -195,6 +214,13 @@ export function LoggingForm({ initialConfig, channels, guildId }: LoggingFormPro
            </p>
          </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSaveGlobal}
+      />
     </div>
   );
 }

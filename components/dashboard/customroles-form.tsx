@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 import { cn } from "@/lib/utils";
 
 interface CustomRolesFormProps {
@@ -39,8 +40,16 @@ const ROLE_INPUTS = [
 ];
 
 export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFormProps) {
+  const [baseConfig, setBaseConfig] = useState<any>(initialConfig);
   const [config, setConfig] = useState<any>(initialConfig);
   const [saving, setSaving] = useState(false);
+
+  const hasChanges = JSON.stringify(config) !== JSON.stringify(baseConfig);
+
+  const handleReset = () => {
+    setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
 
   const filteredRoles = roles.filter(r => r.name !== "@everyone");
 
@@ -56,6 +65,7 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
 
     try {
       await promise;
+      setBaseConfig(config);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -131,15 +141,6 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
               </div>
             ))}
           </div>
-
-          <Button 
-            onClick={handleSave}
-            disabled={saving}
-            className="w-full h-14 text-base font-bold gap-2"
-          >
-            {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-            Save Configuration
-          </Button>
         </div>
       </div>
 
@@ -160,6 +161,13 @@ export function CustomRolesForm({ initialConfig, roles, guildId }: CustomRolesFo
           </ul>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

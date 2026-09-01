@@ -26,10 +26,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DiscordMessagePreview } from "@/components/dashboard/discord-message-preview";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 export default function JoinDMPage({ params }: { params: { guildId: string } }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [baseConfig, setBaseConfig] = useState<any>(null);
   const [config, setConfig] = useState<any>({
     enabled: false,
     message: "",
@@ -44,11 +46,18 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
     }
   });
 
+  const hasChanges = Boolean(baseConfig && JSON.stringify(config) !== JSON.stringify(baseConfig));
+
+  const handleReset = () => {
+    if (baseConfig) setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
       const configData = await api.getJoinDM(params.guildId);
-      setConfig({
+      const initial = {
         enabled: configData.enabled ?? false,
         message: configData.message ?? "",
         embed_enabled: configData.embed_enabled ?? false,
@@ -60,7 +69,9 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
           thumbnail_url: "",
           footer_text: ""
         }
-      });
+      };
+      setConfig(initial);
+      setBaseConfig(initial);
     } catch (error) {
       console.error("Failed to fetch JoinDM data:", error);
       toast.error("Failed to load Join DM configuration");
@@ -77,6 +88,7 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
     try {
       setSaving(true);
       await api.updateJoinDM(params.guildId, config);
+      setBaseConfig(config);
       toast.success("Join DM configuration saved successfully");
     } catch (error) {
       console.error("Failed to save JoinDM config:", error);
@@ -250,13 +262,6 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
               </CardContent>
             </Card>
           )}
-
-          <div className="flex justify-end pt-2">
-            <Button onClick={handleSave} disabled={saving} className="gap-2 bg-primary hover:bg-primary/80">
-              {saving ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              Save Configuration
-            </Button>
-          </div>
         </div>
 
         {/* Live Mock Embed Preview */}
@@ -276,6 +281,13 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
           />
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

@@ -25,16 +25,25 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 
 export default function TrackingPage({ params }: { params: { guildId: string } }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [channels, setChannels] = useState<any[]>([]);
+  const [baseConfig, setBaseConfig] = useState<any>(null);
   const [config, setConfig] = useState<any>({
     channel_id: null,
     join_message: "",
     vanity_message: "",
   });
+
+  const hasChanges = Boolean(baseConfig && JSON.stringify(config) !== JSON.stringify(baseConfig));
+
+  const handleReset = () => {
+    if (baseConfig) setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
 
   const fetchData = async () => {
     try {
@@ -43,11 +52,13 @@ export default function TrackingPage({ params }: { params: { guildId: string } }
         api.getTracking(params.guildId),
         api.getChannels(params.guildId),
       ]);
-      setConfig({
+      const initial = {
         channel_id: configData.channel_id,
         join_message: configData.join_message || "",
         vanity_message: configData.vanity_message || "",
-      });
+      };
+      setConfig(initial);
+      setBaseConfig(initial);
       setChannels(channelsData);
     } catch (error) {
       console.error("Failed to fetch tracking data:", error);
@@ -65,6 +76,7 @@ export default function TrackingPage({ params }: { params: { guildId: string } }
     try {
       setSaving(true);
       await api.updateTracking(params.guildId, config);
+      setBaseConfig(config);
       toast.success("Tracking configuration saved successfully");
     } catch (error) {
       console.error("Failed to save tracking config:", error);
@@ -145,13 +157,6 @@ export default function TrackingPage({ params }: { params: { guildId: string } }
               </p>
             </div>
           </div>
-
-          <div className="flex justify-end pt-4">
-            <Button onClick={handleSave} disabled={saving} className="gap-2">
-              {saving ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              Save Changes
-            </Button>
-          </div>
         </CardContent>
       </Card>
 
@@ -169,6 +174,13 @@ export default function TrackingPage({ params }: { params: { guildId: string } }
           </p>
         </CardContent>
       </Card>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }

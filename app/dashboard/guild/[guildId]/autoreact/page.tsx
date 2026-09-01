@@ -22,18 +22,28 @@ import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FloatingSaveBar } from "@/components/dashboard/floating-save-bar";
 import { cn } from "@/lib/utils";
 
 export default function AutoReactPage({ params }: { params: { guildId: string } }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [baseConfig, setBaseConfig] = useState<any>(null);
   const [config, setConfig] = useState<any>({ triggers: [] });
+
+  const hasChanges = Boolean(baseConfig && JSON.stringify(config) !== JSON.stringify(baseConfig));
+
+  const handleReset = () => {
+    if (baseConfig) setConfig(baseConfig);
+    toast.info("Changes reverted");
+  };
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const configData = await api.getAutoReact(params.guildId);
       setConfig(configData);
+      setBaseConfig(configData);
     } catch (error) {
       console.error("Failed to fetch auto react data:", error);
       toast.error("Failed to load auto react configuration");
@@ -52,7 +62,10 @@ export default function AutoReactPage({ params }: { params: { guildId: string } 
       success: 'Auto react settings saved!',
       error: 'Failed to save auto react config',
     });
-    try { await promise; } catch {} finally { setSaving(false); }
+    try { 
+      await promise; 
+      setBaseConfig(config);
+    } catch {} finally { setSaving(false); }
   };
 
   const addTrigger = () => {
@@ -148,11 +161,6 @@ export default function AutoReactPage({ params }: { params: { guildId: string } 
                     </div>
                   </div>
                 ))}
-
-                <Button onClick={handleSave} disabled={saving} className="w-full h-14 text-base font-bold gap-2">
-                  {saving ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-                  Save All Triggers
-                </Button>
               </>
             )}
           </div>
@@ -177,6 +185,13 @@ export default function AutoReactPage({ params }: { params: { guildId: string } 
           </div>
         </div>
       </div>
+
+      <FloatingSaveBar
+        show={hasChanges}
+        saving={saving}
+        onReset={handleReset}
+        onSave={handleSave}
+      />
     </div>
   );
 }
