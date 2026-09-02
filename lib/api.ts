@@ -202,6 +202,10 @@ export const api = {
       method: "PATCH",
       body: JSON.stringify(data),
     }),
+  testJoinDM: (guildId: string) =>
+    request<{ status: string; message: string }>(`/guilds/${guildId}/joindm/test`, {
+      method: "POST",
+    }),
 
   getCustomRoles: (guildId: string) => request<any>(`/guilds/${guildId}/customroles`),
   updateCustomRoles: (guildId: string, data: any) =>

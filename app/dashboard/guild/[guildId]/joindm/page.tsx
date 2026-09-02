@@ -24,7 +24,8 @@ import {
   Code,
   Copy,
   Check,
-  ChevronDown
+  ChevronDown,
+  Send
 } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
@@ -45,6 +46,7 @@ const VARIABLES = [
 export default function JoinDMPage({ params }: { params: { guildId: string } }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [testing, setTesting] = useState(false);
   const [copiedVar, setCopiedVar] = useState<string | null>(null);
   const [showVariables, setShowVariables] = useState(false);
   const [serverName, setServerName] = useState<string>("Discord Server");
@@ -135,6 +137,23 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
     }
   };
 
+  const handleTestDM = async () => {
+    try {
+      setTesting(true);
+      if (hasChanges) {
+        await api.updateJoinDM(params.guildId, config);
+        setBaseConfig(JSON.parse(JSON.stringify(config)));
+      }
+      const res = await api.testJoinDM(params.guildId);
+      toast.success(res.message || "Test DM sent to your Discord Direct Messages!");
+    } catch (error: any) {
+      console.error("Failed to send test JoinDM:", error);
+      toast.error(error.message || "Failed to send test DM. Check if your server owner DMs are open!");
+    } finally {
+      setTesting(false);
+    }
+  };
+
   const updateEmbedField = (field: string, value: any) => {
     setConfig((prev: any) => ({
       ...prev,
@@ -203,15 +222,27 @@ export default function JoinDMPage({ params }: { params: { guildId: string } }) 
             <p className="text-white/50 text-sm mt-0.5">Configure the text and rich embed format sent to members.</p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setShowVariables(!showVariables)}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-white/80 hover:text-white transition-colors"
-          >
-            <Code className="w-3.5 h-3.5" />
-            <span>Variables</span>
-            <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showVariables && "rotate-180")} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleTestDM}
+              disabled={testing}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#5865F2]/15 hover:bg-[#5865F2]/25 text-[#5865F2] border border-[#5865F2]/30 transition-colors disabled:opacity-50"
+            >
+              {testing ? <RotateCcw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+              <span>Send Test DM</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowVariables(!showVariables)}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+            >
+              <Code className="w-3.5 h-3.5" />
+              <span>Variables</span>
+              <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showVariables && "rotate-180")} />
+            </button>
+          </div>
         </div>
 
         {/* Variables Drawer Popup */}
