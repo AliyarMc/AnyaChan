@@ -202,6 +202,7 @@ export interface WelcomeImageCanvas {
   overlay_opacity: number;
   border_thickness: number;
   border_color: string;
+  border_enabled?: boolean;
 }
 
 export interface WelcomeImageAvatar {
@@ -211,6 +212,7 @@ export interface WelcomeImageAvatar {
   shape: string; // "rounded" | "square"
   border_thickness: number;
   border_color: string;
+  border_enabled?: boolean;
 }
 
 export interface WelcomeImageText {

@@ -1,17 +1,29 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { WelcomeImageConfig } from "@/types/api";
 
 interface WelcomePreviewCanvasProps {
   imageConfig?: WelcomeImageConfig | null;
   serverName?: string;
+  selectedElement?: string | null;
+  onSelectElement?: (element: string) => void;
+  onPositionChange?: (element: string, x: number, y: number) => void;
 }
 
-export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: WelcomePreviewCanvasProps) {
+export function WelcomePreviewCanvas({
+  imageConfig,
+  serverName = "Vada SMP",
+  selectedElement = null,
+  onSelectElement,
+  onPositionChange
+}: WelcomePreviewCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
   const [avatarImage, setAvatarImage] = useState<HTMLImageElement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [draggedElement, setDraggedElement] = useState<string | null>(null);
 
   const canvasWidth = imageConfig?.canvas?.width || 1020;
   const canvasHeight = imageConfig?.canvas?.height || 450;
@@ -21,14 +33,18 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
   const grad1 = imageConfig?.canvas?.gradient_color1 || "#080808";
   const grad2 = imageConfig?.canvas?.gradient_color2 || "#140B17";
   const overlayOpacity = imageConfig?.canvas?.overlay_opacity !== undefined ? imageConfig.canvas.overlay_opacity : 0.4;
-  const borderThickness = imageConfig?.canvas?.border_thickness !== undefined ? imageConfig.canvas.border_thickness : 8;
+  
+  const borderEnabled = imageConfig?.canvas?.border_enabled !== false;
+  const borderThickness = borderEnabled ? (imageConfig?.canvas?.border_thickness !== undefined ? imageConfig.canvas.border_thickness : 8) : 0;
   const borderColor = imageConfig?.canvas?.border_color || "#FF6B00";
 
   const avX = imageConfig?.avatar?.x !== undefined ? imageConfig.avatar.x : 510;
   const avY = imageConfig?.avatar?.y !== undefined ? imageConfig.avatar.y : 180;
   const avSize = imageConfig?.avatar?.size !== undefined ? imageConfig.avatar.size : 180;
   const avShape = imageConfig?.avatar?.shape || "rounded";
-  const avBorderThickness = imageConfig?.avatar?.border_thickness !== undefined ? imageConfig.avatar.border_thickness : 8;
+  
+  const avBorderEnabled = imageConfig?.avatar?.border_enabled !== false;
+  const avBorderThickness = avBorderEnabled ? (imageConfig?.avatar?.border_thickness !== undefined ? imageConfig.avatar.border_thickness : 8) : 0;
   const avBorderColor = imageConfig?.avatar?.border_color || "#FF6B00";
 
   // Preload Background Image if bgType is image
@@ -51,10 +67,9 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
   useEffect(() => {
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = "/assets/mc-head.png"; // Fallback to MC head or standard avatar
+    img.src = "/assets/mc-head.png";
     img.onload = () => setAvatarImage(img);
     img.onerror = () => {
-      // Try fallback to Discord default avatar
       const fallbackImg = new Image();
       fallbackImg.crossOrigin = "anonymous";
       fallbackImg.src = "https://cdn.discordapp.com/embed/avatars/0.png";
@@ -64,7 +79,7 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
   }, []);
 
   // Format placeholders
-  const formatText = (text: string) => {
+  const formatText = useCallback((text: string) => {
     if (!text) return "";
     return text
       .replace(/{user}/g, "@dinixooji.")
@@ -75,8 +90,9 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
       .replace(/{server_membercount}/g, "364")
       .replace(/{user_joindate}/g, "Tue, Aug 25, 2026")
       .replace(/{user_createdate}/g, "Sun, Jan 10, 2021");
-  };
+  }, [serverName]);
 
+  // Draw Canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -115,8 +131,8 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    // 2. Draw Canvas Border
-    if (borderThickness > 0) {
+    // 2. Draw Canvas Border (if enabled and thickness > 0)
+    if (borderEnabled && borderThickness > 0) {
       ctx.strokeStyle = borderColor;
       ctx.lineWidth = borderThickness;
       ctx.strokeRect(borderThickness / 2, borderThickness / 2, canvasWidth - borderThickness, canvasHeight - borderThickness);
@@ -133,7 +149,7 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
         ctx.restore();
 
         // Draw Border
-        if (avBorderThickness > 0) {
+        if (avBorderEnabled && avBorderThickness > 0) {
           ctx.strokeStyle = avBorderColor;
           ctx.lineWidth = avBorderThickness;
           ctx.beginPath();
@@ -145,11 +161,21 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
         ctx.restore();
 
         // Draw Border
-        if (avBorderThickness > 0) {
+        if (avBorderEnabled && avBorderThickness > 0) {
           ctx.strokeStyle = avBorderColor;
           ctx.lineWidth = avBorderThickness;
           ctx.strokeRect(avX - avSize / 2, avY - avSize / 2, avSize, avSize);
         }
+      }
+
+      // Highlight if selected
+      if (selectedElement === "avatar") {
+        ctx.save();
+        ctx.strokeStyle = "#5865F2";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 4]);
+        ctx.strokeRect(avX - avSize / 2 - 6, avY - avSize / 2 - 6, avSize + 12, avSize + 12);
+        ctx.restore();
       }
     }
 
@@ -157,6 +183,8 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
     ctx.textBaseline = "middle";
 
     const texts = imageConfig?.texts || {};
+    const accent = borderColor || "#FF6B00";
+
     Object.entries(texts).forEach(([key, value]) => {
       if (value && value.content) {
         const textContent = formatText(value.content);
@@ -168,12 +196,11 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
 
         ctx.font = `${isBold ? "bold" : "normal"} ${fontSize}px sans-serif`;
 
-        // Split into segments using Regex
+        // Split into segments using Regex for word coloring: [accent:...] or [#hex:...]
         const segments: { text: string; color: string }[] = [];
         const regex = /\[(accent|#[0-9a-fA-F]{6}):(.*?)\]/g;
         let lastIndex = 0;
         let match;
-        const accent = borderColor || "#FF6B00";
 
         while ((match = regex.exec(textContent)) !== null) {
           const matchIndex = match.index;
@@ -218,27 +245,134 @@ export function WelcomePreviewCanvas({ imageConfig, serverName = "Vada SMP" }: W
           ctx.fillText(seg.text, currentX, ty);
           currentX += seg.width;
         });
+
+        // Highlight if this text element is selected
+        if (selectedElement === key) {
+          ctx.save();
+          ctx.strokeStyle = "#5865F2";
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([4, 4]);
+          const boxPadding = 6;
+          ctx.strokeRect(
+            tx - totalWidth / 2 - boxPadding,
+            ty - fontSize / 2 - boxPadding,
+            totalWidth + boxPadding * 2,
+            fontSize + boxPadding * 2
+          );
+          ctx.restore();
+        }
       }
     });
 
   }, [
     canvasWidth, canvasHeight, bgType, bgImage, bgColor, grad1, grad2,
-    overlayOpacity, borderThickness, borderColor, avatarImage, avX, avY,
-    avSize, avShape, avBorderThickness, avBorderColor, imageConfig
+    overlayOpacity, borderEnabled, borderThickness, borderColor, avatarImage, avX, avY,
+    avSize, avShape, avBorderEnabled, avBorderThickness, avBorderColor, imageConfig,
+    formatText, selectedElement
   ]);
 
+  // Coordinate conversion from mouse event to canvas space
+  const getCanvasCoords = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvasWidth / rect.width;
+    const scaleY = canvasHeight / rect.height;
+    return {
+      x: Math.round((e.clientX - rect.left) * scaleX),
+      y: Math.round((e.clientY - rect.top) * scaleY)
+    };
+  };
+
+  // Find clicked element (Avatar or Text1-5)
+  const hitTestElement = (x: number, y: number): string | null => {
+    // Check avatar
+    const distToAvatar = Math.hypot(x - avX, y - avY);
+    if (distToAvatar <= avSize / 2 + 10) {
+      return "avatar";
+    }
+
+    // Check texts
+    const texts = imageConfig?.texts || {};
+    const entries = Object.entries(texts);
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const [key, val] = entries[i];
+      if (val && val.content) {
+        const tx = val.x;
+        const ty = val.y;
+        const fontSize = val.font_size || 24;
+        const estWidth = Math.max(80, val.content.length * fontSize * 0.55);
+        if (
+          x >= tx - estWidth / 2 - 15 &&
+          x <= tx + estWidth / 2 + 15 &&
+          y >= ty - fontSize / 2 - 12 &&
+          y <= ty + fontSize / 2 + 12
+        ) {
+          return key;
+        }
+      }
+    }
+    return null;
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const coords = getCanvasCoords(e);
+    if (!coords) return;
+    const hit = hitTestElement(coords.x, coords.y);
+    if (hit) {
+      setDraggedElement(hit);
+      setIsDragging(true);
+      if (onSelectElement) onSelectElement(hit);
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDragging || !draggedElement || !onPositionChange) return;
+    const coords = getCanvasCoords(e);
+    if (!coords) return;
+    const clampedX = Math.max(0, Math.min(canvasWidth, coords.x));
+    const clampedY = Math.max(0, Math.min(canvasHeight, coords.y));
+    onPositionChange(draggedElement, clampedX, clampedY);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setDraggedElement(null);
+  };
+
   return (
-    <div className="w-full relative rounded-3xl overflow-hidden  bg-slate-950/50 p-2 shadow-2xl">
-      <div className="absolute top-4 left-4 bg-white/[0.03]/80 backdrop-blur border border-white/10 rounded-full px-3 py-1 text-[10px] uppercase font-black text-slate-400 tracking-wider z-10">
-        Live Canvas Preview
+    <div ref={containerRef} className="w-full relative rounded-2xl overflow-hidden bg-slate-950/60 p-2 shadow-2xl border border-white/5">
+      <div className="flex items-center justify-between px-2 py-1 mb-1">
+        <div className="flex items-center gap-2">
+          <span className="bg-white/[0.06] border border-white/10 rounded-full px-2.5 py-0.5 text-[10px] uppercase font-bold text-white/70 tracking-wider">
+            Live Card Preview
+          </span>
+          <span className="text-[10px] text-white/40 font-mono">
+            {canvasWidth} × {canvasHeight}px
+          </span>
+        </div>
+        {selectedElement && (
+          <span className="text-[10px] font-semibold text-[#5865F2] bg-[#5865F2]/15 px-2 py-0.5 rounded-md capitalize">
+            Selected: {selectedElement}
+          </span>
+        )}
       </div>
+
       <canvas
         ref={canvasRef}
         width={canvasWidth}
         height={canvasHeight}
-        className="w-full h-auto block rounded-2xl"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        className="w-full h-auto block rounded-xl cursor-crosshair select-none"
         style={{ aspectRatio: `${canvasWidth} / ${canvasHeight}` }}
       />
+
+      <div className="text-[11px] text-white/40 text-center py-1.5 flex items-center justify-center gap-3">
+        <span>💡 Click or drag text/avatar on the canvas to reposition in real-time</span>
+      </div>
     </div>
   );
 }
